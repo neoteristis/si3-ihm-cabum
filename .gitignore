@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/vcs.xml
+/.idea/.name
+/app/src/main/res/layout/layout/activity_main.xml
+/app/src/main/res/layout/layout/fragment_dashboard.xml
+/app/src/main/res/layout/layout/fragment_home.xml
+/app/src/main/res/layout/layout/fragment_notifications.xml
