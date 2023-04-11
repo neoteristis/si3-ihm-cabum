@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.ihm_cabum.MainActivity;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.ui.archieve.ArchiveActivity;
 import com.example.ihm_cabum.ui.home.HomeActivity;
@@ -29,7 +30,7 @@ public class NavbarFragment extends Fragment {
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),HomeActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
