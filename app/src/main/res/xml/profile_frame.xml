@@ -1,0 +1,80 @@
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:layout_width="wrap_content"
+        app:title="Personal Information">
+
+        <EditTextPreference
+            android:id="@+id/first_name"
+            app:defaultValue="Raphael"
+            app:key="first_name"
+            app:title="First Name"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:id="@+id/last_name"
+            app:defaultValue="Smith"
+            app:key="last_name"
+            app:title="Last Name"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:id="@+id/email"
+            app:defaultValue="raphael.smith@gmail.com"
+            app:key="email"
+            app:title="Email"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:id="@+id/city"
+            app:defaultValue="Valbonne"
+            app:key="city"
+            app:title="City"
+            app:useSimpleSummaryProvider="true" />
+
+        <MultiSelectListPreference
+            android:id="@+id/transports"
+            app:entries="@array/transports"
+            app:entryValues="@array/transports"
+            android:defaultValue="@array/transports"
+            app:key="transports"
+            app:title="Transport"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:id="@+id/transport_icons"
+            app:key="transport_icons"
+            app:layout="@xml/transport_icons_view"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Preferences">
+
+        <EditTextPreference
+            android:id="@+id/language"
+            app:key="language"
+            app:title="Language"
+            app:defaultValue="English"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:id="@+id/unit_of_measure"
+            app:key="unit_of_measure"
+            app:title="Unit of measure"
+            app:defaultValue="Meters"
+            app:entries="@array/measures"
+            app:entryValues="@array/measures"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:id="@+id/notification"
+            app:key="notification"
+            app:defaultValue="true"
+            app:title="Allow notifications" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,14 @@
+<resources>
+
+    <string-array name="transports">
+        <item>Car</item>
+        <item>Motorbike</item>
+        <item>Bicycle</item>
+        <item>Walk</item>
+    </string-array>
+
+    <string-array name="measures">
+        <item>Meters</item>
+        <item>Miles</item>
+    </string-array>
+</resources>
