@@ -33,7 +33,7 @@ public class ProfileFragment_utils extends Fragment {
 
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.profile_page, new ProfileInnerFragment())
+                .replace(R.id.profile_page, new ProfileInnerFragment(rootView))
                 .commit();
 
         return rootView;
@@ -46,6 +46,11 @@ public class ProfileFragment_utils extends Fragment {
     }
 
     public static class ProfileInnerFragment extends PreferenceFragmentCompat {
+        private View rootView;
+
+        public ProfileInnerFragment(View view) {
+            this.rootView = view;
+        }
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.profile_frame, rootKey);

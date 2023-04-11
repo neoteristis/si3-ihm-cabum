@@ -27,7 +27,7 @@ public class ProfileFragment extends Fragment {
 
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.profile_page, new ProfileFragment_utils.ProfileInnerFragment())
+                .replace(R.id.profile_page, new ProfileFragment_utils.ProfileInnerFragment(view))
                 .commit();
 
         return view;
