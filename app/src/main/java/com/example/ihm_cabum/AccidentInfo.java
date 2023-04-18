@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class AccidentInfo extends Fragment {
     private Accident accident;
 
@@ -36,6 +34,21 @@ public class AccidentInfo extends Fragment {
             ((TextView) view.findViewById(R.id.type)).setText(accident.getTypeOfAccident().getLabel());
             ((TextView) view.findViewById(R.id.description)).setText(accident.getDescription());
             ((TextView) view.findViewById(R.id.date)).setText(accident.getFormattedTime());
+            Button approveButton = view.findViewById(R.id.approve);
+            approveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accident.approve();
+                }
+            });
+
+            Button disApproveButton = view.findViewById(R.id.disapprove_accident);
+            disApproveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accident.disApprove();
+                }
+            });
         }
 
         Button closeButton = view.findViewById(R.id.close);
@@ -43,22 +56,6 @@ public class AccidentInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-            }
-        });
-
-        Button approveButton = view.findViewById(R.id.approve);
-        approveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                accident.approve();
-            }
-        });
-
-        Button disApproveButton = view.findViewById(R.id.disapprove_accident);
-        approveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                accident.disApprove();
             }
         });
 
