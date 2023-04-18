@@ -1,6 +1,9 @@
 package com.example.ihm_cabum;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import com.android.volley.Request;
@@ -51,9 +55,23 @@ public class MainActivity extends AppCompatActivity {
         marker.setPosition(accident.getAddress());
         marker.setTitle(accident.getTypeOfAccident().getLabel());
         marker.setSubDescription(accident.getDescription());
-        marker.setImage(new BitmapDrawable(getResources(), accident.BitmapImage()));
+        marker.setImage(new BitmapDrawable(getResources(), accident.getBitmapImage()));
         marker.setPanToView(true);  //the map will be centered on the marker position.
         marker.setDraggable(true);
+
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                AccidentInfo fragment = new AccidentInfo(accident);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.accident_info, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                findViewById(R.id.accident_info).setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
         return marker;
     }
 
@@ -159,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Configuration.getInstance().load(getApplicationContext(),  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()) );
         setContentView(R.layout.activity_home);
+        findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
 
         setUpMap();
         setMapCenterPosition(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
@@ -179,7 +198,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mapView.onResume();
     }
-
+    @Override
+    public void onBackPressed() {
+        findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
+        super.onBackPressed();
+    }
     @Override
     public void onPause() {
         super.onPause();

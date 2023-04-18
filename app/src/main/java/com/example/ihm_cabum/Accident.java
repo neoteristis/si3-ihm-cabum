@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -48,7 +50,7 @@ public class Accident {
         return image;
     }
 
-    public Bitmap BitmapImage() {
+    public Bitmap getBitmapImage() {
         // Convert byte array to Bitmap
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
@@ -61,12 +63,23 @@ public class Accident {
         return time;
     }
 
+    public String getFormattedTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return dateFormat.format(time);
+    }
+
     public int getNumberOfApproval() {
         return numberOfApproval;
     }
 
-    public void approved() {
+    //TODO change to real query
+    public void approve() {
         this.numberOfApproval++;
+    }
+
+    //TODO change to real query
+    public void disApprove() {
+        this.numberOfApproval--;
     }
 
     @Override
