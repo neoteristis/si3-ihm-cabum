@@ -93,7 +93,7 @@
     <fragment
         android:visibility="invisible"
         android:id="@+id/accident_info"
-        android:name="com.example.ihm_cabum.AccidentInfo"
+        android:name="com.example.ihm_cabum.ui.home.AccidentInfo"
         android:layout_width="300dp"
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"

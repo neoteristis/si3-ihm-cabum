@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AccidentInfo"
+    tools:context=".ui.home.AccidentInfo"
     android:background="#E4DCCF">
 
     <Button
