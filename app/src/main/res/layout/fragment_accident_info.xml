@@ -8,6 +8,8 @@
     android:background="#E4DCCF">
 
     <Button
+        android:focusable="true"
+        android:clickable="true"
         android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,11 +65,13 @@
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <Button
+        android:focusable="true"
+        android:clickable="true"
         android:id="@+id/approve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/transparent"
+        android:backgroundTint="#576F72"
         android:drawableTop="@drawable/baseline_thumb_up_24"
         android:text="Approve"
         android:title="Approve"
@@ -78,13 +82,15 @@
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <Button
+        android:focusable="true"
+        android:clickable="true"
         android:id="@+id/disapprove_accident"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
+        android:backgroundTint="#576F72"
         android:drawableTop="@drawable/baseline_thumb_down_24"
         android:text="Disapprove"
         android:textColor="#660404"
