@@ -1,6 +1,9 @@
 package com.example.ihm_cabum.ui.archieve;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +18,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ihm_cabum.Accident;
-import com.example.ihm_cabum.AccidentList;
 import com.example.ihm_cabum.MainActivity;
 import com.example.ihm_cabum.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -81,6 +82,14 @@ public class AccidentListAdapter extends BaseAdapter {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 // Start the MainActivity with the Intent
                 context.startActivity(intent);
+            }
+        });
+
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            //TODO open a menu for delete and accident copy
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
             }
         });
 

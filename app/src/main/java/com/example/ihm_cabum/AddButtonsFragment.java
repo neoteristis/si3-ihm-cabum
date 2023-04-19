@@ -69,43 +69,4 @@ public class AddButtonsFragment extends Fragment {
 
         return view;
     }
-
-    public void addButtonClicked() {
-        Animation fromBottomAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.from_bottom_anim);
-        Animation toBottomAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.to_bottom_anim);
-        Animation rotateCloseAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_close_animation);
-        Animation rotateOpenAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_open_animation);
-
-        FloatingActionButton addButton = getView().findViewById(R.id.add_button);
-
-        if (isAddClicked) {
-
-            FloatingActionButton accident = getView().findViewById(R.id.accident);
-            FloatingActionButton incident = getView().findViewById(R.id.incident);
-
-            accident.setVisibility(View.INVISIBLE);
-            incident.setVisibility(View.INVISIBLE);
-
-            getView().findViewById(R.id.tabAdd).setVisibility(View.INVISIBLE);
-
-            accident.startAnimation(toBottomAnimation);
-            incident.startAnimation(toBottomAnimation);
-
-            addButton.startAnimation(rotateCloseAnimation);
-        } else {
-            ((ConstraintLayout) getView().findViewById(R.id.tabAdd)).setVisibility(View.VISIBLE);
-
-            FloatingActionButton accident = getView().findViewById(R.id.accident);
-            FloatingActionButton incident = getView().findViewById(R.id.incident);
-
-            getView().findViewById(R.id.accident).setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.incident).setVisibility(View.VISIBLE);
-
-            accident.startAnimation(fromBottomAnimation);
-            incident.startAnimation(fromBottomAnimation);
-
-            addButton.startAnimation(rotateOpenAnimation);
-        }
-        isAddClicked = !isAddClicked;
-    }
 }
