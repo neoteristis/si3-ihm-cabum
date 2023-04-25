@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ihm_cabum.controller.archieve.AccidentListAdapter;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.R;
