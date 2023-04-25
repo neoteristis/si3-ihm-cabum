@@ -1,4 +1,4 @@
-package com.example.ihm_cabum;
+package com.example.ihm_cabum.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

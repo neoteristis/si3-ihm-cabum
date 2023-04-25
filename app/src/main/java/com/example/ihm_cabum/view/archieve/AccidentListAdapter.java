@@ -1,9 +1,6 @@
-package com.example.ihm_cabum.ui.archieve;
+package com.example.ihm_cabum.view.archieve;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +14,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ihm_cabum.Accident;
-import com.example.ihm_cabum.MainActivity;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.view.home.HomeActivity;
 import com.example.ihm_cabum.R;
 
 import org.json.JSONArray;
@@ -77,7 +74,7 @@ public class AccidentListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 // Create the Intent and add the String parameter
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, HomeActivity.class);
                 intent.putExtra("address", (String) address.getText());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 // Start the MainActivity with the Intent

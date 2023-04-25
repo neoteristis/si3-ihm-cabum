@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.ui.profile;
+package com.example.ihm_cabum.view.profile;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.preference.PreferenceManager;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class ProfileViewModel extends ViewModel {

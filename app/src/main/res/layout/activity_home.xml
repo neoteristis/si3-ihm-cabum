@@ -34,7 +34,7 @@
     <fragment
         android:visibility="invisible"
         android:id="@+id/add_buttons"
-        android:name="com.example.ihm_cabum.AddButtonsFragment"
+        android:name="com.example.ihm_cabum.view.reusable.AddButtonsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -44,7 +44,7 @@
     <fragment
         android:visibility="invisible"
         android:id="@+id/accident_info"
-        android:name="com.example.ihm_cabum.ui.home.AccidentInfo"
+        android:name="com.example.ihm_cabum.view.home.AccidentInfo"
         android:layout_width="300dp"
         android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/navbar_fragment"
-        android:name="com.example.ihm_cabum.ui.navbar.NavbarFragment"
+        android:name="com.example.ihm_cabum.view.navbar.NavbarFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.ui.archieve;
+package com.example.ihm_cabum.view.archieve;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,9 +7,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ihm_cabum.Accident;
-import com.example.ihm_cabum.AccidentList;
-import com.example.ihm_cabum.AccidentType;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.R;
 
 import org.osmdroid.util.GeoPoint;
