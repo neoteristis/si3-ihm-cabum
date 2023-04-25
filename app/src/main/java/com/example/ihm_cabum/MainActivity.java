@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
 
 import com.android.volley.Request;
@@ -21,7 +19,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ihm_cabum.ui.home.AccidentInfo;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     //TODO change for GEO
     private static final double DEFAULT_LATITUDE = 43.65020;
     private static final double DEFAULT_LONGITUDE = 7.00590;
-
-    private boolean isAddClicked = false;
 
     private Marker addMarker(Accident accident){
         Marker marker = new Marker(mapView);
@@ -133,54 +128,25 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private void setUpAddButton() {
-        Animation fromBottomAnimation = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim);
-        Animation toBottomAnimation = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim);
-        Animation rotateCloseAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_close_animation);
-        Animation rotateOpenAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_open_animation);
-
-        FloatingActionButton addButton = findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FloatingActionButton accident = findViewById(R.id.accident);
-                FloatingActionButton incident = findViewById(R.id.incident);
-                if (isAddClicked) {
-                    accident.setVisibility(View.INVISIBLE);
-                    incident.setVisibility(View.INVISIBLE);
-
-                    findViewById(R.id.tabAdd).setVisibility(View.INVISIBLE);
-
-                    accident.startAnimation(toBottomAnimation);
-                    incident.startAnimation(toBottomAnimation);
-
-                    addButton.startAnimation(rotateCloseAnimation);
-                } else {
-                    findViewById(R.id.accident).setVisibility(View.VISIBLE);
-                    findViewById(R.id.incident).setVisibility(View.VISIBLE);
-                    findViewById(R.id.tabAdd).setVisibility(View.VISIBLE);
-
-                    accident.startAnimation(fromBottomAnimation);
-                    incident.startAnimation(fromBottomAnimation);
-
-                    addButton.startAnimation(rotateOpenAnimation);
-                }
-                isAddClicked = !isAddClicked;
-            }
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Configuration.getInstance().load(getApplicationContext(),  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()) );
         setContentView(R.layout.activity_home);
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
 
         setUpMap();
-        setMapCenterPosition(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String[] address = extras.getString("address").split(",");
+            setMapCenterPosition(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
+        } else {
+            setMapCenterPosition(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+        }
+
         setUpAccidentsNear();
-        setUpAddButton();
     }
 
     @Override

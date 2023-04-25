@@ -94,4 +94,9 @@ public class Accident {
     public int hashCode() {
         return Objects.hash(typeOfAccident, description, address, time);
     }
+
+    @Override
+    public String toString() {
+        return "" + typeOfAccident + ", " + time + ", " + address;
+    }
 }

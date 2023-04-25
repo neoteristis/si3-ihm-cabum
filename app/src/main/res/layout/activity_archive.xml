@@ -5,29 +5,37 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/text_archive"
+    <fragment
+        android:id="@+id/navbar_fragment"
+        android:name="com.example.ihm_cabum.ui.navbar.NavbarFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:text="@string/title_archive"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout="@layout/fragment_navbar" />
+
+    <ListView
+        android:id="@+id/lisOfAccidents"
+        android:background="#E4DCCF"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/navbar_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
+        android:visibility="invisible"
+        android:id="@+id/add_buttons"
+        android:name="com.example.ihm_cabum.AddButtonsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/navbar_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:name="com.example.ihm_cabum.ui.navbar.NavbarFragment"
-        tools:layout="@layout/fragment_navbar" />
+
+        app:layout_constraintBottom_toTopOf="@+id/navbar_fragment"
+        app:layout_constraintEnd_toEndOf="parent"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
