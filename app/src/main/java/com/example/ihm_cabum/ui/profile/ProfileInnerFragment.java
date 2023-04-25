@@ -1,26 +1,20 @@
 package com.example.ihm_cabum.ui.profile;
 
-import static com.example.ihm_cabum.MainActivity.notificationsOn;
-import static com.example.ihm_cabum.notification.NotificationHelper.sendNotification;
-
-import android.Manifest;
+import static com.example.ihm_cabum.notification.NotificationApp.sendNotification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
-import androidx.core.app.ActivityCompat;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
-
 import com.example.ihm_cabum.R;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class ProfileInnerFragment extends PreferenceFragmentCompat {
+    public static boolean notificationsOn = false;
     private View rootView;
     public ProfileInnerFragment(View view) {
         this.rootView = view;
@@ -64,10 +58,9 @@ public class ProfileInnerFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 notificationsOn = (boolean) newValue;
-                if (!notificationsOn) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1001);
+                if (notificationsOn) {
+                    sendNotification(rootView.getContext().getApplicationContext(), "Notifications turned on.", "You will be informed of any further incidents.");
                 }
-                sendNotification(rootView.getContext(), "Notifications turned on.", "You will be informed of any further incidents.");
                 return true;
             }
         });

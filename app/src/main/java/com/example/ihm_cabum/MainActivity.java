@@ -1,17 +1,27 @@
 package com.example.ihm_cabum;
-
-import static com.example.ihm_cabum.notification.NotificationHelper.createNotificationChannel;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.ihm_cabum.notification.Message;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
 
-    public static boolean notificationsOn = false;
+public class MainActivity extends AppCompatActivity implements Observer{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        createNotificationChannel();
+        Message.getInstance().addObserver( this);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                System.out.println(task.getResult());
+            }
+        });
     }
+
+    @Override
+    public void update(Observable observable, Object o) {}
 }
