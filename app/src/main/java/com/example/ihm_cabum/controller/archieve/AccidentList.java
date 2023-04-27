@@ -1,15 +1,16 @@
-package com.example.ihm_cabum.ui.archieve;
-
-import android.os.Bundle;
+package com.example.ihm_cabum.controller.archieve;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Bundle;
+
 import com.example.ihm_cabum.R;
 
-public class ArchiveActivity extends AppCompatActivity {
+public class AccidentList extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_archive);
+        setContentView(R.layout.activity_accident_list);
     }
 }
