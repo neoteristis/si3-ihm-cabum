@@ -20,14 +20,12 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile,container,false);
-
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-        view = binding.getRoot();
+        View view = binding.getRoot();
 
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.profile_page, new ProfileFragment_utils.ProfileInnerFragment(view))
+                .replace(R.id.profile_page, new ProfileInnerFragment(view))
                 .commit();
 
         return view;

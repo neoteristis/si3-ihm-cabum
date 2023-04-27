@@ -1,51 +1,20 @@
 package com.example.ihm_cabum.view.profile;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.databinding.FragmentProfileBinding;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ProfileFragment_utils extends Fragment {
-    private FragmentProfileBinding binding;
-    private static View rootView;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
-        rootView = binding.getRoot();
-
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.profile_page, new ProfileInnerFragment(rootView))
-                .commit();
-
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    public static class ProfileInnerFragment extends PreferenceFragmentCompat {
+public class ProfileInnerFragment extends PreferenceFragmentCompat {
         private View rootView;
 
         public ProfileInnerFragment(View view) {
@@ -89,4 +58,3 @@ public class ProfileFragment_utils extends Fragment {
         }
     }
 
-}
