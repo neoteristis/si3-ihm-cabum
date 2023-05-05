@@ -19,6 +19,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
+            android:name=".view.form.AddAccidentActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.archieve.AccidentList"
             android:exported="false" />
         <activity

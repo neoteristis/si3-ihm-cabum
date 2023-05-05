@@ -1,5 +1,6 @@
 package com.example.ihm_cabum.view.reusable;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,6 +13,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.view.form.AddAccidentActivity;
+import com.example.ihm_cabum.view.profile.ProfileActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddButtonsFragment extends Fragment {
@@ -36,6 +39,20 @@ public class AddButtonsFragment extends Fragment {
         FloatingActionButton addButton = view.findViewById(R.id.add_button);
         FloatingActionButton accident = view.findViewById(R.id.accident);
         FloatingActionButton incident = view.findViewById(R.id.incident);
+
+        if(addButton == null || accident == null || incident == null) {
+            return view;
+        }
+
+        accident.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddAccidentActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
         ConstraintLayout constraintLayout = view.findViewById(R.id.tabAdd);
 
         addButton.setOnClickListener(new View.OnClickListener() {
