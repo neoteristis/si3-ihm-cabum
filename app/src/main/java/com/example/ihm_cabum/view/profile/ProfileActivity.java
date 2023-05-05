@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.ui.profile;
+package com.example.ihm_cabum.view.profile;
 
 import android.os.Bundle;
 

@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.ui.home;
+package com.example.ihm_cabum.view.home;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ihm_cabum.Accident;
+import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.R;
 
 public class AccidentInfo extends Fragment {

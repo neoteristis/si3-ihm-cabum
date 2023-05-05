@@ -1,8 +1,10 @@
-package com.example.ihm_cabum;
+package com.example.ihm_cabum.controller.archieve;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.ihm_cabum.R;
 
 public class AccidentList extends AppCompatActivity {
 

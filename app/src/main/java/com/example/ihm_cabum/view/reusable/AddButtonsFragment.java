@@ -1,4 +1,4 @@
-package com.example.ihm_cabum;
+package com.example.ihm_cabum.view.reusable;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.example.ihm_cabum.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddButtonsFragment extends Fragment {

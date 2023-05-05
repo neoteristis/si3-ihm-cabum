@@ -1,4 +1,4 @@
-package com.example.ihm_cabum;
+package com.example.ihm_cabum.model;
 
 public enum AccidentType {
     COLLISION_MULTIPLE_VEHICLES("Collision with another vehicle"),

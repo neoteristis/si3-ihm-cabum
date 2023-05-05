@@ -19,10 +19,10 @@
         tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
-            android:name=".AccidentList"
+            android:name=".controller.archieve.AccidentList"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.archieve.ArchiveActivity"
+            android:name=".view.archieve.ArchiveActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.profile.ProfileActivity"
+            android:name=".view.profile.ProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
