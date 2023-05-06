@@ -20,6 +20,8 @@
         tools:targetApi="31">
         <activity
             android:name=".view.form.AddAccidentActivity"
+            android:windowSoftInputMode="adjustPan"
+
             android:exported="false" />
         <activity
             android:name=".controller.archieve.AccidentList"
