@@ -2,6 +2,7 @@ package com.example.ihm_cabum.view.form;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +51,11 @@ public class AddAccidentActivity extends AppCompatActivity {
 
         Button cancelButton = findViewById(R.id.cancel_button_addFrom);
         Button saveButton = findViewById(R.id.add_button_addForm);
+
+        Button cancelUploadButton = findViewById(R.id.cancel_upload_button_addFrom);
+
+        ConstraintLayout layoutUploadFrame = findViewById(R.id.upload_frame_addForm);
+        ConstraintLayout layoutUpload = findViewById(R.id.add_picture_addForm);
 
         spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
         spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_ACCIDENT_TYPE));
@@ -102,6 +108,20 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+
+        layoutUploadFrame.setVisibility(View.INVISIBLE);
+        layoutUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layoutUploadFrame.setVisibility(View.VISIBLE);
+            }
+        });
+        cancelUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layoutUploadFrame.setVisibility(View.INVISIBLE);
             }
         });
     }

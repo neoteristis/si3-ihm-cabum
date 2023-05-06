@@ -222,8 +222,75 @@
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="parent" />
 
-
     </RelativeLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/upload_frame_addForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/upload_image_header_addForm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginBottom="10sp"
+                    android:text="Upload image"
+                    android:textColor="#7D9D9C"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/upload_photo_camera_addForm"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:layout_marginEnd="100sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginStart="50sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/baseline_add_a_photo_24"
+                    app:layout_constraintEnd_toStartOf="@+id/upload_photo_gallery_addForm"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_image_header_addForm" />
+                <ImageButton
+                    android:id="@+id/upload_photo_gallery_addForm"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:layout_marginEnd="50sp"
+                    android:layout_marginTop="20sp"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:clickable="false"
+                    android:src="@drawable/baseline_add_photo_alternate_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_image_header_addForm" />
+
+                <Button
+                    android:id="@+id/cancel_upload_button_addFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textColor="@color/red"
+                    android:clickable="true"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_photo_gallery_addForm"
+                    android:focusable="true" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
