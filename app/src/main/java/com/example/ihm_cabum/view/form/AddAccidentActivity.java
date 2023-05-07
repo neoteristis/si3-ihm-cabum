@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,45 +40,37 @@ public class AddAccidentActivity extends AppCompatActivity {
     private final static String[] ITEMS_ACCIDENT_TYPE = Arrays.stream(AccidentType.values()).map(AccidentType::getLabel).toArray(String[]::new);
 
     private final static String DEFAULT_HEADER_BEGINNING = "Create an ";
+    private final static int REQUEST_IMAGE_CAPTURE = 1;
+
+    private TextView header;
+    private Spinner spinnerDisasterType;
+    private Spinner spinnerAccidentType;
+    private CalendarView calendar;
+    private ImageButton calendarOpenButton;
+    private EditText dateField;
+    private EditText timeField;
+    private Button cancelButton;
+    private Button saveButton;
+    private Button cancelUploadButton;
+    private ImageButton uploadCameraButton;
+    private ConstraintLayout layoutUploadFrame;
+    private ConstraintLayout layoutUpload;
+    private ImageView uploadedImage;
+
+    private ImageButton addPhotoIcon;
+    private TextView addPhotoText;
+
+    private DateFormat dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_accident);
 
-        TextView header = findViewById(R.id.title_addForm);
-        Spinner spinnerDisasterType = findViewById(R.id.accident_incident_menu_addForm);
-        Spinner spinnerAccidentType = findViewById(R.id.type_menu_addForm);
-
-        CalendarView calendar = findViewById(R.id.calendar_addForm);
-        ImageButton calendarButton = findViewById(R.id.callendar_button_addForm);
-        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-
-        EditText dateField = findViewById(R.id.date_addForm);
-        EditText timeField = findViewById(R.id.time_addForm);
-
-        Button cancelButton = findViewById(R.id.cancel_button_addFrom);
-        Button saveButton = findViewById(R.id.add_button_addForm);
-
-        Button cancelUploadButton = findViewById(R.id.cancel_upload_button_addFrom);
-        ImageButton uploadCameraButton = findViewById(R.id.upload_photo_camera_addForm);
-
-        ConstraintLayout layoutUploadFrame = findViewById(R.id.upload_frame_addForm);
-        ConstraintLayout layoutUpload = findViewById(R.id.add_picture_addForm);
-
-        ImageView imageView = findViewById(R.id.uploaded_image_addForm);
-        imageView.setVisibility(View.INVISIBLE);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageView.setVisibility(View.INVISIBLE);
-                findViewById(R.id.add_photo_addForm).setVisibility(View.VISIBLE);
-                findViewById(R.id.upload_photo_text_addForm).setVisibility(View.VISIBLE);
-            }
-        });
-
-        spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
-        spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_ACCIDENT_TYPE));
+        initView();
+        setBasicVisibility();
+        setBasicValues();
+        setBasicListeners();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -91,70 +84,6 @@ public class AddAccidentActivity extends AppCompatActivity {
                             .orElse(0)
             );
         }
-        calendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar.setVisibility(calendar.getVisibility() == View.INVISIBLE ? View.VISIBLE : View.INVISIBLE);
-            }
-        });
-
-        spinnerDisasterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        calendar.setVisibility(View.INVISIBLE);
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                dateField.setText(dateFormat.format(new Date(year, month, day)));
-                calendar.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        dateField.setText(dateFormat.format(new Date()));
-        Calendar calendar1 = Calendar.getInstance();
-        timeField.setText(calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE));
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        layoutUploadFrame.setVisibility(View.INVISIBLE);
-        layoutUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                layoutUploadFrame.setVisibility(View.VISIBLE);
-            }
-        });
-        cancelUploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                layoutUploadFrame.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        uploadCameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                requestPermission();
-
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, 1);
-                }
-            }
-        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,11 +94,105 @@ public class AddAccidentActivity extends AppCompatActivity {
             // Upload the image bitmap to your app
             ImageView imageView = findViewById(R.id.uploaded_image_addForm);
             imageView.setVisibility(View.VISIBLE);
-            findViewById(R.id.add_photo_addForm).setVisibility(View.INVISIBLE);
+            findViewById(R.id.add_photo_icon_addForm).setVisibility(View.INVISIBLE);
             findViewById(R.id.upload_photo_text_addForm).setVisibility(View.INVISIBLE);
             findViewById(R.id.upload_frame_addForm).setVisibility(View.INVISIBLE);
             imageView.setImageBitmap(imageBitmap);
         }
+    }
+
+    private void initView() {
+        this.header = findViewById(R.id.title_addForm);
+        this.spinnerDisasterType = findViewById(R.id.accident_incident_menu_addForm);
+        this.spinnerAccidentType = findViewById(R.id.type_menu_addForm);
+        this.calendar = findViewById(R.id.calendar_addForm);
+        this.calendarOpenButton = findViewById(R.id.callendar_button_addForm);
+        this.dateField = findViewById(R.id.date_addForm);
+        this.timeField = findViewById(R.id.time_addForm);
+        this.cancelButton = findViewById(R.id.cancel_button_addFrom);
+        this.saveButton = findViewById(R.id.add_button_addForm);
+        this.cancelUploadButton = findViewById(R.id.cancel_upload_button_addFrom);
+        this.uploadCameraButton = findViewById(R.id.upload_photo_camera_addForm);
+        this.layoutUploadFrame = findViewById(R.id.upload_frame_addForm);
+        this.layoutUpload = findViewById(R.id.add_picture_addForm);
+        this.uploadedImage = findViewById(R.id.uploaded_image_addForm);
+        this.addPhotoIcon = findViewById(R.id.add_photo_icon_addForm);
+        this.addPhotoText = findViewById(R.id.upload_photo_text_addForm);
+
+        this.dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+    }
+
+    private void setBasicVisibility() {
+        uploadedImage.setVisibility(View.INVISIBLE);
+        calendar.setVisibility(View.INVISIBLE);
+        layoutUploadFrame.setVisibility(View.INVISIBLE);
+    }
+
+    private void setBasicValues() {
+        this.spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
+        this.spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_ACCIDENT_TYPE));
+
+        this.dateField.setText(dateFormat.format(new Date()));
+        Calendar calendar1 = Calendar.getInstance();
+        this.timeField.setText(calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE));
+    }
+
+    private void setBasicListeners() {
+        this.uploadedImage.setOnClickListener(uploadedImageListener());
+        this.calendarOpenButton.setOnClickListener(calendarButtonListener());
+        this.spinnerDisasterType.setOnItemSelectedListener(spinnerDisasterTypeListener());
+        this.calendar.setOnDateChangeListener(calendarDateListener());
+        this.uploadCameraButton.setOnClickListener(uploadCameraButtonListener());
+
+        //easy operations
+        this.cancelButton.setOnClickListener(view -> onBackPressed());
+        this.layoutUpload.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.VISIBLE));
+        this.cancelUploadButton.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.INVISIBLE));
+    }
+
+    private View.OnClickListener uploadedImageListener() {
+        return view -> {
+            uploadedImage.setVisibility(View.INVISIBLE);
+            addPhotoIcon.setVisibility(View.VISIBLE);
+            addPhotoText.setVisibility(View.VISIBLE);
+        };
+    }
+
+    private View.OnClickListener calendarButtonListener() {
+        return view ->
+                calendar.setVisibility(
+                        calendar.getVisibility() == View.INVISIBLE ? View.VISIBLE : View.INVISIBLE
+                );
+    }
+
+    private View.OnClickListener uploadCameraButtonListener() {
+        return view -> {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            requestPermission();
+
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, 1);
+            }
+        };
+    }
+
+    private AdapterView.OnItemSelectedListener spinnerDisasterTypeListener() {
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        };
+    }
+
+    private CalendarView.OnDateChangeListener calendarDateListener() {
+        return (calendarView, year, month, day) -> {
+            dateField.setText(dateFormat.format(new Date(year, month, day)));
+            calendar.setVisibility(View.INVISIBLE);
+        };
     }
 
     private void requestPermission() {
