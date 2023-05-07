@@ -3,8 +3,14 @@ package com.example.ihm_cabum.view.form;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,9 +18,11 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import android.Manifest;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.model.DisasterType;
@@ -23,7 +31,6 @@ import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.stream.IntStream;
 
 public class AddAccidentActivity extends AppCompatActivity {
@@ -53,9 +60,21 @@ public class AddAccidentActivity extends AppCompatActivity {
         Button saveButton = findViewById(R.id.add_button_addForm);
 
         Button cancelUploadButton = findViewById(R.id.cancel_upload_button_addFrom);
+        ImageButton uploadCameraButton = findViewById(R.id.upload_photo_camera_addForm);
 
         ConstraintLayout layoutUploadFrame = findViewById(R.id.upload_frame_addForm);
         ConstraintLayout layoutUpload = findViewById(R.id.add_picture_addForm);
+
+        ImageView imageView = findViewById(R.id.uploaded_image_addForm);
+        imageView.setVisibility(View.INVISIBLE);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.setVisibility(View.INVISIBLE);
+                findViewById(R.id.add_photo_addForm).setVisibility(View.VISIBLE);
+                findViewById(R.id.upload_photo_text_addForm).setVisibility(View.VISIBLE);
+            }
+        });
 
         spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
         spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_ACCIDENT_TYPE));
@@ -124,5 +143,38 @@ public class AddAccidentActivity extends AppCompatActivity {
                 layoutUploadFrame.setVisibility(View.INVISIBLE);
             }
         });
+
+        uploadCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                requestPermission();
+
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, 1);
+                }
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            // Upload the image bitmap to your app
+            ImageView imageView = findViewById(R.id.uploaded_image_addForm);
+            imageView.setVisibility(View.VISIBLE);
+            findViewById(R.id.add_photo_addForm).setVisibility(View.INVISIBLE);
+            findViewById(R.id.upload_photo_text_addForm).setVisibility(View.INVISIBLE);
+            findViewById(R.id.upload_frame_addForm).setVisibility(View.INVISIBLE);
+            imageView.setImageBitmap(imageBitmap);
+        }
+    }
+
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }
     }
 }
