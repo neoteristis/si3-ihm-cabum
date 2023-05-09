@@ -12,13 +12,13 @@ import org.osmdroid.views.overlay.Marker;
 
 public class MapController implements IObservable {
     private final MapView mapView;
-    private final MapMarkers mapMarkers;
+    private final MarkersController markersController;
 
     public MapController(Context context, MapView mapView, FragmentActivity activity) {
         this.mapView = mapView;
 
-        this.mapMarkers = new MapMarkers(context, mapView, activity);
-        this.mapMarkers.addObserver(this);
+        this.markersController = new MarkersController(context, mapView, activity);
+        this.markersController.addObserver(this);
     }
 
     public MapView getMapView() {
@@ -45,15 +45,15 @@ public class MapController implements IObservable {
     }
 
     private void setUpAccidentsNear() {
-        for (Marker marker : mapMarkers.getMarkers()) {
+        for (Marker marker : markersController.getMarkers()) {
             mapView.getOverlays().add(marker);
         }
     }
 
     @Override
-    public void update(MapMarkers markersController) {
+    public void update(MarkersController markersController) {
         mapView.getOverlays().clear();
-        for (Marker marker : mapMarkers.getMarkers()) {
+        for (Marker marker : this.markersController.getMarkers()) {
             mapView.getOverlays().add(marker);
         }
         mapView.invalidate();

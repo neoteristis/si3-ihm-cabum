@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MapMarkers {
+public class MarkersController {
     private List<Marker> markers = new ArrayList<>();
     private List<IObservable> observers = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class MapMarkers {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     //TODO add position
-    public MapMarkers(Context context, MapView mapView, FragmentActivity activity) {
+    public MarkersController(Context context, MapView mapView, FragmentActivity activity) {
         this.context = context;
         this.mapView = mapView;
         this.activity = activity;
