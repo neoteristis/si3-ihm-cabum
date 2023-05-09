@@ -12,22 +12,23 @@ import android.widget.TextView;
 
 import com.example.ihm_cabum.controller.api.GoogleAPIController;
 import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.view.home.HomeActivity;
 import com.example.ihm_cabum.R;
 
 import java.util.List;
 
-public class AccidentListAdapter extends BaseAdapter {
+public class EventListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Accident> accidentList;
+    private List<Event> eventList;
 
     private LayoutInflater layoutInflater;
 
     private final GoogleAPIController googleAPIController;
 
-    public AccidentListAdapter(Context context, List<Accident> accidentList) {
-        this.accidentList = accidentList;
+    public EventListAdapter(Context context, List<Event> eventList) {
+        this.eventList = eventList;
         this.context = context;
 
         this.layoutInflater = LayoutInflater.from(context);
@@ -37,7 +38,7 @@ public class AccidentListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return accidentList.size();
+        return eventList.size();
     }
 
     @Override
@@ -58,13 +59,13 @@ public class AccidentListAdapter extends BaseAdapter {
         TextView address = (TextView) view.findViewById(R.id.accidentAddress);
         TextView date = (TextView) view.findViewById(R.id.accidentDate);
         ImageView image = (ImageView) view.findViewById(R.id.accidentImage);
-        type.setText(accidentList.get(i).getTypeOfAccident().getLabel());
+        type.setText(eventList.get(i).getLabel());
 
-        String area = googleAPIController.convertCoordinatesToAreaName(accidentList.get(i).getAddress().getLatitude(), accidentList.get(i).getAddress().getLongitude());
-        address.setText(area == null ? accidentList.get(i).getAddress().toDoubleString() : area);
+        String area = googleAPIController.convertCoordinatesToAreaName(eventList.get(i).getAddress().getLatitude(), eventList.get(i).getAddress().getLongitude());
+        address.setText(area == null ? eventList.get(i).getAddress().toDoubleString() : area);
 
-        date.setText(accidentList.get(i).getFormattedTime());
-        image.setImageBitmap(accidentList.get(i).getBitmapImage());
+        date.setText(eventList.get(i).getFormattedTime());
+        image.setImageBitmap(eventList.get(i).getBitmapImage());
 
         LinearLayout layout = view.findViewById(R.id.accidentElement);
         layout.setOnClickListener(new View.OnClickListener() {

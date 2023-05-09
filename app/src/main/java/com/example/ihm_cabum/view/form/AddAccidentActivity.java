@@ -1,6 +1,5 @@
 package com.example.ihm_cabum.view.form;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -12,7 +11,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,8 +23,8 @@ import android.widget.TextView;
 
 import android.Manifest;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.model.DisasterType;
+import com.example.ihm_cabum.model.EventType;
 
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -37,7 +35,7 @@ import java.util.stream.IntStream;
 public class AddAccidentActivity extends AppCompatActivity {
 
     private final static String[] ITEMS_DISASTER = Arrays.stream(DisasterType.values()).map(DisasterType::getLabel).toArray(String[]::new);
-    private final static String[] ITEMS_ACCIDENT_TYPE = Arrays.stream(AccidentType.values()).map(AccidentType::getLabel).toArray(String[]::new);
+    private final static String[] ITEMS_ACCIDENT_TYPE = Arrays.stream(EventType.values()).map(EventType::getLabel).toArray(String[]::new);
 
     private final static String DEFAULT_HEADER_BEGINNING = "Create an ";
     private final static int REQUEST_IMAGE_CAPTURE = 1;

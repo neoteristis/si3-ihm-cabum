@@ -6,13 +6,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.AccidentType;
+import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.view.home.AccidentInfo;
 
 import org.osmdroid.api.IMapController;
@@ -96,7 +95,7 @@ public class MapController {
 
         mapView.getOverlays().add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.65050,7.00726),
@@ -108,7 +107,7 @@ public class MapController {
 
         mapView.getOverlays().add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.65050,7.00726),
@@ -119,7 +118,7 @@ public class MapController {
         );
         mapView.getOverlays().add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.64950,7.00418),
