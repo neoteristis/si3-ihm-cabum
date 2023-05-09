@@ -4,10 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.AccidentType;
+import com.example.ihm_cabum.view.home.AccidentInfo;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -21,11 +27,13 @@ import java.util.Date;
 public class MapController {
     private final MapView mapView;
     private final Context context;
+    private final FragmentActivity activity; // Add this field to hold a reference to the Activity/FragmentActivity
 
 
-    public MapController(Context context, MapView mapView) {
+    public MapController(Context context, MapView mapView, FragmentActivity activity) {
         this.context = context;
         this.mapView = mapView;
+        this.activity = activity;
     }
 
     public MapView getMapView() {
@@ -49,7 +57,18 @@ public class MapController {
         marker.setImage(new BitmapDrawable(context.getResources(), accident.getBitmapImage()));
         marker.setPanToView(true);  //the map will be centered on the marker position.
         marker.setDraggable(true);
-
+        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker, MapView mapView) {
+                AccidentInfo fragment = new AccidentInfo(accident);
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.accident_info, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                activity.findViewById(R.id.accident_info).setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
         return marker;
     }
 

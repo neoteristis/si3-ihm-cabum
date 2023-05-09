@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
 
-        this.mapController = new MapController(this, findViewById(R.id.mapView));
+        this.mapController = new MapController(this, findViewById(R.id.mapView), this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
