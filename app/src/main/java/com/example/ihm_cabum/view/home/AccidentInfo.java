@@ -1,5 +1,7 @@
 package com.example.ihm_cabum.view.home;
 
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendNotification;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,9 @@ public class AccidentInfo extends Fragment {
             ((TextView) view.findViewById(R.id.type)).setText(accident.getTypeOfAccident().getLabel());
             ((TextView) view.findViewById(R.id.description)).setText(accident.getDescription());
             ((TextView) view.findViewById(R.id.date)).setText(accident.getFormattedTime());
+
+            sendNotification(getContext(), "Accident reported", accident.getTypeOfAccident().getLabel());
+
             Button approveButton = view.findViewById(R.id.approve);
             approveButton.setOnClickListener(new View.OnClickListener() {
                 @Override

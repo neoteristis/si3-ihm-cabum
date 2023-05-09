@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.notification;
+package com.example.ihm_cabum.controller.notification;
 
 import com.google.firebase.messaging.RemoteMessage;
 

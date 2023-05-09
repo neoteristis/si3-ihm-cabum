@@ -1,5 +1,5 @@
-package com.example.ihm_cabum.notification;
-import static com.example.ihm_cabum.notification.NotificationApp.sendNotification;
+package com.example.ihm_cabum.controller.notification;
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendNotification;
 import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
