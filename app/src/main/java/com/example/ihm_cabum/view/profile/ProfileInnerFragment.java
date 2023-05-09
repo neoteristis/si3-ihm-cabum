@@ -1,21 +1,36 @@
 package com.example.ihm_cabum.view.profile;
 
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendAccidentNotification;
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendNotification;
+
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.model.AccidentType;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class ProfileInnerFragment extends PreferenceFragmentCompat {
         private View rootView;
+        public static boolean notificationsOn;
 
         public ProfileInnerFragment(View view) {
             this.rootView = view;
@@ -54,6 +69,16 @@ public class ProfileInnerFragment extends PreferenceFragmentCompat {
                     return true;
                 }
             });
+
+            SwitchPreferenceCompat notificationBtn = findPreference("notification");
+            notificationBtn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    notificationsOn = (boolean) newValue;
+                    return true;
+                }
+            });
+
 
         }
     }
