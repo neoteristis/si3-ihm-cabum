@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.media.action.IMAGE_CAPTURE"/>
 
     <application
         android:name=".controller.notification.NotificationApp"
@@ -29,6 +31,11 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".view.form.AddAccidentActivity"
+            android:windowSoftInputMode="adjustPan"
+
+            android:exported="false" />
         <activity
             android:name=".controller.archieve.AccidentList"
             android:exported="false" />
