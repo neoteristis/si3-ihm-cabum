@@ -58,7 +58,8 @@ public class NotificationApp extends Application {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra("address",  accident.getAddress().toDoubleString());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
+
 
         String title = "Accident reported";
         String message = accident.getTypeOfAccident().getLabel();
