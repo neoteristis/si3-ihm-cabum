@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.home.AccidentInfo"
-    android:background="#E4DCCF">
+    android:background="?android:windowBackground">
 
     <Button
         android:focusable="true"
@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/type"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/date"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@id/description"
-        android:textColor="@color/black"
+        android:textColor="?android:attr/textColorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#576F72"
+        android:backgroundTint="@color/teal_700"
         android:drawableTop="@drawable/baseline_thumb_up_24"
         android:text="Approve"
         android:title="Approve"
@@ -90,7 +90,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#576F72"
+        android:backgroundTint="@color/teal_700"
         android:drawableTop="@drawable/baseline_thumb_down_24"
         android:text="Disapprove"
         android:textColor="#660404"
