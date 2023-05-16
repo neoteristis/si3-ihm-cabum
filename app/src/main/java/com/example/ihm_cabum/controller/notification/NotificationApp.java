@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import com.example.ihm_cabum.R;
@@ -18,6 +19,8 @@ public class NotificationApp extends Application {
 
     public static final String CHANNEL_ID = "my_channel_id";
     private static int notificationId = 0;
+    private static final int delay = 10 /*secondes*/ * 1000;
+
 
     @Override
     public void onCreate() {
@@ -80,7 +83,16 @@ public class NotificationApp extends Application {
                 .setCustomContentView(notificationView)
                 .setContentIntent(pendingIntent);
 
+        notificationId++;
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.notify(++notificationId, builder.build());
+        notificationManager.notify(notificationId, builder.build());
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notificationManager.cancel(notificationId);
+            }
+        }, delay);
     }
 }
