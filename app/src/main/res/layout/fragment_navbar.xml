@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/navbar">
+
+        <Button
+            android:id="@+id/navigation_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/ic_archive_black"
+            android:text="@string/title_archive"
+            android:title="@string/title_archive"
+            android:textSize="8sp"
+            android:textColor="#7D9D9C"
+            app:layout_constraintLeft_toLeftOf="@id/navbar"
+            app:layout_constraintRight_toRightOf="@id/navbar"
+            app:layout_constraintTop_toTopOf="@id/navbar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/navigation_home"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:title="@string/title_home"
+            android:text="@string/title_home"
+            android:textSize="8sp"
+            android:textColor="#7D9D9C"
+            app:layout_constraintLeft_toLeftOf="@id/navbar"
+            app:layout_constraintTop_toTopOf="@id/navbar"
+            app:layout_constraintRight_toLeftOf="@id/navigation_archive"
+            />
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/navigation_profile"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/ic_profile_black"
+            android:text="@string/title_profile"
+            android:title="@string/title_profile"
+            android:textSize="8sp"
+            android:textColor="#7D9D9C"
+            app:layout_constraintRight_toRightOf="@id/navbar"
+            app:layout_constraintTop_toTopOf="@id/navbar"
+            app:layout_constraintLeft_toRightOf="@id/navigation_archive"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

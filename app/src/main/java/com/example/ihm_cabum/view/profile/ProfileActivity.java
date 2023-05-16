@@ -1,6 +1,4 @@
-package com.example.ihm_cabum;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.ihm_cabum.view.profile;
 
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +15,14 @@ import org.json.JSONException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ihm_cabum.R;
+
+public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
     }
 }
