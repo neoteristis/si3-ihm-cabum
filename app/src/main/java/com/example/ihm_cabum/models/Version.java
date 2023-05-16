@@ -2,7 +2,6 @@ package com.example.ihm_cabum.models;
 
 import android.content.Context;
 
-import com.example.ihm_cabum.MainActivity;
 import com.example.ihm_cabum.volley.FieldFirebase;
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.GetterFirebase;
