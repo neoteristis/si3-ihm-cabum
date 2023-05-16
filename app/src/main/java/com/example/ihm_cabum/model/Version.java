@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.models;
+package com.example.ihm_cabum.model;
 
 import android.content.Context;
 
@@ -7,7 +7,6 @@ import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.GetterFirebase;
 import com.example.ihm_cabum.volley.SetterFirebase;
 
-import java.util.ConcurrentModificationException;
 import java.util.Objects;
 
 public class Version extends FirebaseObject {
