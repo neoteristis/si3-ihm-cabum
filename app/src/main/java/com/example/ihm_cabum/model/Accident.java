@@ -3,8 +3,11 @@ package com.example.ihm_cabum.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.ihm_cabum.R;
+
 import org.osmdroid.util.GeoPoint;
 
+import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +51,9 @@ public class Accident {
 
     public byte[] getImage() {
         return image;
+    }
+    public int getImageAsInt() {
+        return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
     }
 
     public Bitmap getBitmapImage() {
