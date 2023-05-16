@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         Configuration.getInstance().load(getApplicationContext(),  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()) );
         setContentView(R.layout.activity_home);
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
+        findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
 
         this.mapController = new MapController(this, findViewById(R.id.mapView), this);
 
@@ -60,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
+        findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
         super.onBackPressed();
     }
     @Override

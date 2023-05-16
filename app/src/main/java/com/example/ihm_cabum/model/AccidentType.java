@@ -1,5 +1,7 @@
 package com.example.ihm_cabum.model;
 
+import com.example.ihm_cabum.R;
+
 public enum AccidentType {
     COLLISION_MULTIPLE_VEHICLES("Collision with another vehicle"),
     COLLISION_SINGLE_VEHICLE("Single-vehicle accidents"),
@@ -23,19 +25,19 @@ public enum AccidentType {
     public int getIconResource() {
         switch (this) {
             case COLLISION_MULTIPLE_VEHICLES:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_multiple_car;
             case COLLISION_SINGLE_VEHICLE:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_car_crash;
             case PEDESTRIAN:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_pedestrian;
             case ANIMAL:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_animal;
             case CYCLIST:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_cyclist;
             case WEATHER:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_weather;
             default:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_mechanic;
         }
     }
 }

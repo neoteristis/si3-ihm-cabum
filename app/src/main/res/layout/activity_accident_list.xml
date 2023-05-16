@@ -23,9 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:text="Type:"
-                android:textColor="@color/white_green"
+                android:textColor="@color/icon_color"
                 android:layout_margin="6dp"
                 />
             <TextView
@@ -46,16 +46,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:text="Address:"
-                android:textColor="@color/white_green"
+                android:textColor="@color/icon_color"
                 android:layout_margin="6dp"
                 />
             <TextView
                 android:id="@+id/accidentAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textColor="@color/teal_700"
 
                 android:layout_margin="6dp"
@@ -69,16 +69,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:text="Date and time:"
-                android:textColor="@color/white_green"
+                android:textColor="@color/icon_color"
                 android:layout_margin="6dp"
                 />
             <TextView
                 android:id="@+id/accidentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textColor="@color/teal_700"
                 android:layout_margin="6dp"
                 />

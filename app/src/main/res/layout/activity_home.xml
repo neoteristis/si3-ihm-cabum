@@ -41,18 +41,29 @@
         app:layout_constraintBottom_toTopOf="@+id/navbar_fragment"
         app:layout_constraintEnd_toEndOf="parent"  />
 
-    <fragment
-        android:visibility="invisible"
-        android:id="@+id/accident_info"
-        android:name="com.example.ihm_cabum.view.home.AccidentInfo"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/accident_info_shadow"
+        android:layout_width="305dp"
+        android:layout_height="405dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_accident_info" />
+        >
+        <fragment
+            android:visibility="invisible"
+            android:id="@+id/accident_info"
+            android:name="com.example.ihm_cabum.view.home.AccidentInfo"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_accident_info" />
+    </androidx.cardview.widget.CardView>
 
     <fragment
         android:id="@+id/navbar_fragment"

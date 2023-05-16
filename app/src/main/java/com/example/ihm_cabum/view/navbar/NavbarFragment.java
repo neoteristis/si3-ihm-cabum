@@ -31,6 +31,8 @@ public class NavbarFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
         Button archiveBtn = view.findViewById(R.id.navigation_archive);
@@ -40,6 +42,8 @@ public class NavbarFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ArchiveActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
         Button profileBtn = view.findViewById(R.id.navigation_profile);
@@ -49,6 +53,8 @@ public class NavbarFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
