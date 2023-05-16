@@ -24,7 +24,7 @@ public class ArchiveActivity extends AppCompatActivity {
     private List<Accident> accidentList = new ArrayList<>();
 
     //TODO chnage to get from db
-    private void fillDb() {
+    private void fillDb() throws IllegalAccessException {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.work);
 
 // Convert Bitmap to byte array
@@ -33,7 +33,7 @@ public class ArchiveActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
 
         for (int i = 0; i < 5; i++) {
-            accidentList.add(new Accident(
+            accidentList.add(new Accident(this,
                     AccidentType.COLLISION_SINGLE_VEHICLE,
                     "some test description in order to check",
                     byteArray,
@@ -49,7 +49,11 @@ public class ArchiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
 
-        fillDb();
+        try {
+            fillDb();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
         AccidentListAdapter accidentListAdapter = new AccidentListAdapter(getApplicationContext(), accidentList);
         listView.setAdapter(accidentListAdapter);

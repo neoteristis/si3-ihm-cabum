@@ -46,11 +46,15 @@ public class MarkersController {
         scheduler.scheduleAtFixedRate(() -> {
             // Fetch data from database
             // Update the data in the class
-            fetchDB();
+            try {
+                fetchDB();
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         }, 0, 5, TimeUnit.MINUTES);
     }
     //TODO
-    private void fetchDB(){
+    private void fetchDB() throws IllegalAccessException {
 
         markers.clear();
         //TODO tobe changed to actual data
@@ -62,7 +66,7 @@ public class MarkersController {
         byte[] byteArray = stream.toByteArray();
 
         markers.add(createMarker(
-                        new Accident(
+                        new Accident(this.context,
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
@@ -74,7 +78,7 @@ public class MarkersController {
         );
 
         markers.add(createMarker(
-                        new Accident(
+                        new Accident(this.context,
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
@@ -85,7 +89,7 @@ public class MarkersController {
                 )
         );
         markers.add(createMarker(
-                        new Accident(
+                        new Accident(this.context,
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,

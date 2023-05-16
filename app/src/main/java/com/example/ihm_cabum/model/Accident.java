@@ -1,9 +1,14 @@
 package com.example.ihm_cabum.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.volley.FieldFirebase;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.GetterFirebase;
+import com.example.ihm_cabum.volley.SetterFirebase;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -13,26 +18,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Accident {
-    private final AccidentType typeOfAccident;
-    private final String description;
-    private final byte[] image;
-    private final GeoPoint address;
-    private final Date time;
+public class Accident extends FirebaseObject {
+    @FieldFirebase(key="accidentType")
+    private AccidentType typeOfAccident;
+    @FieldFirebase(key="description")
+    private String description;
+    @FieldFirebase(key="image")
+    private byte[] image;
+    private GeoPoint address;
+    private Date time;
 
     private int numberOfApproval;
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
+    public Accident(Context context) throws IllegalAccessException {
+        this(context, AccidentType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
+    }
+
+    public Accident(Context context, AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
+        super(context, "accident");
         this.typeOfAccident = typeOfAccident;
         this.description = description;
         this.image = image;
         this.address = address;
         this.time = time;
-
         this.numberOfApproval = 0;
     }
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
+    public Accident(Context context, AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
+        super(context, "accident");
         this.typeOfAccident = typeOfAccident;
         this.description = description;
         this.image = image;
@@ -45,13 +58,41 @@ public class Accident {
         return typeOfAccident;
     }
 
+    @GetterFirebase(key="accidentType")
+    public String getStringTypeOfAccident(){
+        return typeOfAccident.label;
+    }
+
+    @SetterFirebase(key="accidentType")
+    public void setStringTypeOfAccident(String accident){
+        this.typeOfAccident = AccidentType.valueOf(accident);
+    }
+
+    @GetterFirebase(key="description")
     public String getDescription() {
         return description;
+    }
+
+    @SetterFirebase(key="description")
+    public void setDescription(String description){
+        this.description=description;
     }
 
     public byte[] getImage() {
         return image;
     }
+
+    @GetterFirebase(key="image")
+    public String getStringImage(){
+        byte[] img = getImage();
+        return new String(img);
+    }
+
+    @SetterFirebase(key="image")
+    public void setStringImage(String image){
+        this.image = image.getBytes();
+    }
+
     public int getImageAsInt() {
         return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
     }
@@ -63,6 +104,26 @@ public class Accident {
 
     public GeoPoint getAddress() {
         return address;
+    }
+
+    @GetterFirebase(key="latitude")
+    public Double getLatitude(){
+        return this.address.getLatitude();
+    }
+
+    @GetterFirebase(key="longitude")
+    public Double getLongitude(){
+        return this.address.getLongitude();
+    }
+
+    @SetterFirebase(key="latitude")
+    public void setLatitude(Double latitude){
+        this.address.setLatitude(latitude);
+    }
+
+    @SetterFirebase(key="latitude")
+    public void setLongitude(Double longitude){
+        this.address.setLatitude(longitude);
     }
 
     public Date getTime() {

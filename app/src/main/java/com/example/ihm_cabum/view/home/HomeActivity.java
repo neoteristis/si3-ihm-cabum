@@ -20,8 +20,13 @@ import androidx.core.app.ActivityCompat;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.home.MapController;
 import com.example.ihm_cabum.controller.home.SearchController;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 
 import org.osmdroid.config.Configuration;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
@@ -58,6 +63,23 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, (float) 1000, (LocationListener) this);
+        }
+
+        try {
+            (new Accident(this)).getAll(new FirebaseResponse() {
+                @Override
+                public void notify(FirebaseObject result) {
+
+                }
+
+                @Override
+                public void notify(List<FirebaseObject> result) {
+                    System.out.println(result);
+                }
+            });
+        } catch (IllegalAccessException e) {
+            System.out.println("Error Accident");
+            e.printStackTrace();
         }
     }
 
