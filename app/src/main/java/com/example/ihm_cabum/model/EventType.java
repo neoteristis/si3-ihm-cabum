@@ -35,13 +35,21 @@ public enum EventType {
     }
 
     public static Boolean isIncident(EventType type) {
-        EventType[] list = {ROUGH_ROAD,ROAD_DEBRIS,ROADWORKS,BLOCKED_ROAD,FLOODED_ROAD,DEAD_ANIMAL,STOPPED_CAR};
+        EventType[] list = incidents();
         return Arrays.asList(list).contains(type);
     }
 
     public static Boolean isAccident(EventType type) {
-        EventType[] list = {COLLISION_SINGLE_VEHICLE,COLLISION_MULTIPLE_VEHICLES,PEDESTRIAN,CYCLIST,ANIMAL,WEATHER,MECHANICAL};
+        EventType[] list = accidents();
         return Arrays.asList(list).contains(type);
+    }
+
+    public static EventType[] accidents(){
+        return new EventType[]{COLLISION_SINGLE_VEHICLE, COLLISION_MULTIPLE_VEHICLES, PEDESTRIAN, CYCLIST, ANIMAL, WEATHER, MECHANICAL};
+    }
+
+    public static EventType[] incidents(){
+        return new EventType[]{ROUGH_ROAD,ROAD_DEBRIS,ROADWORKS,BLOCKED_ROAD,FLOODED_ROAD,DEAD_ANIMAL,STOPPED_CAR};
     }
 
     //TODO ask should it be changed
