@@ -26,12 +26,7 @@ import org.osmdroid.config.Configuration;
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
     private MapController mapController;
-    private SearchController searchController;
     private LocationManager locationManager;
-
-    //TODO change for GEO
-    private static final double DEFAULT_LATITUDE = 0.0;
-    private static final double DEFAULT_LONGITUDE = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +101,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void setSearchController(SearchView searchView) {
-        this.searchController = new SearchController(this, mapController, searchView);
+        SearchController searchController = new SearchController(this, mapController, searchView);
         searchController.setUp();
     }
 
