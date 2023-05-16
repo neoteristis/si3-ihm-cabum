@@ -3,19 +3,26 @@ import static com.example.ihm_cabum.controller.notification.NotificationApp.send
 import androidx.annotation.NonNull;
 
 import com.example.ihm_cabum.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FireBaseNotificationService extends FirebaseMessagingService {
 
     @Override
-    public void onMessageReceived(@NonNull RemoteMessage message){
-        super.onMessageReceived(message);
-        Message.getInstance().set(message);
-        if (!Message.getInstance().isNull()) {
-            sendNotification(getApplicationContext(), Message.getInstance().getTitle(), Message.getInstance().getBody(), R.drawable.ic_incident);
+    public void onCreate(){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                System.out.println("token="+task.getResult());
+            }
+        });
+    }
 
-        }
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage message){
+        String title = message.getNotification().getTitle();
+        String body = message.getNotification().getBody();
+        sendNotification(getApplicationContext(), title, body, R.drawable.ic_incident);
     }
 
 }
