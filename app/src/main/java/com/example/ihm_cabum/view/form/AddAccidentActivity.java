@@ -174,7 +174,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             requestPermission();
 
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, 1);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         };
     }
@@ -201,7 +201,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
     private void requestPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
         }
     }
 }
