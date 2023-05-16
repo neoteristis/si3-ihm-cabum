@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -46,7 +45,7 @@ public class MapController {
         setUpAccidentsNear();
     }
 
-    private Marker createMarker(Accident accident){
+    private Marker createMarker(Accident accident) {
         Marker marker = new Marker(mapView);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
@@ -89,7 +88,7 @@ public class MapController {
         //TODO tobe changed to actual data
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.work);
 
-// Convert Bitmap to byte array
+        // Convert Bitmap to byte array
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
@@ -99,7 +98,7 @@ public class MapController {
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
-                                new GeoPoint(43.65050,7.00726),
+                                new GeoPoint(43.65050, 7.00726),
                                 new Date(),
                                 20
                         )
@@ -111,7 +110,7 @@ public class MapController {
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
-                                new GeoPoint(43.65050,7.00726),
+                                new GeoPoint(43.65050, 7.00726),
                                 new Date(),
                                 20
                         )
@@ -122,7 +121,7 @@ public class MapController {
                                 AccidentType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
-                                new GeoPoint(43.64950,7.00418),
+                                new GeoPoint(43.64950, 7.00418),
                                 new Date(),
                                 20
                         )
