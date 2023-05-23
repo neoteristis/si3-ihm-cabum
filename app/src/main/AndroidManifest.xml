@@ -55,23 +55,11 @@
         <activity
             android:name=".view.archieve.ArchiveActivity"
             android:exported="true"
-            android:label="@string/title_archive">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_archive"/>
         <activity
             android:name=".view.profile.ProfileActivity"
             android:exported="true"
-            android:label="@string/title_profile">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_profile"/>
     </application>
 
 </manifest>
