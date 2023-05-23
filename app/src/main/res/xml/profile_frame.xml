@@ -53,11 +53,13 @@
 
     <PreferenceCategory app:title="Preferences">
 
-        <EditTextPreference
+        <ListPreference
             android:id="@+id/language"
             app:key="language"
             app:title="Language"
             app:defaultValue="English"
+            app:entries="@array/languages"
+            app:entryValues="@array/languages"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
