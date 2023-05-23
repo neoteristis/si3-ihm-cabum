@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.media.action.IMAGE_CAPTURE"/>
+    <uses-permission android:name="android.media.action.IMAGE_CAPTURE" />
 
     <application
         android:allowBackup="true"
@@ -20,17 +20,8 @@
         android:theme="@style/Theme.Ihm_cabum"
         tools:replace="android:allowBackup"
         tools:targetApi="31">
-        <activity
-            android:name=".view.form.AddAccidentActivity"
-            android:windowSoftInputMode="adjustPan"
-
-            android:exported="false" />
-        <activity
-            android:name=".controller.archieve.AccidentList"
-            android:exported="false" />
-        <activity
-            android:name=".view.home.HomeActivity"
-            android:exported="true">
+        <activity android:exported="true"
+            android:name=".view.home.LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,8 +29,28 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.form.AddAccidentActivity"
+            android:exported="false"
+            android:label="@string/title_add_accident"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".controller.archieve.AccidentList"
+            android:exported="false"
+            android:label="@string/title_archive" />
+        <activity
+            android:name=".view.home.HomeActivity"
+            android:exported="true"
+            android:label="@string/title_home">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
             android:name=".view.archieve.ArchiveActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/title_archive">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +59,8 @@
         </activity>
         <activity
             android:name=".view.profile.ProfileActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/title_profile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
