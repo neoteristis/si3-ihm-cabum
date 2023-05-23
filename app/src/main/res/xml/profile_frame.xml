@@ -27,11 +27,13 @@
             app:title="Email"
             app:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
+        <ListPreference
             android:id="@+id/city"
-            app:defaultValue="Valbonne"
             app:key="city"
             app:title="City"
+            app:entries="@array/cities"
+            app:entryValues="@array/cities"
+            app:defaultValue="Valbonne"
             app:useSimpleSummaryProvider="true" />
 
         <MultiSelectListPreference
