@@ -36,18 +36,12 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
         Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         setContentView(R.layout.activity_home);
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
+        findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
 
         this.mapController = new MapController(this, findViewById(R.id.mapView), this);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Event event = extras.getParcelable("event");
-            String[] address = event.getAddress().toString().split(",");
-            mapController.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
-        }
-
         // Set up the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -55,6 +49,14 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Event event = extras.getParcelable("event");
+            String[] address = event.getAddress().toString().split(",");
+            mapController.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
+            return;
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -83,6 +85,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onBackPressed() {
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
+        findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
         super.onBackPressed();
     }
 
