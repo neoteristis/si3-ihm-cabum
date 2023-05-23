@@ -1,6 +1,5 @@
 package com.example.ihm_cabum.view.form;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -12,7 +11,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +23,7 @@ import android.widget.TextView;
 
 import android.Manifest;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.model.DisasterType;
 
@@ -146,6 +145,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
         //easy operations
         this.cancelButton.setOnClickListener(view -> onBackPressed());
+        this.saveButton.setOnClickListener(view -> onSavePressed());
         this.layoutUpload.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.VISIBLE));
         this.cancelUploadButton.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.INVISIBLE));
     }
@@ -199,5 +199,21 @@ public class AddAccidentActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+    private View.OnClickListener onSavePressed(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Accident accident = new Accident(AddAccidentActivity.this);
+                    String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
+                    System.out.println(textAccidentType);
+                    accident.setStringTypeOfAccident(textAccidentType);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
     }
 }

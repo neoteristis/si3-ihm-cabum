@@ -7,7 +7,10 @@ public enum AccidentType {
     CYCLIST("Cyclist accidents"),
     ANIMAL("Animal-related accidents"),
     WEATHER("Weather-related accidents"),
-    MECHANICAL("Mechanical failure");
+    MECHANICAL("Mechanical failure"),
+
+    //WARNING CONFLICT
+    ROUGH_ROAD("tst");
 
     public final String label;
 
