@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.view.form.AddAccidentActivity;
-import com.example.ihm_cabum.view.profile.ProfileActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddButtonsFragment extends Fragment {
@@ -22,7 +21,6 @@ public class AddButtonsFragment extends Fragment {
     private boolean isAddClicked = false;
 
     public AddButtonsFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -48,6 +46,7 @@ public class AddButtonsFragment extends Fragment {
                 intent.putExtra("type", "accident");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
             }
         });
 
@@ -59,6 +58,8 @@ public class AddButtonsFragment extends Fragment {
                 intent.putExtra("type", "incident");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
             }
         });
 

@@ -17,7 +17,6 @@
 
     <ListView
         android:id="@+id/lisOfAccidents"
-        android:background="#E4DCCF"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
