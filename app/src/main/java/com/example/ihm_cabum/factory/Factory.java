@@ -14,12 +14,12 @@ import java.util.Date;
 public class Factory extends EventFactory {
 
     @Override
-    protected Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time) throws Throwable {
+    public Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time) throws Throwable {
         return build(context,type,description,image,address,time,0);
     }
 
     @Override
-    protected Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws Throwable {
+    public Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws Throwable {
         if(EventType.isAccident(type)) {
             return new Accident(context,type,description,image,address,time, numberOfApproval);
         }

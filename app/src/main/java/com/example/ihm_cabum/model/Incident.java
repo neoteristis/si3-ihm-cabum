@@ -33,6 +33,10 @@ public class Incident extends Event{
         return this.typeOfIncident;
     }
 
+    public void setTypeOfIncident(EventType eventType){
+        this.typeOfIncident=eventType;
+    }
+
     @GetterFirebase(key="accidentType")
     public String getStringTypeOfAccident(){
         return this.typeOfIncident.getLabel();

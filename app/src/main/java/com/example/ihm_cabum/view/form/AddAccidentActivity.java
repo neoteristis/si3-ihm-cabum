@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.metrics.Event;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -27,13 +27,23 @@ import android.widget.TextView;
 
 import android.Manifest;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.factory.EventFactory;
+import com.example.ihm_cabum.factory.Factory;
+import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.DisasterType;
+import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -52,6 +62,8 @@ public class AddAccidentActivity extends AppCompatActivity {
     private ImageButton calendarOpenButton;
     private EditText dateField;
     private EditText timeField;
+    private EditText descriptionField;
+    private EditText addressField;
     private Button cancelButton;
     private Button saveButton;
     private Button cancelUploadButton;
@@ -63,7 +75,7 @@ public class AddAccidentActivity extends AppCompatActivity {
     private ImageButton addPhotoIcon;
     private TextView addPhotoText;
 
-    private DateFormat dateFormat;
+    private DateFormat dateFormat, dateFormatDay,dateFormatHour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +134,12 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.addPhotoIcon = findViewById(R.id.add_photo_icon_addForm);
         this.addPhotoText = findViewById(R.id.upload_photo_text_addForm);
 
-        this.dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        this.dateFormatDay = new SimpleDateFormat("yyyy/MM/dd");
+        this.dateFormatHour = new SimpleDateFormat("HH:mm:ss");
+
+        this.descriptionField = findViewById(R.id.editText);
+        this.addressField = findViewById(R.id.address_addForm);
     }
 
     private void setBasicVisibility() {
@@ -135,9 +152,8 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
         this.spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_INCIDENT_TYPE));
 
-        this.dateField.setText(dateFormat.format(new Date()));
-        Calendar calendar1 = Calendar.getInstance();
-        this.timeField.setText(calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE));
+        this.dateField.setText(dateFormatDay.format(new Date()));
+        this.timeField.setText(dateFormatHour.format(new Date()));
     }
 
     private void setBasicListeners() {
@@ -149,7 +165,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
         //easy operations
         this.cancelButton.setOnClickListener(view -> onBackPressed());
-        this.saveButton.setOnClickListener(view -> onSavePressed());
+        this.saveButton.setOnClickListener(onSavePressed());
         this.layoutUpload.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.VISIBLE));
         this.cancelUploadButton.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.INVISIBLE));
     }
@@ -195,7 +211,9 @@ public class AddAccidentActivity extends AppCompatActivity {
 
     private CalendarView.OnDateChangeListener calendarDateListener() {
         return (calendarView, year, month, day) -> {
-            dateField.setText(dateFormat.format(new Date(year, month, day)));
+            Calendar calendar1 = new GregorianCalendar();
+            calendar1.set(year, month, day);
+            dateField.setText(dateFormatDay.format(calendar1.getTime()));
             calendar.setVisibility(View.INVISIBLE);
         };
     }
@@ -210,14 +228,31 @@ public class AddAccidentActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*try {
-                    Accident accident = new Accident(AddAccidentActivity.this);
+                System.out.println("CLICK");
+                try {
                     String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
-                    System.out.println(textAccidentType);
-                    accident.setStringTypeOfAccident(textAccidentType);
+                    String textDescription = descriptionField.getText().toString();
+                    String[] valueAddress = addressField.getText().toString().split(",");
+                    GeoPoint geoPoint = new GeoPoint(Double.parseDouble(valueAddress[0]),Double.parseDouble(valueAddress[1]));
+                    String textTimeDay = dateField.getText().toString();
+                    String textTimeHour = timeField.getText().toString();
+                    Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageInByte = baos.toByteArray();
+                    Event event = new Factory().build(AddAccidentActivity.this,
+                            EventType.getFromLabel(textAccidentType),
+                            textDescription,
+                            imageInByte,
+                            geoPoint,
+                            dateFormat.parse(textTimeDay+" "+textTimeHour));
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
-                }*/
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
     }
