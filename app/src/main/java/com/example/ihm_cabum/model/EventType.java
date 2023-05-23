@@ -1,8 +1,6 @@
 package com.example.ihm_cabum.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public enum EventType {
     //Incident Type
@@ -44,12 +42,12 @@ public enum EventType {
         return Arrays.asList(list).contains(type);
     }
 
-    public static EventType[] accidents(){
+    public static EventType[] accidents() {
         return new EventType[]{COLLISION_SINGLE_VEHICLE, COLLISION_MULTIPLE_VEHICLES, PEDESTRIAN, CYCLIST, ANIMAL, WEATHER, MECHANICAL};
     }
 
-    public static EventType[] incidents(){
-        return new EventType[]{ROUGH_ROAD,ROAD_DEBRIS,ROADWORKS,BLOCKED_ROAD,FLOODED_ROAD,DEAD_ANIMAL,STOPPED_CAR};
+    public static EventType[] incidents() {
+        return new EventType[]{ROUGH_ROAD, ROAD_DEBRIS, ROADWORKS, BLOCKED_ROAD, FLOODED_ROAD, DEAD_ANIMAL, STOPPED_CAR};
     }
 
     //TODO ask should it be changed
@@ -84,5 +82,9 @@ public enum EventType {
             default:
                 return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
         }
+    }
+
+    public static EventType getFromLabel(String label) {
+        return Arrays.stream(EventType.values()).filter(eventType -> eventType.label.equals(label)).findFirst().orElse(null);
     }
 }

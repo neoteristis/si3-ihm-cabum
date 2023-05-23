@@ -20,7 +20,7 @@ public abstract class Event {
     protected final Date time;
 
 
-    public Event(String description, byte[] image, GeoPoint address, Date time){
+    public Event(String description, byte[] image, GeoPoint address, Date time) {
         this.description = description;
         this.image = image;
         this.address = address;
@@ -29,7 +29,7 @@ public abstract class Event {
         this.numberOfApproval = 0;
     }
 
-    public Event(String description, byte[] image, GeoPoint address, Date time, int numberOfApproval){
+    public Event(String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
         this.description = description;
         this.image = image;
         this.address = address;
@@ -37,11 +37,12 @@ public abstract class Event {
 
         this.numberOfApproval = numberOfApproval;
     }
+
     public String getDescription() {
         return this.description;
     }
 
-    public byte[] getImage(){
+    public byte[] getImage() {
         return this.image;
     }
 
@@ -54,28 +55,28 @@ public abstract class Event {
         return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
     }
 
-    public GeoPoint getAddress(){
+    public GeoPoint getAddress() {
         return this.address;
     }
 
-    public Date getTime(){
+    public Date getTime() {
         return this.time;
     }
 
-    public String getFormattedTime(){
+    public String getFormattedTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return dateFormat.format(time);
     }
 
-    public int getNumberOfApproval(){
+    public int getNumberOfApproval() {
         return this.numberOfApproval;
     }
 
-    public void approve(){
+    public void approve() {
         this.numberOfApproval++;
     }
 
-    public void disApprove(){
+    public void disApprove() {
         this.numberOfApproval--;
     }
 
