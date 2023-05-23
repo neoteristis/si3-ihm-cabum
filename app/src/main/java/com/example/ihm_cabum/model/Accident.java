@@ -15,30 +15,20 @@ import org.osmdroid.util.GeoPoint;
 import java.util.Date;
 import java.util.Objects;
 
-public class Accident extends FirebaseObject {
+public class Accident extends Event {
     @FieldFirebase(key="accidentType")
-    private AccidentType typeOfAccident;
-    @FieldFirebase(key="description")
-    private String description;
-    @FieldFirebase(key="image")
-    private byte[] image;
-    private GeoPoint address;
-    private Date time;
-public class Accident extends Event{
-    private final EventType typeOfAccident;
+    private EventType typeOfAccident;
 
-    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
-        this(typeOfAccident,description, image, address, time,0);
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
+        this(context,typeOfAccident,description, image, address, time,0);
     }
 
     public Accident(Context context) throws IllegalAccessException {
-        this(context, AccidentType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
+        this(context, EventType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
     }
 
-    public Accident(Context context, AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
-        super(context, "accident");
-    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
-        super(description, image, address, time, numberOfApproval);
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
+        super(context,"accident",description, image, address, time, numberOfApproval);
         this.typeOfAccident = typeOfAccident;
         this.description = description;
         this.image = image;
@@ -47,98 +37,18 @@ public class Accident extends Event{
         this.numberOfApproval = 0;
     }
 
-    public Accident(Context context, AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
-        super(context, "accident");
-        this.typeOfAccident = typeOfAccident;
-        this.description = description;
-        this.image = image;
-        this.address = address;
-        this.time = time;
-        this.numberOfApproval = numberOfApproval;
-    }
-
-    public AccidentType getTypeOfAccident() {
-        return typeOfAccident;
-    }
-
-    @GetterFirebase(key="accidentType")
-    public String getStringTypeOfAccident(){
-        return typeOfAccident.label;
-    }
-
-    @SetterFirebase(key="accidentType")
-    public void setStringTypeOfAccident(String accident){
-        this.typeOfAccident = AccidentType.valueOf(accident);
-    }
-
-    @GetterFirebase(key="description")
-    public String getDescription() {
-        return description;
-    }
-
-    @SetterFirebase(key="description")
-    public void setDescription(String description){
-        this.description=description;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    @GetterFirebase(key="image")
-    public String getStringImage(){
-        byte[] img = getImage();
-        return new String(img);
-    }
-
-    @SetterFirebase(key="image")
-    public void setStringImage(String image){
-        this.image = image.getBytes();
-    }
-
-    public int getImageAsInt() {
-        return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
-    }
-
-    public Bitmap getBitmapImage() {
-        // Convert byte array to Bitmap
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
-    public GeoPoint getAddress() {
-        return address;
-    }
-
-    @GetterFirebase(key="latitude")
-    public Double getLatitude(){
-        return this.address.getLatitude();
-    }
-
-    @GetterFirebase(key="longitude")
-    public Double getLongitude(){
-        return this.address.getLongitude();
-    }
-
-    @SetterFirebase(key="latitude")
-    public void setLatitude(Double latitude){
-        this.address.setLatitude(latitude);
-    }
-
-    @SetterFirebase(key="latitude")
-    public void setLongitude(Double longitude){
-        this.address.setLatitude(longitude);
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
     public EventType getTypeOfAccident(){
         return this.typeOfAccident;
     }
 
-    public String getLabel(){
-        return this.typeOfAccident.getLabel();
+    @GetterFirebase(key="accidentType")
+    public String getStringTypeOfAccident(){
+        return typeOfAccident.getLabel();
+    }
+
+    @SetterFirebase(key="accidentType")
+    public void setStringTypeOfAccident(String accident){
+        this.typeOfAccident = EventType.valueOf(accident);
     }
 
     @Override
@@ -157,5 +67,10 @@ public class Accident extends Event{
     @Override
     public String toString() {
         return "" + typeOfAccident + ", " + time + ", " + address;
+    }
+
+    @Override
+    public String getLabel() {
+        return this.typeOfAccident.getLabel();
     }
 }

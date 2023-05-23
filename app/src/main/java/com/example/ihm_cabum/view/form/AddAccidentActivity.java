@@ -210,14 +210,14 @@ public class AddAccidentActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                /*try {
                     Accident accident = new Accident(AddAccidentActivity.this);
                     String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
                     System.out.println(textAccidentType);
                     accident.setStringTypeOfAccident(textAccidentType);
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);
-                }
+                }*/
             }
         };
     }

@@ -67,6 +67,7 @@ public class MarkersController {
 
         markers.add(createMarker(
                         new Accident(
+                                context,
                                 EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
@@ -79,6 +80,7 @@ public class MarkersController {
 
         markers.add(createMarker(
                         new Accident(
+                                context,
                                 EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
@@ -90,6 +92,7 @@ public class MarkersController {
         );
         markers.add(createMarker(
                         new Accident(
+                                context,
                                 EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,

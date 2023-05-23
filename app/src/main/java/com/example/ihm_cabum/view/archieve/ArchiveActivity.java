@@ -34,7 +34,7 @@ public class ArchiveActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
 
         for (int i = 0; i < 5; i++) {
-            eventList.add(new Accident(
+            eventList.add(new Accident( this,
                     EventType.COLLISION_SINGLE_VEHICLE,
                     "some test description in order to check",
                     byteArray,

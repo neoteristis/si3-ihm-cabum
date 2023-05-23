@@ -1,26 +1,35 @@
 package com.example.ihm_cabum.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.volley.FieldFirebase;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.GetterFirebase;
+import com.example.ihm_cabum.volley.SetterFirebase;
 
 import org.osmdroid.util.GeoPoint;
 
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class Event {
+public abstract class Event extends FirebaseObject {
     protected int numberOfApproval;
-    protected final String description;
-    protected final byte[] image;
-    protected final GeoPoint address;
-    protected final Date time;
+    @FieldFirebase(key="description")
+    protected String description;
+    @FieldFirebase(key="image")
+    protected byte[] image;
+    protected GeoPoint address;
+    protected Date time;
 
 
-    public Event(String description, byte[] image, GeoPoint address, Date time){
+    public Event(Context context, String endpoint, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
+        super(context, endpoint);
         this.description = description;
         this.image = image;
         this.address = address;
@@ -29,7 +38,8 @@ public abstract class Event {
         this.numberOfApproval = 0;
     }
 
-    public Event(String description, byte[] image, GeoPoint address, Date time, int numberOfApproval){
+    public Event(Context context, String endpoint, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
+        super(context, endpoint);
         this.description = description;
         this.image = image;
         this.address = address;
@@ -37,6 +47,8 @@ public abstract class Event {
 
         this.numberOfApproval = numberOfApproval;
     }
+
+    @GetterFirebase(key="description")
     public String getDescription() {
         return this.description;
     }
@@ -62,13 +74,61 @@ public abstract class Event {
         return this.time;
     }
 
+    @GetterFirebase(key="date")
     public String getFormattedTime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return dateFormat.format(time);
     }
 
+    @SetterFirebase(key="date")
+    public void setFormattedTime(String time){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try {
+            this.time = dateFormat.parse(time);
+        } catch (ParseException e) {
+            this.time = new Date();
+        }
+    }
+
     public int getNumberOfApproval(){
         return this.numberOfApproval;
+    }
+
+
+    @SetterFirebase(key="description")
+    public void setDescription(String description){
+        this.description=description;
+    }
+
+    @GetterFirebase(key="image")
+    public String getStringImage(){
+        byte[] img = getImage();
+        return new String(img);
+    }
+
+    @SetterFirebase(key="image")
+    public void setStringImage(String image){
+        this.image = image.getBytes();
+    }
+
+    @GetterFirebase(key="latitude")
+    public Double getLatitude(){
+        return this.address.getLatitude();
+    }
+
+    @GetterFirebase(key="longitude")
+    public Double getLongitude(){
+        return this.address.getLongitude();
+    }
+
+    @SetterFirebase(key="latitude")
+    public void setLatitude(Double latitude){
+        this.address.setLatitude(latitude);
+    }
+
+    @SetterFirebase(key="latitude")
+    public void setLongitude(Double longitude){
+        this.address.setLatitude(longitude);
     }
 
     public void approve(){
