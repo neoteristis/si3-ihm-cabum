@@ -45,7 +45,7 @@
             android:label="@string/title_add_accident"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".controller.archieve.AccidentList"
+            android:name=".controller.archieve.EventList"
             android:exported="false"
             android:label="@string/title_archive" />
         <activity
