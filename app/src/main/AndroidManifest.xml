@@ -38,7 +38,7 @@
 
             android:exported="false" />
         <activity
-            android:name=".controller.archieve.AccidentList"
+            android:name=".controller.archieve.EventList"
             android:exported="false" />
         <activity
             android:name=".view.home.HomeActivity"

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.observer.IObservable;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.AccidentType;
+import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.view.home.AccidentInfo;
 
 import org.osmdroid.util.GeoPoint;
@@ -63,7 +63,7 @@ public class MarkersController {
 
         markers.add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.65050,7.00726),
@@ -75,7 +75,7 @@ public class MarkersController {
 
         markers.add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.65050,7.00726),
@@ -86,7 +86,7 @@ public class MarkersController {
         );
         markers.add(createMarker(
                         new Accident(
-                                AccidentType.COLLISION_SINGLE_VEHICLE,
+                                EventType.COLLISION_SINGLE_VEHICLE,
                                 "some test description in order to check",
                                 byteArray,
                                 new GeoPoint(43.64950,7.00418),

@@ -1,91 +1,29 @@
 package com.example.ihm_cabum.model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.example.ihm_cabum.R;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Accident {
-    private final AccidentType typeOfAccident;
-    private final String description;
-    private final byte[] image;
-    private final GeoPoint address;
-    private final Date time;
+public class Accident extends Event{
+    private final EventType typeOfAccident;
 
-    private int numberOfApproval;
+    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
+        this(typeOfAccident,description, image, address, time,0);
+    }
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
+    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
+        super(description, image, address, time, numberOfApproval);
         this.typeOfAccident = typeOfAccident;
-        this.description = description;
-        this.image = image;
-        this.address = address;
-        this.time = time;
-
-        this.numberOfApproval = 0;
     }
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
-        this.typeOfAccident = typeOfAccident;
-        this.description = description;
-        this.image = image;
-        this.address = address;
-        this.time = time;
-        this.numberOfApproval = numberOfApproval;
+    public EventType getTypeOfAccident(){
+        return this.typeOfAccident;
     }
 
-    public AccidentType getTypeOfAccident() {
-        return typeOfAccident;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-    public int getImageAsInt() {
-        return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
-    }
-
-    public Bitmap getBitmapImage() {
-        // Convert byte array to Bitmap
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
-    public GeoPoint getAddress() {
-        return address;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public String getFormattedTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return dateFormat.format(time);
-    }
-
-    public int getNumberOfApproval() {
-        return numberOfApproval;
-    }
-
-    //TODO change to real query
-    public void approve() {
-        this.numberOfApproval++;
-    }
-
-    //TODO change to real query
-    public void disApprove() {
-        this.numberOfApproval--;
+    public String getLabel(){
+        return this.typeOfAccident.getLabel();
     }
 
     @Override
