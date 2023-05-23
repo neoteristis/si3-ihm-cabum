@@ -1,7 +1,11 @@
 package com.example.ihm_cabum.view.home;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -10,26 +14,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.home.MapController;
 import com.example.ihm_cabum.controller.home.SearchController;
-import com.example.ihm_cabum.R;
 
 import org.osmdroid.config.Configuration;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements LocationListener {
 
     private MapController mapController;
-    private SearchController searchController;
-
-    //TODO change for GEO
-    private static final double DEFAULT_LATITUDE = 43.65020;
-    private static final double DEFAULT_LONGITUDE = 7.00590;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Configuration.getInstance().load(getApplicationContext(),  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()) );
+        Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         setContentView(R.layout.activity_home);
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
@@ -40,8 +43,22 @@ public class HomeActivity extends AppCompatActivity {
         if (extras != null) {
             String[] address = extras.getString("address").split(",");
             mapController.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
-        } else {
-            mapController.setUp(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+        }
+
+        // Set up the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, (float) 1000, (LocationListener) this);
         }
     }
 
@@ -51,6 +68,9 @@ public class HomeActivity extends AppCompatActivity {
         // Remove map view
         ViewGroup parent = (ViewGroup) mapController.getMapView().getParent();
         parent.removeView(mapController.getMapView());
+
+        // Stop location updates
+        locationManager.removeUpdates(this);
     }
 
     @Override
@@ -58,12 +78,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         mapController.getMapView().onResume();
     }
+
     @Override
     public void onBackPressed() {
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
         super.onBackPressed();
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -81,7 +103,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setSearchController(SearchView searchView) {
-        this.searchController = new SearchController(this, mapController, searchView);
+        SearchController searchController = new SearchController(this, mapController, searchView);
         searchController.setUp();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        // Use the latitude and longitude for your desired purpose
+        // For example, you can pass it to the mapController.setUp() method
+
+        mapController.setUp(latitude, longitude);
+    }
+
+    public void onCurrentLocationButtonClick(View view) {
+        // Check if the location permission is granted
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Request the last known location from the LocationManager
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation != null) {
+                double latitude = lastKnownLocation.getLatitude();
+                double longitude = lastKnownLocation.getLongitude();
+
+                // Use the latitude and longitude to center the map
+                mapController.setUp(latitude, longitude);
+            }
+        }
     }
 }

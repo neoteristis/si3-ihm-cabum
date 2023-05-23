@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Cabum!</string>
-    <string name="title_home">Cabum!</string>
+    <string name="url_webservice">http://ihm.valortechnologia.com</string>
+    <string name="title_home">Home</string>
     <string name="title_archive">Archive</string>
     <string name="title_profile">Profile</string>
     <string name="title_add_accident">Add accident/incident</string>

@@ -1,52 +1,36 @@
 package com.example.ihm_cabum.view.profile;
 
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendAccidentNotification;
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendNotification;
+
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.databinding.FragmentProfileBinding;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.model.AccidentType;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ProfileFragment_utils extends Fragment {
-    private FragmentProfileBinding binding;
-    private static View rootView;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
-        rootView = binding.getRoot();
-
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.profile_page, new ProfileInnerFragment(rootView))
-                .commit();
-
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    public static class ProfileInnerFragment extends PreferenceFragmentCompat {
+public class ProfileInnerFragment extends PreferenceFragmentCompat {
         private View rootView;
+        public static boolean notificationsOn;
 
         public ProfileInnerFragment(View view) {
             this.rootView = view;
@@ -86,7 +70,16 @@ public class ProfileFragment_utils extends Fragment {
                 }
             });
 
+            SwitchPreferenceCompat notificationBtn = findPreference("notification");
+            notificationBtn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    notificationsOn = (boolean) newValue;
+                    return true;
+                }
+            });
+
+
         }
     }
 
-}
