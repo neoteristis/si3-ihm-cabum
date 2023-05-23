@@ -7,10 +7,11 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ihm_cabum.controller.archieve.AccidentListAdapter;
+import com.example.ihm_cabum.controller.archieve.EventListAdapter;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.model.Event;
+import com.example.ihm_cabum.model.EventType;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ArchiveActivity extends AppCompatActivity {
 
-    private List<Accident> accidentList = new ArrayList<>();
+    private List<Event> eventList = new ArrayList<>();
 
     //TODO chnage to get from db
     private void fillDb() throws IllegalAccessException {
@@ -33,8 +34,8 @@ public class ArchiveActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
 
         for (int i = 0; i < 5; i++) {
-            accidentList.add(new Accident(this,
-                    AccidentType.COLLISION_SINGLE_VEHICLE,
+            eventList.add(new Accident(
+                    EventType.COLLISION_SINGLE_VEHICLE,
                     "some test description in order to check",
                     byteArray,
                     new GeoPoint(43.64950, 7.00418),
@@ -55,8 +56,8 @@ public class ArchiveActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
-        AccidentListAdapter accidentListAdapter = new AccidentListAdapter(getApplicationContext(), accidentList);
-        listView.setAdapter(accidentListAdapter);
+        EventListAdapter eventListAdapter = new EventListAdapter(getApplicationContext(), eventList);
+        listView.setAdapter(eventListAdapter);
 
     }
 }

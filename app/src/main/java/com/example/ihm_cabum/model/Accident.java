@@ -12,9 +12,6 @@ import com.example.ihm_cabum.volley.SetterFirebase;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,8 +24,12 @@ public class Accident extends FirebaseObject {
     private byte[] image;
     private GeoPoint address;
     private Date time;
+public class Accident extends Event{
+    private final EventType typeOfAccident;
 
-    private int numberOfApproval;
+    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
+        this(typeOfAccident,description, image, address, time,0);
+    }
 
     public Accident(Context context) throws IllegalAccessException {
         this(context, AccidentType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
@@ -36,6 +37,8 @@ public class Accident extends FirebaseObject {
 
     public Accident(Context context, AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
         super(context, "accident");
+    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
+        super(description, image, address, time, numberOfApproval);
         this.typeOfAccident = typeOfAccident;
         this.description = description;
         this.image = image;
@@ -130,23 +133,12 @@ public class Accident extends FirebaseObject {
         return time;
     }
 
-    public String getFormattedTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return dateFormat.format(time);
+    public EventType getTypeOfAccident(){
+        return this.typeOfAccident;
     }
 
-    public int getNumberOfApproval() {
-        return numberOfApproval;
-    }
-
-    //TODO change to real query
-    public void approve() {
-        this.numberOfApproval++;
-    }
-
-    //TODO change to real query
-    public void disApprove() {
-        this.numberOfApproval--;
+    public String getLabel(){
+        return this.typeOfAccident.getLabel();
     }
 
     @Override

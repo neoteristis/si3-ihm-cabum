@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.ihm_cabum.R;
 
-public class AccidentList extends AppCompatActivity {
+public class EventList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

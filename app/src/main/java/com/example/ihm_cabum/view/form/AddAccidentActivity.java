@@ -1,5 +1,7 @@
 package com.example.ihm_cabum.view.form;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -8,8 +10,10 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.metrics.Event;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,21 +27,21 @@ import android.widget.TextView;
 
 import android.Manifest;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.AccidentType;
 import com.example.ihm_cabum.model.DisasterType;
+import com.example.ihm_cabum.model.EventType;
 
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class AddAccidentActivity extends AppCompatActivity {
 
     private final static String[] ITEMS_DISASTER = Arrays.stream(DisasterType.values()).map(DisasterType::getLabel).toArray(String[]::new);
-    private final static String[] ITEMS_ACCIDENT_TYPE = Arrays.stream(AccidentType.values()).map(AccidentType::getLabel).toArray(String[]::new);
-
+    private final static String[] ITEMS_ACCIDENT_TYPE = Arrays.stream(EventType.accidents()).map(EventType::getLabel).toArray(String[]::new);
+    private final static String[] ITEMS_INCIDENT_TYPE = Arrays.stream(EventType.incidents()).map(EventType::getLabel).toArray(String[]::new);
     private final static String DEFAULT_HEADER_BEGINNING = "Create an ";
     private final static int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -129,7 +133,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
     private void setBasicValues() {
         this.spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
-        this.spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_ACCIDENT_TYPE));
+        this.spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_INCIDENT_TYPE));
 
         this.dateField.setText(dateFormat.format(new Date()));
         Calendar calendar1 = Calendar.getInstance();
@@ -181,6 +185,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
+                spinnerAccidentType.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, (adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE));
             }
 
             @Override
