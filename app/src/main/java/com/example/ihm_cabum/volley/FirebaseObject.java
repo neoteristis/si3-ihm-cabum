@@ -56,12 +56,22 @@ public abstract class FirebaseObject {
 
     public void parseAnnotations() throws IllegalAccessException {
         Class<?> clazz = this.getClass();
-        for(Method method : clazz.getDeclaredMethods()){
+        for(Method method : clazz.getMethods()){
             if(method.isAnnotationPresent(GetterFirebase.class)){
                 introMapGetter.put(method.getAnnotation(GetterFirebase.class).key(),method);
             }
 
             if(method.isAnnotationPresent(SetterFirebase.class)){
+                introMapSetter.put(method.getAnnotation(SetterFirebase.class).key(),method);
+            }
+        }
+
+        for(Method method : clazz.getDeclaredMethods()){
+            if(method.isAnnotationPresent(GetterFirebase.class) && !introMapGetter.containsKey(method.getAnnotation(GetterFirebase.class).key())){
+                introMapGetter.put(method.getAnnotation(GetterFirebase.class).key(),method);
+            }
+
+            if(method.isAnnotationPresent(SetterFirebase.class) && !introMapSetter.containsKey(method.getAnnotation(SetterFirebase.class).key())){
                 introMapSetter.put(method.getAnnotation(SetterFirebase.class).key(),method);
             }
         }
@@ -184,6 +194,7 @@ public abstract class FirebaseObject {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
+                System.out.println(jsonBody.toString());
                 return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
             }
         };

@@ -52,7 +52,11 @@ public class Accident extends Event {
 
     @SetterFirebase(key="accidentType")
     public void setStringTypeOfAccident(String accident){
-        this.typeOfAccident = EventType.valueOf(accident);
+        try {
+            this.typeOfAccident = EventType.valueOf(accident);
+        }catch (IllegalArgumentException e){
+            this.typeOfAccident = EventType.getFromLabel(accident);
+        }
     }
 
     @Override

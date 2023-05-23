@@ -26,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.Manifest;
+import android.widget.Toast;
+
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.factory.EventFactory;
 import com.example.ihm_cabum.factory.Factory;
@@ -33,6 +35,8 @@ import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -238,7 +242,7 @@ public class AddAccidentActivity extends AppCompatActivity {
                     String textTimeHour = timeField.getText().toString();
                     Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                     byte[] imageInByte = baos.toByteArray();
                     Event event = new Factory().build(AddAccidentActivity.this,
                             EventType.getFromLabel(textAccidentType),
@@ -246,14 +250,31 @@ public class AddAccidentActivity extends AppCompatActivity {
                             imageInByte,
                             geoPoint,
                             dateFormat.parse(textTimeDay+" "+textTimeHour));
+                    event.save(new FirebaseResponse() {
+                        @Override
+                        public void notify(FirebaseObject result) {
+                            Event event1 = (Event) result;
+                            System.out.println("CREATD :" + event1.getId());
+                        }
+
+                        @Override
+                        public void notify(List<FirebaseObject> result) {
+
+                        }
+                    });
                 } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    viewError();
                 } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                    viewError();
                 } catch (Throwable e) {
-                    throw new RuntimeException(e);
+                    viewError();
                 }
             }
         };
+    }
+
+    private void viewError(){
+        Toast toast = Toast.makeText(AddAccidentActivity.this,"Les données ne sont invalides !", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
