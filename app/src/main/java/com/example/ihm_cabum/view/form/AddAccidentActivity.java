@@ -1,7 +1,5 @@
 package com.example.ihm_cabum.view.form;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -13,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,9 +26,7 @@ import android.Manifest;
 import android.widget.Toast;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.factory.EventFactory;
-import com.example.ihm_cabum.factory.Factory;
-import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
@@ -232,7 +227,6 @@ public class AddAccidentActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CLICK");
                 try {
                     String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
                     String textDescription = descriptionField.getText().toString();

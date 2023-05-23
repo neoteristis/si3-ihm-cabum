@@ -126,9 +126,9 @@ public abstract class Event extends FirebaseObject {
         this.address.setLatitude(latitude);
     }
 
-    @SetterFirebase(key="latitude")
+    @SetterFirebase(key="longitude")
     public void setLongitude(Double longitude){
-        this.address.setLatitude(longitude);
+        this.address.setLongitude(longitude);
     }
 
     public void approve(){

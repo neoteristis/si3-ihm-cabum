@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.factory;
+package com.example.ihm_cabum.view.factory;
 
 import android.content.Context;
 
