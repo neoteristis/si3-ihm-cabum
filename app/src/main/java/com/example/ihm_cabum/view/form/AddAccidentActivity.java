@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.EventType;
 
@@ -195,8 +196,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
-                spinnerAccidentType.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, (adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE));
-            }
+                spinnerAccidentType.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, List.of((adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE)));            }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
