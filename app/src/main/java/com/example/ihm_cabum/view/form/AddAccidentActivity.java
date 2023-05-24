@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.utils.ImageUtils;
@@ -258,7 +259,14 @@ public class AddAccidentActivity extends AppCompatActivity {
 
                         @Override
                         public void error(VolleyError volleyError) {
-                            System.out.println("ERROR: " + volleyError.getMessage());
+                            if(volleyError.getMessage()!=null)
+                                System.out.println("ERROR: " + volleyError.getMessage());
+                            NetworkResponse networkResponse = volleyError.networkResponse;
+                            if (networkResponse != null && networkResponse.data != null) {
+                                String jsonError = new String(networkResponse.data);
+                                System.out.println("ERROR: " + jsonError);
+                            }
+                            viewError();
                         }
                     });
                 } catch (IllegalAccessException e) {

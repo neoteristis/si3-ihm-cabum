@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Event extends FirebaseObject {
+    @FieldFirebase(key = "numberOfApproval")
     protected int numberOfApproval;
     @FieldFirebase(key="description")
     protected String description;
@@ -91,11 +92,15 @@ public abstract class Event extends FirebaseObject {
         }
     }
 
+    @GetterFirebase(key="numberOfApproval")
     public int getNumberOfApproval(){
         return this.numberOfApproval;
     }
 
-
+    @SetterFirebase(key="numberOfApproval")
+    public void setNumberOfApproval(int approval){
+        this.numberOfApproval = approval;
+    }
     @SetterFirebase(key="description")
     public void setDescription(String description){
         this.description=description;
