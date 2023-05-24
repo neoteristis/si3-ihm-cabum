@@ -3,6 +3,7 @@ package com.example.ihm_cabum.view.form;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,6 +11,8 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.metrics.Event;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,6 +30,7 @@ import android.widget.TextView;
 
 import android.Manifest;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.EventType;
 
@@ -184,8 +188,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
-                spinnerAccidentType.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, (adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE));
-            }
+                spinnerAccidentType.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, List.of((adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE)));            }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
@@ -204,4 +207,6 @@ public class AddAccidentActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+
 }
