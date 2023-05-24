@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.controller.archieve.EventListAdapter;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.R;
@@ -47,6 +48,11 @@ public class ArchiveActivity extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
                 EventListAdapter eventListAdapter = new EventListAdapter(getApplicationContext(), eventList);
                 listView.setAdapter(eventListAdapter);
+            }
+
+            @Override
+            public void error(VolleyError volleyError) {
+                System.out.println("ERROR: " + volleyError.getMessage());
             }
         });
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.observer.IObservable;
 import com.example.ihm_cabum.model.Accident;
@@ -78,6 +79,11 @@ public class MarkersController {
                     );
                 }
                 notifyObservers();
+            }
+
+            @Override
+            public void error(VolleyError volleyError) {
+                System.out.println("ERROR: " + volleyError.getMessage());
             }
         });
     }

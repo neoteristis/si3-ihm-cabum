@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.utils.ImageUtils;
 import com.example.ihm_cabum.volley.FieldFirebase;
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.GetterFirebase;
@@ -103,12 +104,12 @@ public abstract class Event extends FirebaseObject {
     @GetterFirebase(key="image")
     public String getStringImage(){
         byte[] img = getImage();
-        return new String(img);
+        return ImageUtils.convertFromByteArray(img);
     }
 
     @SetterFirebase(key="image")
     public void setStringImage(String image){
-        this.image = image.getBytes();
+        this.image = ImageUtils.convert(image);
     }
 
     @GetterFirebase(key="latitude")

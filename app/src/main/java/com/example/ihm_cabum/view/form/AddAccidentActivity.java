@@ -25,7 +25,9 @@ import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.utils.ImageUtils;
 import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
@@ -235,9 +237,7 @@ public class AddAccidentActivity extends AppCompatActivity {
                     String textTimeDay = dateField.getText().toString();
                     String textTimeHour = timeField.getText().toString();
                     Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                    byte[] imageInByte = baos.toByteArray();
+                    byte[] imageInByte = ImageUtils.convertToByteArray(bitmap);
                     Event event = new Factory().build(AddAccidentActivity.this,
                             EventType.getFromLabel(textAccidentType),
                             textDescription,
@@ -254,6 +254,11 @@ public class AddAccidentActivity extends AppCompatActivity {
                         @Override
                         public void notify(List<FirebaseObject> result) {
 
+                        }
+
+                        @Override
+                        public void error(VolleyError volleyError) {
+                            System.out.println("ERROR: " + volleyError.getMessage());
                         }
                     });
                 } catch (IllegalAccessException e) {

@@ -112,8 +112,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR:" + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 
@@ -144,8 +143,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR:" + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 
@@ -183,8 +181,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         }){
             @Override
@@ -194,7 +191,12 @@ public abstract class FirebaseObject {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                System.out.println(jsonBody.toString());
+                try {
+                    System.out.println(jsonBody.toString(1));
+                    System.out.println(jsonBody.getString("image"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
                 return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
             }
         };
@@ -217,8 +219,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         }){
             @Override
@@ -246,8 +247,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 
