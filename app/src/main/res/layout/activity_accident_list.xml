@@ -47,29 +47,6 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="Address:"
-                android:textColor="@color/icon_color"
-                android:layout_margin="6dp"
-                />
-            <TextView
-                android:id="@+id/accidentAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/teal_700"
-
-                android:layout_margin="6dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="18sp"
                 android:text="Date and time:"
                 android:textColor="@color/icon_color"
                 android:layout_margin="6dp"
@@ -82,6 +59,26 @@
                 android:textColor="@color/teal_700"
                 android:layout_margin="6dp"
                 />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_edit"
+                android:background="#00000000"
+                android:contentDescription="@string/edit_button"
+                android:id="@+id/edit_event"/>
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_delete"
+                android:background="#00000000"
+                android:contentDescription="@string/delete_button"
+                android:id="@+id/delete_event"/>
         </LinearLayout>
     </LinearLayout>
 
