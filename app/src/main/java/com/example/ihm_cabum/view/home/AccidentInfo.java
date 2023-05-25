@@ -40,7 +40,6 @@ public class AccidentInfo extends Fragment {
         View view = inflater.inflate(R.layout.fragment_accident_info,container,false);
 
         if(accident != null) {
-            System.out.println("OK");
             ((ImageView) view.findViewById(R.id.image)).setImageBitmap(accident.getBitmapImage());
             ((TextView) view.findViewById(R.id.description)).setText(accident.getDescription());
             ((TextView) view.findViewById(R.id.type)).setText(accident.getTypeOfAccident().getLabel());
@@ -50,15 +49,12 @@ public class AccidentInfo extends Fragment {
             if (notificationsOn)
                 sendAccidentNotification(getContext(), accident);
 
-            System.out.println("TEST");
             Button approveButton = view.findViewById(R.id.approve);
             approveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("OClick");
                     accident.approve();
                     try {
-                        System.out.println("Click");
                         accident.save(new FirebaseFireAndForget());
                     } catch (InvocationTargetException e) {
                         throw new RuntimeException(e);
