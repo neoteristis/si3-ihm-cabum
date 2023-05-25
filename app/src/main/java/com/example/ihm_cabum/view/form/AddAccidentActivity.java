@@ -1,5 +1,10 @@
 package com.example.ihm_cabum.view.form;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,16 +35,32 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.widget.Toast;
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.utils.ImageUtils;
+import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
 import com.example.ihm_cabum.model.DisasterType;
+import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
@@ -58,6 +80,7 @@ public class AddAccidentActivity extends AppCompatActivity {
     private ImageButton calendarOpenButton;
     private TextView dateField;
     private EditText timeField;
+    private EditText descriptionField;
     private TextView addressField;
     private Button cancelButton;
     private Button saveButton;
@@ -71,7 +94,7 @@ public class AddAccidentActivity extends AppCompatActivity {
     private ImageButton addPhotoIcon;
     private TextView addPhotoText;
 
-    private DateFormat dateFormat;
+    private DateFormat dateFormat, dateFormatDay,dateFormatHour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +156,12 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.addPhotoIcon = findViewById(R.id.add_photo_icon_addForm);
         this.addPhotoText = findViewById(R.id.upload_photo_text_addForm);
 
-        this.dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        this.dateFormatDay = new SimpleDateFormat("yyyy/MM/dd");
+        this.dateFormatHour = new SimpleDateFormat("HH:mm:ss");
+
+        this.descriptionField = findViewById(R.id.editText);
+        this.addressField = findViewById(R.id.address_addForm);
     }
 
     private void setBasicVisibility() {
@@ -146,9 +174,8 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.spinnerDisasterType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_DISASTER));
         this.spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS_INCIDENT_TYPE));
 
-        this.dateField.setText(dateFormat.format(new Date()));
-        Calendar calendar1 = Calendar.getInstance();
-        this.timeField.setText(calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE));
+        this.dateField.setText(dateFormatDay.format(new Date()));
+        this.timeField.setText(dateFormatHour.format(new Date()));
     }
 
     private void setBasicListeners() {
@@ -161,6 +188,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
         //easy operations
         this.cancelButton.setOnClickListener(view -> onBackPressed());
+        this.saveButton.setOnClickListener(onSavePressed());
         this.layoutUpload.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.VISIBLE));
         this.cancelUploadButton.setOnClickListener(view -> layoutUploadFrame.setVisibility(View.INVISIBLE));
     }
@@ -206,7 +234,9 @@ public class AddAccidentActivity extends AppCompatActivity {
 
     private CalendarView.OnDateChangeListener calendarDateListener() {
         return (calendarView, year, month, day) -> {
-            dateField.setText(dateFormat.format(new Date(year, month, day)));
+            Calendar calendar1 = new GregorianCalendar();
+            calendar1.set(year, month, day);
+            dateField.setText(dateFormatDay.format(calendar1.getTime()));
             calendar.setVisibility(View.INVISIBLE);
         };
     }
@@ -271,5 +301,72 @@ public class AddAccidentActivity extends AppCompatActivity {
             // Stop listening for location updates
             locationManager.removeUpdates(locationListener);
         };
+    }
+
+    private View.OnClickListener onSavePressed(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
+                    String textDescription = descriptionField.getText().toString();
+                    String[] valueAddress = addressField.getText().toString().split(",");
+                    // TODO Mettre adresse correcte
+                    GeoPoint geoPoint = new GeoPoint(43.7,8.2);
+                    String textTimeDay = dateField.getText().toString();
+                    String textTimeHour = timeField.getText().toString();
+                    Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
+                    byte[] imageInByte = ImageUtils.convertToByteArray(bitmap);
+                    Event event = new Factory().build(AddAccidentActivity.this,
+                            EventType.getFromLabel(textAccidentType),
+                            textDescription,
+                            imageInByte,
+                            geoPoint,
+                            dateFormat.parse(textTimeDay+" "+textTimeHour));
+                    event.save(new FirebaseResponse() {
+                        @Override
+                        public void notify(FirebaseObject result) {
+                            Event event1 = (Event) result;
+                            System.out.println("CREATD :" + event1.getId());
+                        }
+
+                        @Override
+                        public void notify(List<FirebaseObject> result) {
+
+                        }
+
+                        @Override
+                        public void error(VolleyError volleyError) {
+                            System.out.println("VolleyError");
+                            for(StackTraceElement stackTraceElement : volleyError.getStackTrace()){
+                                System.out.println(stackTraceElement.toString());
+                            }
+                            if(volleyError.getMessage()!=null)
+                                System.out.println("ERROR: " + volleyError.getMessage());
+                            NetworkResponse networkResponse = volleyError.networkResponse;
+                            if (networkResponse != null && networkResponse.data != null) {
+                                String jsonError = new String(networkResponse.data);
+                                System.out.println("ERROR: " + jsonError);
+                            }
+                            viewError();
+                        }
+                    });
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    viewError();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    viewError();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    viewError();
+                }
+            }
+        };
+    }
+
+    private void viewError(){
+        Toast toast = Toast.makeText(AddAccidentActivity.this,"Les données ne sont invalides !", Toast.LENGTH_LONG);
+        toast.show();
     }
 }

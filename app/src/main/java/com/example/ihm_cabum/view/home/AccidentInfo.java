@@ -16,6 +16,11 @@ import android.widget.TextView;
 
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.volley.FirebaseFireAndForget;
+
+import org.json.JSONException;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class AccidentInfo extends Fragment {
     private Accident accident;
@@ -49,6 +54,15 @@ public class AccidentInfo extends Fragment {
                 @Override
                 public void onClick(View view) {
                     accident.approve();
+                    try {
+                        accident.save(new FirebaseFireAndForget());
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
 
@@ -57,6 +71,15 @@ public class AccidentInfo extends Fragment {
                 @Override
                 public void onClick(View view) {
                     accident.disApprove();
+                    try {
+                        accident.save(new FirebaseFireAndForget());
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
         }

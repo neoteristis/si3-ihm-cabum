@@ -20,9 +20,14 @@ import androidx.core.app.ActivityCompat;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.home.MapController;
 import com.example.ihm_cabum.controller.home.SearchController;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 import com.example.ihm_cabum.model.Event;
 
 import org.osmdroid.config.Configuration;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
@@ -54,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Event event = extras.getParcelable("event");
+            event.setContext(this);
             String[] address = event.getAddress().toString().split(",");
             mapController.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
             return;

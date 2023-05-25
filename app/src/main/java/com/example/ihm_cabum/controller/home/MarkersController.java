@@ -9,11 +9,14 @@ import android.view.View;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.observer.IObservable;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.view.home.AccidentInfo;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -46,57 +49,43 @@ public class MarkersController {
         scheduler.scheduleAtFixedRate(() -> {
             // Fetch data from database
             // Update the data in the class
-            fetchDB();
+            try {
+                fetchDB();
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         }, 0, 5, TimeUnit.MINUTES);
     }
     //TODO
-    private void fetchDB(){
+    private void fetchDB() throws IllegalAccessException {
 
         markers.clear();
-        //TODO tobe changed to actual data
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.work);
 
-// Convert Bitmap to byte array
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
 
-        markers.add(createMarker(
-                        new Accident(
-                                EventType.COLLISION_SINGLE_VEHICLE,
-                                "some test description in order to check",
-                                byteArray,
-                                new GeoPoint(43.65050,7.00726),
-                                new Date(),
-                                20
-                        )
-                )
-        );
+        (new Accident(context)).getAll(new FirebaseResponse() {
+            @Override
+            public void notify(FirebaseObject result) {
 
-        markers.add(createMarker(
-                        new Accident(
-                                EventType.COLLISION_SINGLE_VEHICLE,
-                                "some test description in order to check",
-                                byteArray,
-                                new GeoPoint(43.65050,7.00726),
-                                new Date(),
-                                20
-                        )
-                )
-        );
-        markers.add(createMarker(
-                        new Accident(
-                                EventType.COLLISION_SINGLE_VEHICLE,
-                                "some test description in order to check",
-                                byteArray,
-                                new GeoPoint(43.64950,7.00418),
-                                new Date(),
-                                20
-                        )
-                )
-        );
+            }
 
-        notifyObservers();
+            @Override
+            public void notify(List<FirebaseObject> result) {
+                for(FirebaseObject object : result){
+                    Accident accident = (Accident) object;
+                    System.out.println(accident.getAddress().getLatitude() + "/" + accident.getAddress().getLongitude());
+                    markers.add(createMarker(
+                            accident
+                            )
+                    );
+                }
+                notifyObservers();
+            }
+
+            @Override
+            public void error(VolleyError volleyError) {
+                System.out.println("ERROR: " + volleyError.getMessage());
+            }
+        });
     }
 
     private Marker createMarker(Accident accident){

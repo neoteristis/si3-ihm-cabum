@@ -7,11 +7,14 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.controller.archieve.EventListAdapter;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -25,24 +28,33 @@ public class ArchiveActivity extends AppCompatActivity {
     private List<Event> eventList = new ArrayList<>();
 
     //TODO chnage to get from db
-    private void fillDb() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.work);
+    private void fillDb() throws IllegalAccessException {
+        (new Accident(this)).getAll(new FirebaseResponse() {
+            @Override
+            public void notify(FirebaseObject result) {
 
-// Convert Bitmap to byte array
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+            }
 
-        for (int i = 0; i < 5; i++) {
-            eventList.add(new Accident(
-                    EventType.COLLISION_SINGLE_VEHICLE,
-                    "some test description in order to check",
-                    byteArray,
-                    new GeoPoint(43.64950, 7.00418),
-                    new Date(),
-                    20
-            ));
-        }
+            @Override
+            public void notify(List<FirebaseObject> result) {
+                for(FirebaseObject object : result){
+                    Accident accident = (Accident) object;
+                    System.out.println(accident.getAddress().getLatitude() + "/" + accident.getAddress().getLongitude());
+                    eventList.add(
+                                    accident
+                    );
+                }
+
+                ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
+                EventListAdapter eventListAdapter = new EventListAdapter(getApplicationContext(), eventList);
+                listView.setAdapter(eventListAdapter);
+            }
+
+            @Override
+            public void error(VolleyError volleyError) {
+                System.out.println("ERROR: " + volleyError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -50,10 +62,11 @@ public class ArchiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_archive);
 
-        fillDb();
-        ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
-        EventListAdapter eventListAdapter = new EventListAdapter(getApplicationContext(), eventList,this);
-        listView.setAdapter(eventListAdapter);
+        try {
+            fillDb();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

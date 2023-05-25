@@ -1,8 +1,11 @@
 package com.example.ihm_cabum.volley;
 
+import com.android.volley.VolleyError;
+
 import java.util.List;
 
 public interface FirebaseResponse {
-    public void notify(FirebaseObject result);
-    public void notify(List<FirebaseObject> result);
+    void notify(FirebaseObject result);
+    void notify(List<FirebaseObject> result);
+    void error(VolleyError volleyError);
 }
