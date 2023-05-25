@@ -6,12 +6,15 @@ import com.example.ihm_cabum.volley.FieldFirebase;
 import com.example.ihm_cabum.volley.GetterFirebase;
 import com.example.ihm_cabum.volley.SetterFirebase;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
 import java.util.Objects;
 
-public class Incident extends Event{
+public class Incident extends Event implements Parcelable{
 
     @FieldFirebase(key="accidentType")
     private EventType typeOfIncident;
@@ -29,7 +32,43 @@ public class Incident extends Event{
         this.typeOfIncident = typeOfIncident;
     }
 
-    public EventType getTypeOfIncident(){
+    protected Incident(Parcel in) throws IllegalAccessException {
+        super(null, "accident", in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
+        this.typeOfIncident = (EventType) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(description);
+        dest.writeByteArray(image);
+        dest.writeParcelable(address, flags);
+        dest.writeSerializable(time);
+        dest.writeInt(numberOfApproval);
+        dest.writeSerializable(typeOfIncident);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Incident> CREATOR = new Creator<Incident>() {
+        @Override
+        public Incident createFromParcel(Parcel in) {
+            try {
+                return new Incident(in);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public Incident[] newArray(int size) {
+            return new Incident[size];
+        }
+    };
+
+    public EventType getTypeOfIncident() {
         return this.typeOfIncident;
     }
 

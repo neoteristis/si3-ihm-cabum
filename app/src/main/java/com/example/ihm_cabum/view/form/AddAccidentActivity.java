@@ -5,12 +5,20 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +30,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.widget.Toast;
 
@@ -30,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.utils.ImageUtils;
 import com.example.ihm_cabum.view.factory.Factory;
+import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
@@ -39,6 +53,7 @@ import com.example.ihm_cabum.volley.FirebaseResponse;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +62,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 public class AddAccidentActivity extends AppCompatActivity {
@@ -62,14 +78,15 @@ public class AddAccidentActivity extends AppCompatActivity {
     private Spinner spinnerAccidentType;
     private CalendarView calendar;
     private ImageButton calendarOpenButton;
-    private EditText dateField;
+    private TextView dateField;
     private EditText timeField;
     private EditText descriptionField;
-    private EditText addressField;
+    private TextView addressField;
     private Button cancelButton;
     private Button saveButton;
     private Button cancelUploadButton;
     private ImageButton uploadCameraButton;
+    private ImageButton requestAddressButton;
     private ConstraintLayout layoutUploadFrame;
     private ConstraintLayout layoutUpload;
     private ImageView uploadedImage;
@@ -102,6 +119,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             );
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,10 +144,12 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.calendarOpenButton = findViewById(R.id.callendar_button_addForm);
         this.dateField = findViewById(R.id.date_addForm);
         this.timeField = findViewById(R.id.time_addForm);
+        this.addressField = findViewById(R.id.address_addForm);
         this.cancelButton = findViewById(R.id.cancel_button_addFrom);
         this.saveButton = findViewById(R.id.add_button_addForm);
         this.cancelUploadButton = findViewById(R.id.cancel_upload_button_addFrom);
         this.uploadCameraButton = findViewById(R.id.upload_photo_camera_addForm);
+        this.requestAddressButton = findViewById(R.id.location_button_addForm);
         this.layoutUploadFrame = findViewById(R.id.upload_frame_addForm);
         this.layoutUpload = findViewById(R.id.add_picture_addForm);
         this.uploadedImage = findViewById(R.id.uploaded_image_addForm);
@@ -164,6 +184,7 @@ public class AddAccidentActivity extends AppCompatActivity {
         this.spinnerDisasterType.setOnItemSelectedListener(spinnerDisasterTypeListener());
         this.calendar.setOnDateChangeListener(calendarDateListener());
         this.uploadCameraButton.setOnClickListener(uploadCameraButtonListener());
+        this.requestAddressButton.setOnClickListener(requestAddressButtonListener());
 
         //easy operations
         this.cancelButton.setOnClickListener(view -> onBackPressed());
@@ -203,11 +224,11 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
-                spinnerAccidentType.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, (adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE));
-            }
+                spinnerAccidentType.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, List.of((adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE)));            }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         };
     }
 
@@ -226,6 +247,62 @@ public class AddAccidentActivity extends AppCompatActivity {
         }
     }
 
+    private View.OnClickListener requestAddressButtonListener() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
+        }
+
+        return view -> {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d("Location", "onLocationChanged: " + location.toString());
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+                    Log.d("Location", "onStatusChanged: " + s);
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+                    Log.d("Location", "onProviderEnabled: " + s);
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+                    Log.d("Location", "onProviderDisabled: " + s);
+                }
+            };
+
+            // Change the addressField to the current location
+            this.addressField.setText("Loading...");
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            // Get address from location
+            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = null;
+
+            try {
+                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (addresses != null && addresses.size() > 0) {
+                addressField.setText(addresses.get(0).getAddressLine(0));
+            } else {
+                addressField.setText("No address found");
+            }
+
+            // Stop listening for location updates
+            locationManager.removeUpdates(locationListener);
+        };
+    }
+
     private View.OnClickListener onSavePressed(){
         return new View.OnClickListener() {
             @Override
@@ -234,7 +311,8 @@ public class AddAccidentActivity extends AppCompatActivity {
                     String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
                     String textDescription = descriptionField.getText().toString();
                     String[] valueAddress = addressField.getText().toString().split(",");
-                    GeoPoint geoPoint = new GeoPoint(Double.parseDouble(valueAddress[0]),Double.parseDouble(valueAddress[1]));
+                    // TODO Mettre adresse correcte
+                    GeoPoint geoPoint = new GeoPoint(43.7,8.2);
                     String textTimeDay = dateField.getText().toString();
                     String textTimeHour = timeField.getText().toString();
                     Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
@@ -259,6 +337,10 @@ public class AddAccidentActivity extends AppCompatActivity {
 
                         @Override
                         public void error(VolleyError volleyError) {
+                            System.out.println("VolleyError");
+                            for(StackTraceElement stackTraceElement : volleyError.getStackTrace()){
+                                System.out.println(stackTraceElement.toString());
+                            }
                             if(volleyError.getMessage()!=null)
                                 System.out.println("ERROR: " + volleyError.getMessage());
                             NetworkResponse networkResponse = volleyError.networkResponse;
@@ -270,10 +352,13 @@ public class AddAccidentActivity extends AppCompatActivity {
                         }
                     });
                 } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                     viewError();
                 } catch (ParseException e) {
+                    e.printStackTrace();
                     viewError();
                 } catch (Throwable e) {
+                    e.printStackTrace();
                     viewError();
                 }
             }

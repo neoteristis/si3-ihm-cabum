@@ -29,7 +29,7 @@ public abstract class FirebaseObject {
     private String id;
     private String endpoint;
 
-    private Context context;
+    protected Context context;
 
     private Map<String, Method> introMapGetter, introMapSetter;
 
@@ -40,6 +40,14 @@ public abstract class FirebaseObject {
         this.id=null;
         this.context=context;
         this.parseAnnotations();
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public String getId(){
@@ -191,12 +199,6 @@ public abstract class FirebaseObject {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                try {
-                    System.out.println(jsonBody.toString(1));
-                    System.out.println(jsonBody.getString("image"));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
                 return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
             }
         };

@@ -1,8 +1,8 @@
 package com.example.ihm_cabum.model;
 
-import java.util.ArrayList;
+import com.example.ihm_cabum.R;
+
 import java.util.Arrays;
-import java.util.List;
 
 public enum EventType {
     //Incident Type
@@ -48,45 +48,48 @@ public enum EventType {
         return Arrays.asList(list).contains(type);
     }
 
-    public static EventType[] accidents(){
+    public static EventType[] accidents() {
         return new EventType[]{COLLISION_SINGLE_VEHICLE, COLLISION_MULTIPLE_VEHICLES, PEDESTRIAN, CYCLIST, ANIMAL, WEATHER, MECHANICAL};
     }
 
-    public static EventType[] incidents(){
-        return new EventType[]{ROUGH_ROAD,ROAD_DEBRIS,ROADWORKS,BLOCKED_ROAD,FLOODED_ROAD,DEAD_ANIMAL,STOPPED_CAR};
+    public static EventType[] incidents() {
+        return new EventType[]{ROUGH_ROAD, ROAD_DEBRIS, ROADWORKS, BLOCKED_ROAD, FLOODED_ROAD, DEAD_ANIMAL, STOPPED_CAR};
     }
 
     //TODO ask should it be changed
     public int getIconResource() {
         switch (this) {
             case ROUGH_ROAD:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_debris_road;
             case ROAD_DEBRIS:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_debris_road;
             case BLOCKED_ROAD:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_block_24;
             case FLOODED_ROAD:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_flood_24;
             case DEAD_ANIMAL:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_animal_incident;
             case ROADWORKS:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_roadwork;
             case STOPPED_CAR:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_car_stop;
             case COLLISION_MULTIPLE_VEHICLES:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_multiple_car;
             case COLLISION_SINGLE_VEHICLE:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_car_crash;
             case PEDESTRIAN:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_pedestrian;
             case ANIMAL:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_animal;
             case CYCLIST:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_cyclist;
             case WEATHER:
-                return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
+                return R.drawable.baseline_weather;
+            case MECHANICAL:
+                return R.drawable.baseline_mechanic;
             default:
                 return org.osmdroid.library.R.drawable.osm_ic_follow_me_on;
         }
     }
+
 }

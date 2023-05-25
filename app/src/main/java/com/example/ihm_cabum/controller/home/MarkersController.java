@@ -108,6 +108,7 @@ public class MarkersController {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 activity.findViewById(R.id.accident_info).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.accident_info_shadow).setVisibility(View.VISIBLE);
                 return false;
             }
         });

@@ -10,12 +10,17 @@ import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.GetterFirebase;
 import com.example.ihm_cabum.volley.SetterFirebase;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
 import java.util.Objects;
 
-public class Accident extends Event {
+public class Accident extends Event implements Parcelable {
     @FieldFirebase(key="accidentType")
     private EventType typeOfAccident;
 
@@ -37,8 +42,33 @@ public class Accident extends Event {
         this.numberOfApproval = 0;
     }
 
-    public EventType getTypeOfAccident(){
+    protected Accident(Parcel in) throws IllegalAccessException {
+        super(null, "accident",in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
+        this.typeOfAccident = (EventType) in.readSerializable();
+    }
+
+    public static final Creator<Accident> CREATOR = new Creator<Accident>() {
+        @Override
+        public Accident createFromParcel(Parcel in) {
+            try {
+                return new Accident(in);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public Accident[] newArray(int size) {
+            return new Accident[size];
+        }
+    };
+
+    public EventType getTypeOfAccident() {
         return this.typeOfAccident;
+    }
+
+    public String getLabel() {
+        return this.typeOfAccident.getLabel();
     }
 
     public void setTypeOfAccident(EventType eventType){
@@ -78,7 +108,17 @@ public class Accident extends Event {
     }
 
     @Override
-    public String getLabel() {
-        return this.typeOfAccident.getLabel();
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeByteArray(image);
+        parcel.writeParcelable(address, i);
+        parcel.writeSerializable(time);
+        parcel.writeInt(numberOfApproval);
+        parcel.writeSerializable(typeOfAccident);
     }
 }

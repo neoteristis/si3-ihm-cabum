@@ -29,7 +29,6 @@ public abstract class Event extends FirebaseObject {
     protected GeoPoint address;
     protected Date time;
 
-
     public Event(Context context, String endpoint, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
         super(context, endpoint);
         this.description = description;
@@ -55,7 +54,7 @@ public abstract class Event extends FirebaseObject {
         return this.description;
     }
 
-    public byte[] getImage(){
+    public byte[] getImage() {
         return this.image;
     }
 
@@ -68,11 +67,11 @@ public abstract class Event extends FirebaseObject {
         return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
     }
 
-    public GeoPoint getAddress(){
+    public GeoPoint getAddress() {
         return this.address;
     }
 
-    public Date getTime(){
+    public Date getTime() {
         return this.time;
     }
 
@@ -141,7 +140,7 @@ public abstract class Event extends FirebaseObject {
         this.numberOfApproval++;
     }
 
-    public void disApprove(){
+    public void disApprove() {
         this.numberOfApproval--;
     }
 
