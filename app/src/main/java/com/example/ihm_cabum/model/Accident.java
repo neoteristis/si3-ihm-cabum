@@ -1,5 +1,14 @@
 package com.example.ihm_cabum.model;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.volley.FieldFirebase;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.GetterFirebase;
+import com.example.ihm_cabum.volley.SetterFirebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,26 +21,40 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Accident extends Event implements Parcelable {
-    private final EventType typeOfAccident;
+    @FieldFirebase(key="accidentType")
+    private EventType typeOfAccident;
 
-    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
-        this(typeOfAccident, description, image, address, time, 0);
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
+        this(context,typeOfAccident,description, image, address, time,0);
     }
 
-    public Accident(EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
-        super(description, image, address, time, numberOfApproval);
+    public Accident(Context context) throws IllegalAccessException {
+        this(context, EventType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
+    }
+
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
+        super(context,"accident",description, image, address, time, numberOfApproval);
         this.typeOfAccident = typeOfAccident;
+        this.description = description;
+        this.image = image;
+        this.address = address;
+        this.time = time;
+        this.numberOfApproval = 0;
     }
 
-    protected Accident(Parcel in) {
-        super(in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
+    protected Accident(Parcel in) throws IllegalAccessException {
+        super(null, "accident",in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
         this.typeOfAccident = (EventType) in.readSerializable();
     }
 
     public static final Creator<Accident> CREATOR = new Creator<Accident>() {
         @Override
         public Accident createFromParcel(Parcel in) {
-            return new Accident(in);
+            try {
+                return new Accident(in);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
@@ -46,6 +69,24 @@ public class Accident extends Event implements Parcelable {
 
     public String getLabel() {
         return this.typeOfAccident.getLabel();
+    }
+
+    public void setTypeOfAccident(EventType eventType){
+        this.typeOfAccident = eventType;
+    }
+
+    @GetterFirebase(key="accidentType")
+    public String getStringTypeOfAccident(){
+        return typeOfAccident.getLabel();
+    }
+
+    @SetterFirebase(key="accidentType")
+    public void setStringTypeOfAccident(String accident){
+        try {
+            this.typeOfAccident = EventType.valueOf(accident);
+        }catch (IllegalArgumentException e){
+            this.typeOfAccident = EventType.getFromLabel(accident);
+        }
     }
 
     @Override

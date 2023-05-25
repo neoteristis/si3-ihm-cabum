@@ -34,6 +34,10 @@ public enum EventType {
         return label;
     }
 
+    public static EventType getFromLabel(String label) {
+        return Arrays.stream(EventType.values()).filter(eventType -> eventType.label.equals(label)).findFirst().orElse(null);
+    }
+
     public static Boolean isIncident(EventType type) {
         EventType[] list = incidents();
         return Arrays.asList(list).contains(type);
@@ -88,7 +92,4 @@ public enum EventType {
         }
     }
 
-    public static EventType getFromLabel(String label) {
-        return Arrays.stream(EventType.values()).filter(eventType -> eventType.label.equals(label)).findFirst().orElse(null);
-    }
 }

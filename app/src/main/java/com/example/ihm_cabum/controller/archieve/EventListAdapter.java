@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.api.GoogleAPIController;
-import com.example.ihm_cabum.factory.Factory;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
+import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.view.home.HomeActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -89,6 +89,7 @@ public class EventListAdapter extends BaseAdapter {
 
             try {
                 event = factory.build(
+                        context,
                         eventType,
                         eventList.get(i).getDescription(),
                         byteArrayImage,
