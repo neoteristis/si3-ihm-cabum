@@ -1,5 +1,7 @@
 package com.example.ihm_cabum.view.form;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -37,10 +39,14 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.controller.api.GoogleAPIController;
+import com.example.ihm_cabum.model.Accident;
+import com.example.ihm_cabum.model.Incident;
 import com.example.ihm_cabum.utils.ImageUtils;
 import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
@@ -63,6 +69,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class AddAccidentActivity extends AppCompatActivity {
@@ -94,29 +101,52 @@ public class AddAccidentActivity extends AppCompatActivity {
     private ImageButton addPhotoIcon;
     private TextView addPhotoText;
 
-    private DateFormat dateFormat, dateFormatDay,dateFormatHour;
+    private DateFormat dateFormat, dateFormatDay, dateFormatHour;
+    private Location location;
+
+    private Event eventForUpdate;
+    private EventType typeOfEventForUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_accident);
 
+        Intent intent = this.getIntent();
+        if (intent != null) {
+            String typeofEvent = intent.getStringExtra("typeForUpdate");
+            if (typeofEvent != null || EventType.getFromLabel(typeofEvent) != null) {
+                EventType type = EventType.getFromLabel(typeofEvent);
+                Event event = intent.getParcelableExtra("eventForUpdate");
+                if (event != null && type != null) {
+                    this.eventForUpdate = event;
+                    this.typeOfEventForUpdate = type;
+                }
+                String id = intent.getStringExtra("eventIdForUpdate");
+                if(id != null && !id.isEmpty() && this.eventForUpdate != null){
+                    this.eventForUpdate.setId(id);
+                }
+            }
+        }
+
         initView();
         setBasicVisibility();
         setBasicValues();
         setBasicListeners();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String selected = extras.getString("type");
-            header.setText(DEFAULT_HEADER_BEGINNING + selected);
+        if (this.eventForUpdate == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String selected = extras.getString("type");
+                header.setText(DEFAULT_HEADER_BEGINNING + selected);
 
-            spinnerDisasterType.setSelection(
-                    IntStream.range(0, ITEMS_DISASTER.length)
-                            .filter(i -> ITEMS_DISASTER[i].toLowerCase().equals(selected))
-                            .findFirst()
-                            .orElse(0)
-            );
+                spinnerDisasterType.setSelection(
+                        IntStream.range(0, ITEMS_DISASTER.length)
+                                .filter(i -> ITEMS_DISASTER[i].toLowerCase().equals(selected))
+                                .findFirst()
+                                .orElse(0)
+                );
+            }
         }
     }
 
@@ -176,6 +206,42 @@ public class AddAccidentActivity extends AppCompatActivity {
 
         this.dateField.setText(dateFormatDay.format(new Date()));
         this.timeField.setText(dateFormatHour.format(new Date()));
+        Calendar calendar1 = Calendar.getInstance();
+        this.location = null;
+
+        if (eventForUpdate != null && typeOfEventForUpdate != null) {
+            spinnerDisasterType.setSelection((EventType.isAccident(typeOfEventForUpdate)) ? 0 : 1);
+            spinnerAccidentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, (EventType.isAccident(typeOfEventForUpdate)) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE));
+            spinnerAccidentType.setSelection((EventType.isAccident(typeOfEventForUpdate)) ?
+                    Arrays.stream(EventType.accidents())
+                            .collect(Collectors.toList()).indexOf(typeOfEventForUpdate) :
+                    Arrays.stream(EventType.incidents())
+                            .collect(Collectors.toList()).indexOf(typeOfEventForUpdate));
+            this.dateField.setText(eventForUpdate.getFormattedTime().split(" ")[0]);
+            this.timeField.setText(eventForUpdate.getFormattedTime().split(" ")[1]);
+            this.location = new Location("NonExistantProviderForIHMCabum!");
+            this.location.setLatitude(eventForUpdate.getLatitude());
+            this.location.setLongitude(eventForUpdate.getLongitude());
+            this.setTitle("Update Accident/Incident");
+
+            this.addressField.setText("Loading...");
+
+            new GoogleAPIController(this)
+                    .convertCoordinatesToAreaName(location.getLatitude(),location.getLongitude(),a -> this.addressField.setText(a));
+
+            this.descriptionField.setText(eventForUpdate.getDescription());
+
+            if(this.eventForUpdate.getBitmapImage() != null){
+                ImageView imageView = findViewById(R.id.uploaded_image_addForm);
+                imageView.setVisibility(View.VISIBLE);
+                findViewById(R.id.add_photo_icon_addForm).setVisibility(View.INVISIBLE);
+                findViewById(R.id.upload_photo_text_addForm).setVisibility(View.INVISIBLE);
+                findViewById(R.id.upload_frame_addForm).setVisibility(View.INVISIBLE);
+                imageView.setImageBitmap(eventForUpdate.getBitmapImage());
+            }
+
+            this.saveButton.setText("Update");
+        }
     }
 
     private void setBasicListeners() {
@@ -224,7 +290,8 @@ public class AddAccidentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 header.setText(DEFAULT_HEADER_BEGINNING + adapterView.getItemAtPosition(i).toString());
-                spinnerAccidentType.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, List.of((adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE)));            }
+                spinnerAccidentType.setAdapter(new SpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, List.of((adapterView.getItemAtPosition(i).equals("Accident")) ? ITEMS_ACCIDENT_TYPE : ITEMS_INCIDENT_TYPE)));
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -281,6 +348,7 @@ public class AddAccidentActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            this.location = location;
 
             // Get address from location
             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -303,16 +371,16 @@ public class AddAccidentActivity extends AppCompatActivity {
         };
     }
 
-    private View.OnClickListener onSavePressed(){
+    private View.OnClickListener onSavePressed() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
                     String textDescription = descriptionField.getText().toString();
                     String[] valueAddress = addressField.getText().toString().split(",");
-                    // TODO Mettre adresse correcte
-                    GeoPoint geoPoint = new GeoPoint(43.7,8.2);
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
                     String textTimeDay = dateField.getText().toString();
                     String textTimeHour = timeField.getText().toString();
                     Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
@@ -322,12 +390,18 @@ public class AddAccidentActivity extends AppCompatActivity {
                             textDescription,
                             imageInByte,
                             geoPoint,
-                            dateFormat.parse(textTimeDay+" "+textTimeHour));
+                            dateFormat.parse(textTimeDay + " " + textTimeHour));
+
+                    if (eventForUpdate != null && typeOfEventForUpdate != null){
+                        event.setId(eventForUpdate.getId());
+                    }
                     event.save(new FirebaseResponse() {
                         @Override
                         public void notify(FirebaseObject result) {
                             Event event1 = (Event) result;
                             System.out.println("CREATD :" + event1.getId());
+                            viewSuccess();
+                            finish();
                         }
 
                         @Override
@@ -338,10 +412,10 @@ public class AddAccidentActivity extends AppCompatActivity {
                         @Override
                         public void error(VolleyError volleyError) {
                             System.out.println("VolleyError");
-                            for(StackTraceElement stackTraceElement : volleyError.getStackTrace()){
+                            for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
                                 System.out.println(stackTraceElement.toString());
                             }
-                            if(volleyError.getMessage()!=null)
+                            if (volleyError.getMessage() != null)
                                 System.out.println("ERROR: " + volleyError.getMessage());
                             NetworkResponse networkResponse = volleyError.networkResponse;
                             if (networkResponse != null && networkResponse.data != null) {
@@ -361,12 +435,18 @@ public class AddAccidentActivity extends AppCompatActivity {
                     e.printStackTrace();
                     viewError();
                 }
+
             }
         };
     }
 
-    private void viewError(){
-        Toast toast = Toast.makeText(AddAccidentActivity.this,"Les données ne sont invalides !", Toast.LENGTH_LONG);
+    private void viewError() {
+        Toast toast = Toast.makeText(AddAccidentActivity.this, "Les données ne sont invalides !", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    private void viewSuccess() {
+        Toast toast = Toast.makeText(AddAccidentActivity.this, (this.eventForUpdate != null) ? "Mise à jour effectuée" : "Évènement ajouté", Toast.LENGTH_LONG);
         toast.show();
     }
 }

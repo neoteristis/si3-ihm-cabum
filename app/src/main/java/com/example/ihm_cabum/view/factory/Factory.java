@@ -28,4 +28,13 @@ public class Factory extends EventFactory {
         }
         throw new Throwable("event type not made");
     }
+
+    public Event build(Context context, String id, EventType type, String description, byte[] image, GeoPoint address, Date time)  throws Throwable {
+        return build(context, id, type, description, image, address, time,0);
+    }
+    public Event build(Context context, String id, EventType type, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval)  throws Throwable{
+        Event res = build(context,type,description,image,address,time,numberOfApproval);
+        res.setId(id);
+        return res;
+    }
 }

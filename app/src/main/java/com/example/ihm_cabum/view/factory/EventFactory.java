@@ -14,4 +14,7 @@ import java.util.Date;
 public abstract class EventFactory {
     protected abstract Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time)  throws Throwable;
     protected abstract Event build(Context context, EventType type, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval)  throws Throwable;
+    protected abstract Event build(Context context, String id, EventType type, String description, byte[] image, GeoPoint address, Date time)  throws Throwable;
+    protected abstract Event build(Context context, String id, EventType type, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval)  throws Throwable;
+
 }

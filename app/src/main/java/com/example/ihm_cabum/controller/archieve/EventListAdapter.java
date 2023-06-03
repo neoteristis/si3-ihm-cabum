@@ -14,9 +14,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.api.GoogleAPIController;
 import com.example.ihm_cabum.model.Accident;
@@ -25,7 +28,12 @@ import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
 import com.example.ihm_cabum.view.archieve.ArchiveActivity;
 import com.example.ihm_cabum.view.factory.Factory;
+import com.example.ihm_cabum.view.form.AddAccidentActivity;
 import com.example.ihm_cabum.view.home.HomeActivity;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.FirebaseResponse;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
@@ -77,8 +85,6 @@ public class EventListAdapter extends BaseAdapter {
         ImageView image = (ImageView) view.findViewById(R.id.accidentImage);
         type.setText(eventList.get(i).getLabel());
 
-        String area = googleAPIController.convertCoordinatesToAreaName(eventList.get(i).getAddress().getLatitude(), eventList.get(i).getAddress().getLongitude());
-
         date.setText(eventList.get(i).getFormattedTime());
         image.setImageBitmap(eventList.get(i).getBitmapImage());
 
@@ -99,6 +105,7 @@ public class EventListAdapter extends BaseAdapter {
             try {
                 event = factory.build(
                         context,
+                        eventList.get(i).getId(),
                         eventType,
                         eventList.get(i).getDescription(),
                         byteArrayImage,
@@ -148,6 +155,8 @@ public class EventListAdapter extends BaseAdapter {
 
                 try {
                     event = factory.build(
+                            context,
+                            eventList.get(i).getId(),
                             eventType,
                             eventList.get(i).getDescription(),
                             byteArrayImage,
@@ -162,15 +171,18 @@ public class EventListAdapter extends BaseAdapter {
 
                 // Create the Intent and add the String parameter
                 //TODO : Change null by the activity to edit an accident/incident
-                Intent intent = new Intent(context, null);
+                Intent intent = new Intent(context, AddAccidentActivity.class);
 
                 if (Arrays.asList(EventType.accidents()).contains(eventType)) {
-                    intent.putExtra("event", (Accident) event);
+                    intent.putExtra("eventForUpdate", (Accident) event);
+                    intent.putExtra("typeForUpdate", ((Accident) event).getTypeOfAccident().getLabel());
                 } else if (Arrays.asList(EventType.incidents()).contains(eventType)) {
-                    intent.putExtra("event", (Incident) event);
+                    intent.putExtra("eventForUpdate", (Incident) event);
+                    intent.putExtra("typeForUpdate", ((Incident) event).getTypeOfIncident().getLabel());
                 } else {
                     return;
                 }
+                intent.putExtra("eventIdForUpdate",event.getId());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 // Start the MainActivity with the Intent
                 context.startActivity(intent);
@@ -180,14 +192,35 @@ public class EventListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showConfirmationDialog(i);
+                Factory factory = new Factory();
+                Event event;
+
+                EventType eventType = EventType.getFromLabel(type.getText().toString());
+
+                try {
+                    event = factory.build(
+                            context,
+                            eventList.get(i).getId(),
+                            eventType,
+                            eventList.get(i).getDescription(),
+                            byteArrayImage,
+                            eventList.get(i).getAddress(),
+                            eventList.get(i).getTime(),
+                            eventList.get(i).getNumberOfApproval()
+                    );
+                } catch (Throwable e) {
+                    // TODO : change this exception to make it more appropriate
+                    return;
+                }
+
+                showConfirmationDialog(event);
             }
         });
 
         return view;
     }
 
-    private void showConfirmationDialog(final int position) {
+    private void showConfirmationDialog(Event event) {
         AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
         LayoutInflater inflater = LayoutInflater.from(parentActivity);
         View dialogView = inflater.inflate(R.layout.dialog_window_confirm_deletion, null);
@@ -209,17 +242,57 @@ public class EventListAdapter extends BaseAdapter {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Delete button clicked
-                // Perform deletion logic here using the position
-                // ...
+                try {
+                    event.delete(new FirebaseResponse() {
+                        @Override
+                        public void notify(FirebaseObject result) {
+                            Event event1 = (Event) result;
+                            System.out.println("CREATD :" + event1.getId());
+                            parentActivity.finish();
+                            parentActivity.startActivity(parentActivity.getIntent());
+                            viewSuccess();
+                        }
 
-                // Dismiss the dialog
-                // TODO: Do the deletion here
+                        @Override
+                        public void notify(List<FirebaseObject> result) {
+
+                        }
+
+                        @Override
+                        public void error(VolleyError volleyError) {
+                            System.out.println("VolleyError");
+                            for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
+                                System.out.println(stackTraceElement.toString());
+                            }
+                            if (volleyError.getMessage() != null)
+                                System.out.println("ERROR: " + volleyError.getMessage());
+                            NetworkResponse networkResponse = volleyError.networkResponse;
+                            if (networkResponse != null && networkResponse.data != null) {
+                                String jsonError = new String(networkResponse.data);
+                                System.out.println("ERROR: " + jsonError);
+                            }
+                            viewError();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    viewError();
+                }
                 alertDialog.dismiss();
             }
         });
 
         alertDialog = builder.create(); // Assign the alertDialog to the member variable
         alertDialog.show();
+    }
+
+    private void viewError() {
+        Toast toast = Toast.makeText(context, "Deletion failed", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    private void viewSuccess() {
+        Toast toast = Toast.makeText(context, "Deletion success", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
