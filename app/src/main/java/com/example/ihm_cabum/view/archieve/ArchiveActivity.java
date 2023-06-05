@@ -1,33 +1,25 @@
 package com.example.ihm_cabum.view.archieve;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
+import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.controller.archieve.EventListAdapter;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Event;
-import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.FirebaseResponse;
 
-import org.osmdroid.util.GeoPoint;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ArchiveActivity extends AppCompatActivity {
 
     private List<Event> eventList = new ArrayList<>();
 
-    //TODO chnage to get from db
     private void fillDb() throws IllegalAccessException {
         (new Accident(this)).getAll(new FirebaseResponse() {
             @Override
@@ -37,16 +29,19 @@ public class ArchiveActivity extends AppCompatActivity {
 
             @Override
             public void notify(List<FirebaseObject> result) {
+                List<Event> tmpEventList = new ArrayList<>();
                 for(FirebaseObject object : result){
                     Accident accident = (Accident) object;
                     System.out.println(accident.getAddress().getLatitude() + "/" + accident.getAddress().getLongitude());
-                    eventList.add(
+                    tmpEventList.add(
                                     accident
                     );
                 }
 
+                eventList = tmpEventList;
+
                 ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
-                EventListAdapter eventListAdapter = new EventListAdapter(getApplicationContext(), eventList);
+                EventListAdapter eventListAdapter = new EventListAdapter(ArchiveActivity.this.getApplicationContext(), eventList,ArchiveActivity.this);
                 listView.setAdapter(eventListAdapter);
             }
 
@@ -67,6 +62,16 @@ public class ArchiveActivity extends AppCompatActivity {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            fillDb();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

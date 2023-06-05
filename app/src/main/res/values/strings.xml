@@ -5,4 +5,7 @@
     <string name="title_archive">Archive</string>
     <string name="title_profile">Profile</string>
     <string name="title_add_accident">Add accident/incident</string>
+    <string name="edit_button">edit button</string>
+    <string name="delete_button">delete button</string>
+    <string name="delete_event_confirmation">Are you sure you want to delete this item ?</string>
 </resources>
