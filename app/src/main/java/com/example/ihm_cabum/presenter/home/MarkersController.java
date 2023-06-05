@@ -1,8 +1,6 @@
-package com.example.ihm_cabum.controller.home;
+package com.example.ihm_cabum.presenter.home;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 
@@ -11,20 +9,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.controller.observer.IObservable;
+import com.example.ihm_cabum.presenter.observer.IObservable;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.view.home.AccidentInfo;
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.FirebaseResponse;
 
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

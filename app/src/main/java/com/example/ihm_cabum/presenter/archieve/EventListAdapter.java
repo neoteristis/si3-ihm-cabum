@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.controller.archieve;
+package com.example.ihm_cabum.presenter.archieve;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,17 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.controller.api.GoogleAPIController;
+import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
-import com.example.ihm_cabum.view.archieve.ArchiveActivity;
 import com.example.ihm_cabum.view.factory.Factory;
 import com.example.ihm_cabum.view.form.AddAccidentActivity;
 import com.example.ihm_cabum.view.home.HomeActivity;
@@ -48,7 +45,7 @@ public class EventListAdapter extends BaseAdapter {
 
     private AlertDialog alertDialog;
 
-    private final GoogleAPIController googleAPIController;
+    private final GoogleAPIPresenter googleAPIPresenter;
     private Activity parentActivity;
 
     public EventListAdapter(Context context, List<Event> eventList, Activity parentActivity) {
@@ -58,7 +55,7 @@ public class EventListAdapter extends BaseAdapter {
 
         this.layoutInflater = LayoutInflater.from(context);
 
-        this.googleAPIController = new GoogleAPIController(context);
+        this.googleAPIPresenter = new GoogleAPIPresenter(context);
     }
 
     @Override

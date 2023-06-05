@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
-        android:name=".controller.notification.NotificationApp"
+        android:name=".presenter.notification.NotificationApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".controller.notification.FireBaseNotificationService"
+            android:name=".presenter.notification.FireBaseNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -47,7 +47,7 @@
             android:label="@string/title_add_accident"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".controller.archieve.EventList"
+            android:name=".presenter.archieve.EventList"
             android:exported="false"
             android:label="@string/title_archive" />
         <activity

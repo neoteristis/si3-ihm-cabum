@@ -18,16 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.controller.home.MapController;
-import com.example.ihm_cabum.controller.home.SearchController;
-import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.volley.FirebaseObject;
-import com.example.ihm_cabum.volley.FirebaseResponse;
+import com.example.ihm_cabum.presenter.home.MapController;
+import com.example.ihm_cabum.presenter.home.SearchController;
 import com.example.ihm_cabum.model.Event;
 
 import org.osmdroid.config.Configuration;
-
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 

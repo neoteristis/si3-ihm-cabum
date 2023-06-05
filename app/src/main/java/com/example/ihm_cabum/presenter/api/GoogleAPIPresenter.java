@@ -1,31 +1,26 @@
-package com.example.ihm_cabum.controller.api;
+package com.example.ihm_cabum.presenter.api;
 
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class GoogleAPIController {
+public class GoogleAPIPresenter {
 
     private Context context;
 
-    public GoogleAPIController(Context context) {
+    public GoogleAPIPresenter(Context context) {
         this.context = context;
     }
 

@@ -1,6 +1,6 @@
 package com.example.ihm_cabum.view.home;
 
-import static com.example.ihm_cabum.controller.notification.NotificationApp.sendAccidentNotification;
+import static com.example.ihm_cabum.presenter.notification.NotificationApp.sendAccidentNotification;
 import static com.example.ihm_cabum.view.profile.ProfileInnerFragment.notificationsOn;
 
 import android.os.Bundle;

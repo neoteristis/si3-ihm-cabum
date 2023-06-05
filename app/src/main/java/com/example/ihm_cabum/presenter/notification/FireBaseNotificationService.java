@@ -1,5 +1,5 @@
-package com.example.ihm_cabum.controller.notification;
-import static com.example.ihm_cabum.controller.notification.NotificationApp.sendNotification;
+package com.example.ihm_cabum.presenter.notification;
+import static com.example.ihm_cabum.presenter.notification.NotificationApp.sendNotification;
 import androidx.annotation.NonNull;
 
 import com.example.ihm_cabum.R;

@@ -1,7 +1,5 @@
 package com.example.ihm_cabum.view.form;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -32,24 +30,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.controller.api.GoogleAPIController;
-import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.Incident;
+import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
 import com.example.ihm_cabum.utils.ImageUtils;
 import com.example.ihm_cabum.view.factory.Factory;
-import com.example.ihm_cabum.controller.misc.SpinnerAdapter;
+import com.example.ihm_cabum.presenter.misc.SpinnerAdapter;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
@@ -58,7 +47,6 @@ import com.example.ihm_cabum.volley.FirebaseResponse;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -226,7 +214,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
             this.addressField.setText("Loading...");
 
-            new GoogleAPIController(this)
+            new GoogleAPIPresenter(this)
                     .convertCoordinatesToAreaName(location.getLatitude(),location.getLongitude(),a -> this.addressField.setText(a));
 
             this.descriptionField.setText(eventForUpdate.getDescription());

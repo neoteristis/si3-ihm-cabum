@@ -1,8 +1,8 @@
-package com.example.ihm_cabum.controller.home;
+package com.example.ihm_cabum.presenter.home;
 
 import android.content.Context;
 import androidx.fragment.app.FragmentActivity;
-import com.example.ihm_cabum.controller.observer.IObservable;
+import com.example.ihm_cabum.presenter.observer.IObservable;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;

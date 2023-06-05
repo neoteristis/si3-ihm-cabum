@@ -1,9 +1,9 @@
-package com.example.ihm_cabum.controller.home;
+package com.example.ihm_cabum.presenter.home;
 
 import android.content.Context;
 import android.widget.SearchView;
 
-import com.example.ihm_cabum.controller.api.GoogleAPIController;
+import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
 
 public class SearchController {
 
@@ -24,8 +24,8 @@ public class SearchController {
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                GoogleAPIController googleAPIController  = new GoogleAPIController(context);
-                googleAPIController.convertCityNameToCoordinates(s, mapController::setMapCenterPosition);
+                GoogleAPIPresenter googleAPIPresenter = new GoogleAPIPresenter(context);
+                googleAPIPresenter.convertCityNameToCoordinates(s, mapController::setMapCenterPosition);
 
                 return true;
             }

@@ -1,17 +1,12 @@
-package com.example.ihm_cabum.controller.misc;
-
-import static androidx.core.content.ContextCompat.getSystemService;
+package com.example.ihm_cabum.presenter.misc;
 
 import android.app.UiModeManager;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.List;
 
