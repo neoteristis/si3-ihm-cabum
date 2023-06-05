@@ -18,4 +18,9 @@ public class FireBaseNotificationService extends FirebaseMessagingService {
         }
     }
 
+    @Override
+    public void onNewToken(@NonNull String token) {
+        FireBaseNotificationManager.sendRegistrationFCMServer(getApplicationContext(), token);
+    }
+
 }
