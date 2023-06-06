@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.form.AddAccidentActivity">
+    tools:context=".presenter.form.AddAccidentActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -311,7 +311,7 @@
 
     <fragment
         android:id="@+id/navbar_fragment"
-        android:name="com.example.ihm_cabum.view.navbar.NavbarFragment"
+        android:name="com.example.ihm_cabum.presenter.navbar.NavbarFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
