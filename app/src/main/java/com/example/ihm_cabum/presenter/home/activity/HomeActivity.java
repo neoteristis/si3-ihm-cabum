@@ -21,6 +21,7 @@ import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.presenter.home.presenter.SearchPresenter;
 import com.example.ihm_cabum.presenter.home.presenter.MapPresenter;
+import com.example.ihm_cabum.presenter.notification.FireBaseNotificationManager;
 
 import org.osmdroid.config.Configuration;
 

@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/ihm_cabum/presenter/misc/SpinnerAdapter.java
-package com.example.ihm_cabum.presenter.misc;
-========
 package com.example.ihm_cabum.presenter.form;
->>>>>>>> develop:app/src/main/java/com/example/ihm_cabum/presenter/form/SpinnerAdapter.java
+
 
 import android.app.UiModeManager;
 import android.content.Context;
