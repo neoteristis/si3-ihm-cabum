@@ -13,6 +13,9 @@ import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.view.home.HomeActivity;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class NotificationApp extends Application {
@@ -36,42 +39,19 @@ public class NotificationApp extends Application {
         }
     }
 
-    /** unused **/
-    public static void sendNotification(Context context , String title, String message, int image) {
+    public static void sendAccidentNotification(Context context, String title, String message, byte[] image, GeoPoint geoPoint) {
 
-        RemoteViews notificationView = new RemoteViews(context.getPackageName(), R.layout.notification_layout);
-        notificationView.setTextViewText(R.id.notification_title, title);
-        notificationView.setTextViewText(R.id.notification_content, message);
-        notificationView.setImageViewResource(R.id.notification_image, image);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationManager.IMPORTANCE_DEFAULT)
-                .setAutoCancel(true)
-                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setCustomContentView(notificationView);
-
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.notify(++notificationId, builder.build());
-    }
-    public static void sendAccidentNotification(Context context , Accident accident) {
-
+        System.out.println("sending notification");
         Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("address",  accident.getAddress().toDoubleString());
+        intent.putExtra("address",  geoPoint.toDoubleString());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE);
 
-
-        String title = "Accident reported";
-        String message = accident.getTypeOfAccident().getLabel();
-        int image = accident.getImageAsInt();
-
         RemoteViews notificationView = new RemoteViews(context.getPackageName(), R.layout.notification_layout);
         notificationView.setTextViewText(R.id.notification_title, title);
         notificationView.setTextViewText(R.id.notification_content, message);
-        notificationView.setImageViewResource(R.id.notification_image, image);
+        notificationView.setImageViewResource(R.id.notification_image,
+                image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)

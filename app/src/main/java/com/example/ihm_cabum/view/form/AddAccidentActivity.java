@@ -2,6 +2,8 @@ package com.example.ihm_cabum.view.form;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.ihm_cabum.controller.notification.NotificationApp.sendAccidentNotification;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -401,6 +403,7 @@ public class AddAccidentActivity extends AppCompatActivity {
                             Event event1 = (Event) result;
                             System.out.println("CREATD :" + event1.getId());
                             viewSuccess();
+                            sendAccidentNotification(getApplicationContext(), textAccidentType, textDescription, imageInByte, geoPoint);
                             finish();
                         }
 
