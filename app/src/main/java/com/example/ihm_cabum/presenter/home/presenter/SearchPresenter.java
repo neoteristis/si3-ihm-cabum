@@ -1,20 +1,21 @@
-package com.example.ihm_cabum.presenter.home;
+package com.example.ihm_cabum.presenter.home.presenter;
+
 
 import android.content.Context;
 import android.widget.SearchView;
 
-import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
+import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
 
-public class SearchController {
+public class SearchPresenter {
 
     private final Context context;
-    private final MapController mapController;
+    private final MapPresenter mapPresenter;
 
     private final SearchView searchView;
 
-    public SearchController(Context context, MapController mapController, SearchView searchView){
+    public SearchPresenter(Context context, MapPresenter mapPresenter, SearchView searchView){
         this.context = context;
-        this.mapController = mapController;
+        this.mapPresenter = mapPresenter;
         this.searchView = searchView;
     }
 
@@ -23,10 +24,8 @@ public class SearchController {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-
-                GoogleAPIPresenter googleAPIPresenter = new GoogleAPIPresenter(context);
-                googleAPIPresenter.convertCityNameToCoordinates(s, mapController::setMapCenterPosition);
-
+                OpenStreetMapAPIUtils openStreetMapAPIUtils = new OpenStreetMapAPIUtils(context);
+                openStreetMapAPIUtils.convertCityNameToCoordinates(s, mapPresenter::setMapCenterPosition);
                 return true;
             }
 

@@ -1,8 +1,9 @@
-package com.example.ihm_cabum.presenter.home;
+package com.example.ihm_cabum.presenter.home.presenter;
 
 import android.content.Context;
 import androidx.fragment.app.FragmentActivity;
-import com.example.ihm_cabum.presenter.observer.IObservable;
+import com.example.ihm_cabum.presenter.patterns.observer.IObservable;
+
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -10,15 +11,15 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-public class MapController implements IObservable {
+public class MapPresenter implements IObservable {
     private final MapView mapView;
-    private final MarkersController markersController;
+    private final MarkersPresenter markersPresenter;
 
-    public MapController(Context context, MapView mapView, FragmentActivity activity) {
+    public MapPresenter(Context context, MapView mapView, FragmentActivity activity) {
         this.mapView = mapView;
 
-        this.markersController = new MarkersController(context, mapView, activity);
-        this.markersController.addObserver(this);
+        this.markersPresenter = new MarkersPresenter(context, mapView, activity);
+        this.markersPresenter.addObserver(this);
     }
 
     public MapView getMapView() {
@@ -45,15 +46,15 @@ public class MapController implements IObservable {
     }
 
     private void setUpAccidentsNear() {
-        for (Marker marker : markersController.getMarkers()) {
+        for (Marker marker : markersPresenter.getMarkers()) {
             mapView.getOverlays().add(marker);
         }
     }
 
     @Override
-    public void update(MarkersController markersController) {
+    public void update(MarkersPresenter markersPresenter) {
         mapView.getOverlays().clear();
-        for (Marker marker : this.markersController.getMarkers()) {
+        for (Marker marker : this.markersPresenter.getMarkers()) {
             mapView.getOverlays().add(marker);
         }
         mapView.invalidate();

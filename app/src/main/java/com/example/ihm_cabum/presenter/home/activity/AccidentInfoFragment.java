@@ -1,7 +1,7 @@
-package com.example.ihm_cabum.view.home;
+package com.example.ihm_cabum.presenter.home.activity;
 
 import static com.example.ihm_cabum.presenter.notification.NotificationApp.sendAccidentNotification;
-import static com.example.ihm_cabum.view.profile.ProfileInnerFragment.notificationsOn;
+import static com.example.ihm_cabum.presenter.profile.ProfileInnerFragment.notificationsOn;
 
 import android.os.Bundle;
 
@@ -22,15 +22,15 @@ import org.json.JSONException;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class AccidentInfo extends Fragment {
+public class AccidentInfoFragment extends Fragment {
     private Accident accident;
 
-    public AccidentInfo() {
+    public AccidentInfoFragment() {
         // Required empty public constructor
         this.accident = null;
     }
 
-    public AccidentInfo(Accident accident) {
+    public AccidentInfoFragment(Accident accident) {
         this.accident = accident;
     }
 

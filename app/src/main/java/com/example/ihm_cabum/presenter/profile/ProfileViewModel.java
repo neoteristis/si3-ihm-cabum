@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.profile;
+package com.example.ihm_cabum.presenter.profile;
 
 import android.app.Application;
 import android.content.SharedPreferences;

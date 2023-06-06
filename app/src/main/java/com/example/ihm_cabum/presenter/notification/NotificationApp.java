@@ -11,11 +11,7 @@ import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.model.Event;
-import com.example.ihm_cabum.model.EventType;
-import com.example.ihm_cabum.model.Incident;
-import com.example.ihm_cabum.view.factory.Factory;
-import com.example.ihm_cabum.view.home.HomeActivity;
+import com.example.ihm_cabum.presenter.home.activity.HomeActivity;
 
 import org.osmdroid.util.GeoPoint;
 

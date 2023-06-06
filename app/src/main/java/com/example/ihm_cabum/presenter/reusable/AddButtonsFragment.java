@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.reusable;
+package com.example.ihm_cabum.presenter.reusable;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.view.form.AddAccidentActivity;
+import com.example.ihm_cabum.presenter.form.AddAccidentActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddButtonsFragment extends Fragment {

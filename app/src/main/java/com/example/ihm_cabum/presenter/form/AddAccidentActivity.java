@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.form;
+package com.example.ihm_cabum.presenter.form;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -35,10 +35,9 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
+import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
 import com.example.ihm_cabum.utils.ImageUtils;
-import com.example.ihm_cabum.view.factory.Factory;
-import com.example.ihm_cabum.presenter.misc.SpinnerAdapter;
+import com.example.ihm_cabum.presenter.patterns.factory.Factory;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
@@ -99,7 +98,7 @@ public class AddAccidentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_accident);
-
+        requestPermission();
         Intent intent = this.getIntent();
         if (intent != null) {
             String typeofEvent = intent.getStringExtra("typeForUpdate");
@@ -214,7 +213,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
             this.addressField.setText("Loading...");
 
-            new GoogleAPIPresenter(this)
+            new OpenStreetMapAPIUtils(this)
                     .convertCoordinatesToAreaName(location.getLatitude(),location.getLongitude(),a -> this.addressField.setText(a));
 
             this.descriptionField.setText(eventForUpdate.getDescription());
@@ -265,10 +264,10 @@ public class AddAccidentActivity extends AppCompatActivity {
     private View.OnClickListener uploadCameraButtonListener() {
         return view -> {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            requestPermission();
-
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
             }
         };
     }
@@ -429,12 +428,12 @@ public class AddAccidentActivity extends AppCompatActivity {
     }
 
     private void viewError() {
-        Toast toast = Toast.makeText(AddAccidentActivity.this, "Les données ne sont invalides !", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(AddAccidentActivity.this, "The data is invalid !", Toast.LENGTH_LONG);
         toast.show();
     }
 
     private void viewSuccess() {
-        Toast toast = Toast.makeText(AddAccidentActivity.this, (this.eventForUpdate != null) ? "Mise à jour effectuée" : "Évènement ajouté", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(AddAccidentActivity.this, (this.eventForUpdate != null) ? "Update completed" : "Event added", Toast.LENGTH_LONG);
         toast.show();
     }
 }

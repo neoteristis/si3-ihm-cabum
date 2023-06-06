@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.navbar;
+package com.example.ihm_cabum.presenter.navbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.ihm_cabum.view.form.AddAccidentActivity;
-import com.example.ihm_cabum.view.home.HomeActivity;
+import com.example.ihm_cabum.presenter.form.AddAccidentActivity;
+import com.example.ihm_cabum.presenter.home.activity.HomeActivity;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.view.archieve.ArchiveActivity;
-import com.example.ihm_cabum.view.profile.ProfileActivity;
+import com.example.ihm_cabum.presenter.archieve.ArchiveActivity;
+import com.example.ihm_cabum.presenter.profile.ProfileActivity;
 
 public class NavbarFragment extends Fragment {
     public NavbarFragment(){}

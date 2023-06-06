@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.factory.archieve;
+package com.example.ihm_cabum.presenter.archieve;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,14 +19,14 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.presenter.api.GoogleAPIPresenter;
+import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
-import com.example.ihm_cabum.view.factory.Factory;
-import com.example.ihm_cabum.view.form.AddAccidentActivity;
-import com.example.ihm_cabum.view.home.HomeActivity;
+import com.example.ihm_cabum.presenter.patterns.factory.Factory;
+import com.example.ihm_cabum.presenter.form.AddAccidentActivity;
+import com.example.ihm_cabum.presenter.home.activity.HomeActivity;
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.FirebaseResponse;
 
@@ -45,7 +45,7 @@ public class EventListAdapter extends BaseAdapter {
 
     private AlertDialog alertDialog;
 
-    private final GoogleAPIPresenter googleAPIPresenter;
+    private final OpenStreetMapAPIUtils openStreetMapAPIUtils;
     private Activity parentActivity;
 
     public EventListAdapter(Context context, List<Event> eventList, Activity parentActivity) {
@@ -55,7 +55,8 @@ public class EventListAdapter extends BaseAdapter {
 
         this.layoutInflater = LayoutInflater.from(context);
 
-        this.googleAPIPresenter = new GoogleAPIPresenter(context);
+
+        this.openStreetMapAPIUtils = new OpenStreetMapAPIUtils(context);
     }
 
     @Override

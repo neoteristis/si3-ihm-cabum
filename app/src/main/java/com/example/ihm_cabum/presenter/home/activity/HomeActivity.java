@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.home;
+package com.example.ihm_cabum.presenter.home.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,16 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.presenter.home.MapController;
-import com.example.ihm_cabum.presenter.home.SearchController;
 import com.example.ihm_cabum.model.Event;
-import com.example.ihm_cabum.presenter.notification.FireBaseNotificationManager;
+import com.example.ihm_cabum.presenter.home.presenter.SearchPresenter;
+import com.example.ihm_cabum.presenter.home.presenter.MapPresenter;
 
 import org.osmdroid.config.Configuration;
 
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
-    private MapController mapController;
+    private MapPresenter mapPresenter;
     private LocationManager locationManager;
 
     @Override
@@ -39,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
         findViewById(R.id.accident_info).setVisibility(View.INVISIBLE);
         findViewById(R.id.accident_info_shadow).setVisibility(View.INVISIBLE);
 
-        this.mapController = new MapController(this, findViewById(R.id.mapView), this);
+        this.mapPresenter = new MapPresenter(this, findViewById(R.id.mapView), this);
 
         // Set up the location manager
         this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
             Event event = extras.getParcelable("event");
             event.setContext(this);
             String[] address = event.getAddress().toString().split(",");
-            mapController.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
+            mapPresenter.setUp(Double.parseDouble(address[0]), Double.parseDouble(address[1]));
             return;
         }
 
@@ -73,8 +74,8 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     public void onDestroy() {
         super.onDestroy();
         // Remove map view
-        ViewGroup parent = (ViewGroup) mapController.getMapView().getParent();
-        parent.removeView(mapController.getMapView());
+        ViewGroup parent = (ViewGroup) mapPresenter.getMapView().getParent();
+        parent.removeView(mapPresenter.getMapView());
 
         // Stop location updates
         locationManager.removeUpdates(this);
@@ -83,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onResume() {
         super.onResume();
-        mapController.getMapView().onResume();
+        mapPresenter.getMapView().onResume();
     }
 
     @Override
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onPause() {
         super.onPause();
-        mapController.getMapView().onPause();
+        mapPresenter.getMapView().onPause();
     }
 
     @Override
@@ -110,8 +111,8 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void setSearchController(SearchView searchView) {
-        SearchController searchController = new SearchController(this, mapController, searchView);
-        searchController.setUp();
+        SearchPresenter searchPresenter = new SearchPresenter(this, mapPresenter, searchView);
+        searchPresenter.setUp();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
         // Use the latitude and longitude for your desired purpose
         // For example, you can pass it to the mapController.setUp() method
 
-        mapController.setUp(latitude, longitude);
+        mapPresenter.setUp(latitude, longitude);
     }
 
     public void onCurrentLocationButtonClick(View view) {
@@ -136,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
                 double longitude = lastKnownLocation.getLongitude();
 
                 // Use the latitude and longitude to center the map
-                mapController.setUp(latitude, longitude);
+                mapPresenter.setUp(latitude, longitude);
             }
         }
     }

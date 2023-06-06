@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.presenter.api;
+package com.example.ihm_cabum.utils;
 
 import static android.content.ContentValues.TAG;
 
@@ -16,11 +16,11 @@ import org.json.JSONObject;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class GoogleAPIPresenter {
+public class OpenStreetMapAPIUtils {
 
     private Context context;
 
-    public GoogleAPIPresenter(Context context) {
+    public OpenStreetMapAPIUtils(Context context) {
         this.context = context;
     }
 

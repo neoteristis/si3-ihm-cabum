@@ -5,11 +5,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 import java.util.Observable;
 
-
-/**
- * Message is an Observable Singleton  ;-)
- * @author Fred Rallo
- */
 public class Message extends Observable {
     private static RemoteMessage message;
     private static Message instance;

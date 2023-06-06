@@ -26,7 +26,7 @@
         tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity android:exported="true"
-            android:name=".view.home.LoadActivity">
+            android:name=".presenter.home.activity.LoadActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,24 +42,24 @@
         </service>
 
         <activity
-            android:name=".view.form.AddAccidentActivity"
+            android:name=".presenter.form.AddAccidentActivity"
             android:exported="false"
             android:label="@string/title_add_accident"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".view.factory.archieve.EventList"
+            android:name=".presenter.archieve.EventList"
             android:exported="false"
             android:label="@string/title_archive" />
         <activity
-            android:name=".view.home.HomeActivity"
+            android:name=".presenter.home.activity.HomeActivity"
             android:exported="true"
             android:label="@string/title_home"/>
         <activity
-            android:name=".view.archieve.ArchiveActivity"
+            android:name=".presenter.archieve.ArchiveActivity"
             android:exported="true"
             android:label="@string/title_archive"/>
         <activity
-            android:name=".view.profile.ProfileActivity"
+            android:name=".presenter.profile.ProfileActivity"
             android:exported="true"
             android:label="@string/title_profile"/>
     </application>

@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.presenter.home;
+package com.example.ihm_cabum.presenter.home.presenter;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.presenter.observer.IObservable;
+
+import com.example.ihm_cabum.presenter.home.activity.AccidentInfoFragment;
+import com.example.ihm_cabum.presenter.patterns.observer.IObservable;
 import com.example.ihm_cabum.model.Accident;
-import com.example.ihm_cabum.view.home.AccidentInfo;
+
 import com.example.ihm_cabum.volley.FirebaseObject;
 import com.example.ihm_cabum.volley.FirebaseResponse;
 
@@ -24,7 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MarkersController {
+public class MarkersPresenter {
     private List<Marker> markers = new ArrayList<>();
     private List<IObservable> observers = new ArrayList<>();
 
@@ -35,7 +37,7 @@ public class MarkersController {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     //TODO add position
-    public MarkersController(Context context, MapView mapView, FragmentActivity activity) {
+    public MarkersPresenter(Context context, MapView mapView, FragmentActivity activity) {
         this.context = context;
         this.mapView = mapView;
         this.activity = activity;
@@ -96,7 +98,7 @@ public class MarkersController {
         marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker, MapView mapView) {
-                AccidentInfo fragment = new AccidentInfo(accident);
+                AccidentInfoFragment fragment = new AccidentInfoFragment(accident);
                 FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.accident_info, fragment);
                 transaction.addToBackStack(null);

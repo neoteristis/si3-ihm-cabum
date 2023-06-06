@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.view.home;
+package com.example.ihm_cabum.presenter.home.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
