@@ -21,8 +21,11 @@ import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.presenter.home.presenter.SearchPresenter;
 import com.example.ihm_cabum.presenter.home.presenter.MapPresenter;
+import com.example.ihm_cabum.presenter.notification.FireBaseNotificationManager;
 
 import org.osmdroid.config.Configuration;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
@@ -42,6 +45,8 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
 
         // Set up the location manager
         this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        FireBaseNotificationManager.initFireBaseFCM(this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);

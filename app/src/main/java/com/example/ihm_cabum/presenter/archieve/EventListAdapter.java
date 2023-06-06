@@ -55,6 +55,7 @@ public class EventListAdapter extends BaseAdapter {
 
         this.layoutInflater = LayoutInflater.from(context);
 
+
         this.openStreetMapAPIUtils = new OpenStreetMapAPIUtils(context);
     }
 
