@@ -29,7 +29,7 @@ public abstract class FirebaseObject {
     private String id;
     private String endpoint;
 
-    private Context context;
+    protected Context context;
 
     private Map<String, Method> introMapGetter, introMapSetter;
 
@@ -40,6 +40,14 @@ public abstract class FirebaseObject {
         this.id=null;
         this.context=context;
         this.parseAnnotations();
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public String getId(){
@@ -56,12 +64,22 @@ public abstract class FirebaseObject {
 
     public void parseAnnotations() throws IllegalAccessException {
         Class<?> clazz = this.getClass();
-        for(Method method : clazz.getDeclaredMethods()){
+        for(Method method : clazz.getMethods()){
             if(method.isAnnotationPresent(GetterFirebase.class)){
                 introMapGetter.put(method.getAnnotation(GetterFirebase.class).key(),method);
             }
 
             if(method.isAnnotationPresent(SetterFirebase.class)){
+                introMapSetter.put(method.getAnnotation(SetterFirebase.class).key(),method);
+            }
+        }
+
+        for(Method method : clazz.getDeclaredMethods()){
+            if(method.isAnnotationPresent(GetterFirebase.class) && !introMapGetter.containsKey(method.getAnnotation(GetterFirebase.class).key())){
+                introMapGetter.put(method.getAnnotation(GetterFirebase.class).key(),method);
+            }
+
+            if(method.isAnnotationPresent(SetterFirebase.class) && !introMapSetter.containsKey(method.getAnnotation(SetterFirebase.class).key())){
                 introMapSetter.put(method.getAnnotation(SetterFirebase.class).key(),method);
             }
         }
@@ -102,8 +120,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR:" + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 
@@ -134,8 +151,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR:" + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 
@@ -173,8 +189,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         }){
             @Override
@@ -206,8 +221,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         }){
             @Override
@@ -235,8 +249,7 @@ public abstract class FirebaseObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("ERROR: " + error.getMessage());
-                firebaseResponse.notify((FirebaseObject) null);
+                firebaseResponse.error(error);
             }
         });
 

@@ -1,91 +1,92 @@
 package com.example.ihm_cabum.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.volley.FieldFirebase;
+import com.example.ihm_cabum.volley.FirebaseObject;
+import com.example.ihm_cabum.volley.GetterFirebase;
+import com.example.ihm_cabum.volley.SetterFirebase;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class Accident {
-    private final AccidentType typeOfAccident;
-    private final String description;
-    private final byte[] image;
-    private final GeoPoint address;
-    private final Date time;
+public class Accident extends Event implements Parcelable {
+    @FieldFirebase(key="accidentType")
+    private EventType typeOfAccident;
 
-    private int numberOfApproval;
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) throws IllegalAccessException {
+        this(context,typeOfAccident,description, image, address, time,0);
+    }
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time) {
+    public Accident(Context context) throws IllegalAccessException {
+        this(context, EventType.ANIMAL, "", null, new GeoPoint(0,0), new Date());
+    }
+
+    public Accident(Context context, EventType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) throws IllegalAccessException {
+        super(context,"accident",description, image, address, time, numberOfApproval);
         this.typeOfAccident = typeOfAccident;
         this.description = description;
         this.image = image;
         this.address = address;
         this.time = time;
-
         this.numberOfApproval = 0;
     }
 
-    public Accident(AccidentType typeOfAccident, String description, byte[] image, GeoPoint address, Date time, int numberOfApproval) {
-        this.typeOfAccident = typeOfAccident;
-        this.description = description;
-        this.image = image;
-        this.address = address;
-        this.time = time;
-        this.numberOfApproval = numberOfApproval;
+    protected Accident(Parcel in) throws IllegalAccessException {
+        super(null, "accident",in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
+        this.typeOfAccident = (EventType) in.readSerializable();
     }
 
-    public AccidentType getTypeOfAccident() {
-        return typeOfAccident;
+    public static final Creator<Accident> CREATOR = new Creator<Accident>() {
+        @Override
+        public Accident createFromParcel(Parcel in) {
+            try {
+                return new Accident(in);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public Accident[] newArray(int size) {
+            return new Accident[size];
+        }
+    };
+
+    public EventType getTypeOfAccident() {
+        return this.typeOfAccident;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLabel() {
+        return this.typeOfAccident.getLabel();
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-    public int getImageAsInt() {
-        return image != null ? ByteBuffer.wrap(image).getInt() : R.drawable.ic_accident;
+    public void setTypeOfAccident(EventType eventType){
+        this.typeOfAccident = eventType;
     }
 
-    public Bitmap getBitmapImage() {
-        // Convert byte array to Bitmap
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    @GetterFirebase(key="accidentType")
+    public String getStringTypeOfAccident(){
+        return typeOfAccident.getLabel();
     }
 
-    public GeoPoint getAddress() {
-        return address;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public String getFormattedTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return dateFormat.format(time);
-    }
-
-    public int getNumberOfApproval() {
-        return numberOfApproval;
-    }
-
-    //TODO change to real query
-    public void approve() {
-        this.numberOfApproval++;
-    }
-
-    //TODO change to real query
-    public void disApprove() {
-        this.numberOfApproval--;
+    @SetterFirebase(key="accidentType")
+    public void setStringTypeOfAccident(String accident){
+        try {
+            this.typeOfAccident = EventType.valueOf(accident);
+        }catch (IllegalArgumentException e){
+            this.typeOfAccident = EventType.getFromLabel(accident);
+        }
     }
 
     @Override
@@ -104,5 +105,20 @@ public class Accident {
     @Override
     public String toString() {
         return "" + typeOfAccident + ", " + time + ", " + address;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeByteArray(image);
+        parcel.writeParcelable(address, i);
+        parcel.writeSerializable(time);
+        parcel.writeInt(numberOfApproval);
+        parcel.writeSerializable(typeOfAccident);
     }
 }
