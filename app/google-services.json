@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265165445001",
+    "project_id": "ihmpolytech-15b17",
+    "storage_bucket": "ihmpolytech-15b17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265165445001:android:4074c6f9ec56419a36b358",
+        "android_client_info": {
+          "package_name": "com.example.ihm_cabum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265165445001-4r9slracofad24id63g8hus8epvfsc21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWuanl35yX73nFc60wG5BkZU-WxFUxzzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265165445001-4r9slracofad24id63g8hus8epvfsc21.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
