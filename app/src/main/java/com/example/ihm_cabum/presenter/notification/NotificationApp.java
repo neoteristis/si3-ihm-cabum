@@ -14,8 +14,8 @@ import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
+import com.example.ihm_cabum.model.patterns.factory.Factory;
 import com.example.ihm_cabum.presenter.home.activity.HomeActivity;
-import com.example.ihm_cabum.presenter.patterns.factory.Factory;
 
 import org.osmdroid.util.GeoPoint;
 
