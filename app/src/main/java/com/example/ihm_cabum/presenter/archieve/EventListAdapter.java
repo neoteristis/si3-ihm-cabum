@@ -19,16 +19,16 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
+import com.example.ihm_cabum.presenter.reusable.OpenStreetMapAPI;
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
 import com.example.ihm_cabum.model.Incident;
-import com.example.ihm_cabum.presenter.patterns.factory.Factory;
+import com.example.ihm_cabum.model.patterns.factory.Factory;
 import com.example.ihm_cabum.presenter.form.AddAccidentActivity;
 import com.example.ihm_cabum.presenter.home.activity.HomeActivity;
-import com.example.ihm_cabum.volley.FirebaseObject;
-import com.example.ihm_cabum.volley.FirebaseResponse;
+import com.example.ihm_cabum.model.volley.FirebaseObject;
+import com.example.ihm_cabum.model.volley.FirebaseResponse;
 
 import org.json.JSONException;
 
@@ -45,7 +45,7 @@ public class EventListAdapter extends BaseAdapter {
 
     private AlertDialog alertDialog;
 
-    private final OpenStreetMapAPIUtils openStreetMapAPIUtils;
+    private final OpenStreetMapAPI openStreetMapAPI;
     private Activity parentActivity;
 
     public EventListAdapter(Context context, List<Event> eventList, Activity parentActivity) {
@@ -55,7 +55,7 @@ public class EventListAdapter extends BaseAdapter {
 
         this.layoutInflater = LayoutInflater.from(context);
 
-        this.openStreetMapAPIUtils = new OpenStreetMapAPIUtils(context);
+        this.openStreetMapAPI = new OpenStreetMapAPI(context);
     }
 
     @Override

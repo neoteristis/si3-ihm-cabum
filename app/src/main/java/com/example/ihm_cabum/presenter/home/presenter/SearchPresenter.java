@@ -3,8 +3,7 @@ package com.example.ihm_cabum.presenter.home.presenter;
 import android.content.Context;
 import android.widget.SearchView;
 
-import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
-import com.example.ihm_cabum.presenter.home.presenter.MapPresenter;
+import com.example.ihm_cabum.presenter.reusable.OpenStreetMapAPI;
 
 public class SearchPresenter {
 
@@ -25,8 +24,8 @@ public class SearchPresenter {
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                OpenStreetMapAPIUtils openStreetMapAPIUtils = new OpenStreetMapAPIUtils(context);
-                openStreetMapAPIUtils.convertCityNameToCoordinates(s, mapPresenter::setMapCenterPosition);
+                OpenStreetMapAPI openStreetMapAPI = new OpenStreetMapAPI(context);
+                openStreetMapAPI.convertCityNameToCoordinates(s, mapPresenter::setMapCenterPosition);
 
                 return true;
             }

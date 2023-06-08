@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.volley;
+package com.example.ihm_cabum.model.volley;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
