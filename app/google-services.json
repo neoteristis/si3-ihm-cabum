@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "764589834038",
-    "project_id": "notification-test-e55f9",
-    "storage_bucket": "notification-test-e55f9.appspot.com"
+    "project_number": "265165445001",
+    "project_id": "ihmpolytech-15b17",
+    "storage_bucket": "ihmpolytech-15b17.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:764589834038:android:ed92262dd2654256607d97",
+        "mobilesdk_app_id": "1:265165445001:android:4074c6f9ec56419a36b358",
         "android_client_info": {
           "package_name": "com.example.ihm_cabum"
         }
       },
       "oauth_client": [
         {
-          "client_id": "764589834038-nobvufj7s86f3cvnba1jgtk102fb50lq.apps.googleusercontent.com",
+          "client_id": "265165445001-4r9slracofad24id63g8hus8epvfsc21.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXsyKFIuDdsyhn0f1mVwI5HvM89fVCgew"
+          "current_key": "AIzaSyBWuanl35yX73nFc60wG5BkZU-WxFUxzzY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "764589834038-nobvufj7s86f3cvnba1jgtk102fb50lq.apps.googleusercontent.com",
+              "client_id": "265165445001-4r9slracofad24id63g8hus8epvfsc21.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
