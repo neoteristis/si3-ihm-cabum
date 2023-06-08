@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.presenter.patterns.observer;
+package com.example.ihm_cabum.model.patterns.observer;
 
 import com.example.ihm_cabum.presenter.home.presenter.MarkersPresenter;
 

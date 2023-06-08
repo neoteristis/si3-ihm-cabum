@@ -35,14 +35,14 @@ import android.widget.Toast;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.utils.OpenStreetMapAPIUtils;
-import com.example.ihm_cabum.utils.ImageUtils;
-import com.example.ihm_cabum.presenter.patterns.factory.Factory;
+import com.example.ihm_cabum.presenter.reusable.OpenStreetMapAPI;
+import com.example.ihm_cabum.model.ImageUtils;
+import com.example.ihm_cabum.model.patterns.factory.Factory;
 import com.example.ihm_cabum.model.DisasterType;
 import com.example.ihm_cabum.model.Event;
 import com.example.ihm_cabum.model.EventType;
-import com.example.ihm_cabum.volley.FirebaseObject;
-import com.example.ihm_cabum.volley.FirebaseResponse;
+import com.example.ihm_cabum.model.volley.FirebaseObject;
+import com.example.ihm_cabum.model.volley.FirebaseResponse;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -213,7 +213,7 @@ public class AddAccidentActivity extends AppCompatActivity {
 
             this.addressField.setText("Loading...");
 
-            new OpenStreetMapAPIUtils(this)
+            new OpenStreetMapAPI(this)
                     .convertCoordinatesToAreaName(location.getLatitude(),location.getLongitude(),a -> this.addressField.setText(a));
 
             this.descriptionField.setText(eventForUpdate.getDescription());
