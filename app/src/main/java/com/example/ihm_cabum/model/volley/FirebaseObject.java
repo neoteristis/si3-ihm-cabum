@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.volley;
+package com.example.ihm_cabum.model.volley;
 
 import android.content.Context;
 
@@ -14,10 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;

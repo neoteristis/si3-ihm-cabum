@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.presenter.navbar;
+package com.example.ihm_cabum.presenter.reusable;
 
 import android.content.Intent;
 import android.os.Bundle;

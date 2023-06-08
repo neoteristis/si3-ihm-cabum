@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.R;
-import com.example.ihm_cabum.volley.FirebaseFireAndForget;
+import com.example.ihm_cabum.model.volley.FirebaseFireAndForget;
 
 import org.json.JSONException;
 

@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.volley;
+package com.example.ihm_cabum.model.volley;
 
 import android.content.Context;
 
@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-
-import java.io.IOException;
 
 public class VolleyManagement {
     private static VolleyManagement instance;
