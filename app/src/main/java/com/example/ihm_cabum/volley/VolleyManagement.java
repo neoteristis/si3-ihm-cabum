@@ -7,11 +7,9 @@ import androidx.annotation.NonNull;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-import java.io.IOException;
-
 public class VolleyManagement {
     private static VolleyManagement instance;
-    private RequestQueue requestQueue=null;
+    private final RequestQueue requestQueue;
 
     private VolleyManagement(Context context){
         this.requestQueue = Volley.newRequestQueue(context);

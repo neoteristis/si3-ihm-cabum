@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class SpinnerAdapter extends ArrayAdapter<String> {
-    private int selectedItemPosition = -1;
-    private Context context;
+    private final Context context;
 
     public SpinnerAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
@@ -21,7 +22,6 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
     }
 
     public void setSelectedItemPosition(int selectedItemPosition) {
-        this.selectedItemPosition = selectedItemPosition;
         notifyDataSetChanged();
     }
 
@@ -31,7 +31,7 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         return getCustomView(position, convertView, parent);
     }
 

@@ -119,11 +119,6 @@ public class NotificationApp extends Application {
         notificationManager.notify(notificationId, builder.build());
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notificationManager.cancel(notificationId);
-            }
-        }, delay);
+        handler.postDelayed(() -> notificationManager.cancel(notificationId), delay);
     }
 }

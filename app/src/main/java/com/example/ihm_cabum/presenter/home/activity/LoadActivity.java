@@ -16,12 +16,9 @@ public class LoadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_load);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(LoadActivity.this, HomeActivity.class));
-                finish();
-            }
+        handler.postDelayed(() -> {
+            startActivity(new Intent(LoadActivity.this, HomeActivity.class));
+            finish();
         }, 2000);
     }
 }

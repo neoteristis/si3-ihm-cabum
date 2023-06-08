@@ -38,37 +38,26 @@ public class AddButtonsFragment extends Fragment {
         }
         ConstraintLayout constraintLayout = view.findViewById(R.id.tabAdd);
 
-        accident.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeVisibility(addButton, accident, incident, constraintLayout);
-                Intent intent = new Intent(getActivity(), AddAccidentActivity.class);
-                intent.putExtra("type", "accident");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-            }
+        accident.setOnClickListener(view13 -> {
+            changeVisibility(addButton, accident, incident, constraintLayout);
+            Intent intent = new Intent(getActivity(), AddAccidentActivity.class);
+            intent.putExtra("type", "accident");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
         });
 
-        incident.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeVisibility(addButton, accident, incident, constraintLayout);
-                Intent intent = new Intent(getActivity(), AddAccidentActivity.class);
-                intent.putExtra("type", "incident");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+        incident.setOnClickListener(view12 -> {
+            changeVisibility(addButton, accident, incident, constraintLayout);
+            Intent intent = new Intent(getActivity(), AddAccidentActivity.class);
+            intent.putExtra("type", "incident");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
-                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-            }
+            getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeVisibility(addButton, accident, incident, constraintLayout);
-            }
-        });
+        addButton.setOnClickListener(view1 -> changeVisibility(addButton, accident, incident, constraintLayout));
 
         constraintLayout.setVisibility(View.INVISIBLE);
 
