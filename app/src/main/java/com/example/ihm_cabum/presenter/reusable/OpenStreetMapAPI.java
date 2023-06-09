@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 public class OpenStreetMapAPI {
 
-    private Context context;
+    private final Context context;
 
     public OpenStreetMapAPI(Context context) {
         this.context = context;

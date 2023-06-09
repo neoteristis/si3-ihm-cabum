@@ -28,50 +28,41 @@ public class NavbarFragment extends Fragment {
 
         FragmentActivity activity = getActivity();
         Button homeBtn = view.findViewById(R.id.navigation_home);
-        homeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+        homeBtn.setOnClickListener(view13 -> {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
-                if(activity instanceof AddAccidentActivity || activity instanceof HomeActivity) {
-                    getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-                } else {
-                    getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
+            if(activity instanceof AddAccidentActivity || activity instanceof HomeActivity) {
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            } else {
+                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
         Button archiveBtn = view.findViewById(R.id.navigation_archive);
-        archiveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ArchiveActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+        archiveBtn.setOnClickListener(view12 -> {
+            Intent intent = new Intent(getActivity(), ArchiveActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
-                if(activity instanceof ProfileActivity) {
-                    getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                } else if(activity instanceof HomeActivity) {
-                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                } else {
-                    getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-                }
+            if(activity instanceof ProfileActivity) {
+                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            } else if(activity instanceof HomeActivity) {
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            } else {
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
             }
         });
         Button profileBtn = view.findViewById(R.id.navigation_profile);
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+        profileBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
-                if(activity instanceof AddAccidentActivity || activity instanceof ProfileActivity) {
-                    getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
-                } else {
-                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                }
+            if(activity instanceof AddAccidentActivity || activity instanceof ProfileActivity) {
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            } else {
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

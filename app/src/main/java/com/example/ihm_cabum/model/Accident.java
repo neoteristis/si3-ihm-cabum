@@ -1,15 +1,14 @@
 package com.example.ihm_cabum.model;
 
 import android.content.Context;
-
-import com.example.ihm_cabum.model.volley.FieldFirebase;
-import com.example.ihm_cabum.model.volley.GetterFirebase;
-import com.example.ihm_cabum.model.volley.SetterFirebase;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import com.example.ihm_cabum.model.volley.FieldFirebase;
+import com.example.ihm_cabum.model.volley.GetterFirebase;
+import com.example.ihm_cabum.model.volley.SetterFirebase;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -39,11 +38,11 @@ public class Accident extends Event implements Parcelable {
     }
 
     protected Accident(Parcel in) throws IllegalAccessException {
-        super(null, "accident",in.readString(), in.createByteArray(), (GeoPoint) in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
+        super(null, "accident",in.readString(), in.createByteArray(), in.readParcelable(GeoPoint.class.getClassLoader()), (Date) in.readSerializable(), in.readInt());
         this.typeOfAccident = (EventType) in.readSerializable();
     }
 
-    public static final Creator<Accident> CREATOR = new Creator<Accident>() {
+    public static final Creator<Accident> CREATOR = new Creator<>() {
         @Override
         public Accident createFromParcel(Parcel in) {
             try {
@@ -98,6 +97,7 @@ public class Accident extends Event implements Parcelable {
         return Objects.hash(typeOfAccident, description, address, time);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "" + typeOfAccident + ", " + time + ", " + address;

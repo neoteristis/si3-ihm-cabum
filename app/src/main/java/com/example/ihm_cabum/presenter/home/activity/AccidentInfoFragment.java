@@ -4,9 +4,6 @@ import static com.example.ihm_cabum.presenter.notification.NotificationApp.sendA
 import static com.example.ihm_cabum.presenter.profile.ProfileInnerFragment.notificationsOn;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ihm_cabum.model.Accident;
+import androidx.fragment.app.Fragment;
+
 import com.example.ihm_cabum.R;
+import com.example.ihm_cabum.model.Accident;
 import com.example.ihm_cabum.model.volley.FirebaseFireAndForget;
 
 import org.json.JSONException;
@@ -23,7 +22,7 @@ import org.json.JSONException;
 import java.lang.reflect.InvocationTargetException;
 
 public class AccidentInfoFragment extends Fragment {
-    private Accident accident;
+    private final Accident accident;
 
     public AccidentInfoFragment() {
         // Required empty public constructor
@@ -50,47 +49,28 @@ public class AccidentInfoFragment extends Fragment {
                 sendAccidentNotification(getContext(), accident);
 
             Button approveButton = view.findViewById(R.id.approve);
-            approveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accident.approve();
-                    try {
-                        accident.save(new FirebaseFireAndForget());
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
+            approveButton.setOnClickListener(view13 -> {
+                accident.approve();
+                try {
+                    accident.save(new FirebaseFireAndForget());
+                } catch (InvocationTargetException | IllegalAccessException | JSONException e) {
+                    throw new RuntimeException(e);
                 }
             });
 
             Button disApproveButton = view.findViewById(R.id.disapprove_accident);
-            disApproveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    accident.disApprove();
-                    try {
-                        accident.save(new FirebaseFireAndForget());
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
+            disApproveButton.setOnClickListener(view12 -> {
+                accident.disApprove();
+                try {
+                    accident.save(new FirebaseFireAndForget());
+                } catch (InvocationTargetException | IllegalAccessException | JSONException e) {
+                    throw new RuntimeException(e);
                 }
             });
         }
 
         Button closeButton = view.findViewById(R.id.close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-            }
-        });
+        closeButton.setOnClickListener(view1 -> getActivity().onBackPressed());
 
         // Inflate the layout for this fragment
         return view;

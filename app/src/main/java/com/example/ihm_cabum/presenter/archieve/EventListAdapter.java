@@ -38,15 +38,15 @@ import java.util.List;
 
 public class EventListAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<Event> eventList;
+    private final Context context;
+    private final List<Event> eventList;
 
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
 
     private AlertDialog alertDialog;
 
     private final OpenStreetMapAPI openStreetMapAPI;
-    private Activity parentActivity;
+    private final Activity parentActivity;
 
     public EventListAdapter(Context context, List<Event> eventList, Activity parentActivity) {
         this.eventList = eventList;
@@ -77,9 +77,9 @@ public class EventListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = layoutInflater.inflate(R.layout.activity_accident_list, null);
 
-        TextView type = (TextView) view.findViewById(R.id.accidentType);
-        TextView date = (TextView) view.findViewById(R.id.accidentDate);
-        ImageView image = (ImageView) view.findViewById(R.id.accidentImage);
+        TextView type = view.findViewById(R.id.accidentType);
+        TextView date = view.findViewById(R.id.accidentDate);
+        ImageView image = view.findViewById(R.id.accidentImage);
         type.setText(eventList.get(i).getLabel());
 
         date.setText(eventList.get(i).getFormattedTime());
@@ -130,88 +130,77 @@ public class EventListAdapter extends BaseAdapter {
             context.startActivity(intent);
         });
 
-        layout.setOnLongClickListener(new View.OnLongClickListener() {
-            //TODO open a menu for delete and accident copy
-            @Override
-            public boolean onLongClick(View v) {
-                return true;
-            }
-        });
+        //TODO open a menu for delete and accident copy
+        layout.setOnLongClickListener(v -> true);
 
         //This part is about edit and deletion of event
         ImageButton editButton = view.findViewById(R.id.edit_event);
         ImageButton deleteButton = view.findViewById(R.id.delete_event);
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Factory factory = new Factory();
-                Event event;
+        editButton.setOnClickListener(view13 -> {
+            Factory factory = new Factory();
+            Event event;
 
-                EventType eventType = EventType.getFromLabel(type.getText().toString());
+            EventType eventType = EventType.getFromLabel(type.getText().toString());
 
-                try {
-                    event = factory.build(
-                            context,
-                            eventList.get(i).getId(),
-                            eventType,
-                            eventList.get(i).getDescription(),
-                            byteArrayImage,
-                            eventList.get(i).getAddress(),
-                            eventList.get(i).getTime(),
-                            eventList.get(i).getNumberOfApproval()
-                    );
-                } catch (Throwable e) {
-                    // TODO : change this exception to make it more appropriate
-                    return;
-                }
-
-                // Create the Intent and add the String parameter
-                //TODO : Change null by the activity to edit an accident/incident
-                Intent intent = new Intent(context, AddAccidentActivity.class);
-
-                if (Arrays.asList(EventType.accidents()).contains(eventType)) {
-                    intent.putExtra("eventForUpdate", (Accident) event);
-                    intent.putExtra("typeForUpdate", ((Accident) event).getTypeOfAccident().getLabel());
-                } else if (Arrays.asList(EventType.incidents()).contains(eventType)) {
-                    intent.putExtra("eventForUpdate", (Incident) event);
-                    intent.putExtra("typeForUpdate", ((Incident) event).getTypeOfIncident().getLabel());
-                } else {
-                    return;
-                }
-                intent.putExtra("eventIdForUpdate",event.getId());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // Start the MainActivity with the Intent
-                context.startActivity(intent);
+            try {
+                event = factory.build(
+                        context,
+                        eventList.get(i).getId(),
+                        eventType,
+                        eventList.get(i).getDescription(),
+                        byteArrayImage,
+                        eventList.get(i).getAddress(),
+                        eventList.get(i).getTime(),
+                        eventList.get(i).getNumberOfApproval()
+                );
+            } catch (Throwable e) {
+                // TODO : change this exception to make it more appropriate
+                return;
             }
+
+            // Create the Intent and add the String parameter
+            //TODO : Change null by the activity to edit an accident/incident
+            Intent intent = new Intent(context, AddAccidentActivity.class);
+
+            if (Arrays.asList(EventType.accidents()).contains(eventType)) {
+                intent.putExtra("eventForUpdate", (Accident) event);
+                intent.putExtra("typeForUpdate", ((Accident) event).getTypeOfAccident().getLabel());
+            } else if (Arrays.asList(EventType.incidents()).contains(eventType)) {
+                intent.putExtra("eventForUpdate", (Incident) event);
+                intent.putExtra("typeForUpdate", ((Incident) event).getTypeOfIncident().getLabel());
+            } else {
+                return;
+            }
+            intent.putExtra("eventIdForUpdate",event.getId());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // Start the MainActivity with the Intent
+            context.startActivity(intent);
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Factory factory = new Factory();
-                Event event;
+        deleteButton.setOnClickListener(view12 -> {
+            Factory factory = new Factory();
+            Event event;
 
-                EventType eventType = EventType.getFromLabel(type.getText().toString());
+            EventType eventType = EventType.getFromLabel(type.getText().toString());
 
-                try {
-                    event = factory.build(
-                            context,
-                            eventList.get(i).getId(),
-                            eventType,
-                            eventList.get(i).getDescription(),
-                            byteArrayImage,
-                            eventList.get(i).getAddress(),
-                            eventList.get(i).getTime(),
-                            eventList.get(i).getNumberOfApproval()
-                    );
-                } catch (Throwable e) {
-                    // TODO : change this exception to make it more appropriate
-                    return;
-                }
-
-                showConfirmationDialog(event);
+            try {
+                event = factory.build(
+                        context,
+                        eventList.get(i).getId(),
+                        eventType,
+                        eventList.get(i).getDescription(),
+                        byteArrayImage,
+                        eventList.get(i).getAddress(),
+                        eventList.get(i).getTime(),
+                        eventList.get(i).getNumberOfApproval()
+                );
+            } catch (Throwable e) {
+                // TODO : change this exception to make it more appropriate
+                return;
             }
+
+            showConfirmationDialog(event);
         });
 
         return view;
@@ -229,54 +218,48 @@ public class EventListAdapter extends BaseAdapter {
 
         // Set the title and button click listeners
         titleTextView.setText(R.string.delete_event_confirmation);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Cancel button clicked
-                alertDialog.dismiss();
-            }
+        cancelButton.setOnClickListener(v -> {
+            // Cancel button clicked
+            alertDialog.dismiss();
         });
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    event.delete(new FirebaseResponse() {
-                        @Override
-                        public void notify(FirebaseObject result) {
-                            Event event1 = (Event) result;
-                            System.out.println("CREATD :" + event1.getId());
-                            parentActivity.finish();
-                            parentActivity.startActivity(parentActivity.getIntent());
-                            viewSuccess();
-                        }
+        confirmButton.setOnClickListener(v -> {
+            try {
+                event.delete(new FirebaseResponse() {
+                    @Override
+                    public void notify(FirebaseObject result) {
+                        Event event1 = (Event) result;
+                        System.out.println("CREATD :" + event1.getId());
+                        parentActivity.finish();
+                        parentActivity.startActivity(parentActivity.getIntent());
+                        viewSuccess();
+                    }
 
-                        @Override
-                        public void notify(List<FirebaseObject> result) {
+                    @Override
+                    public void notify(List<FirebaseObject> result) {
 
-                        }
+                    }
 
-                        @Override
-                        public void error(VolleyError volleyError) {
-                            System.out.println("VolleyError");
-                            for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
-                                System.out.println(stackTraceElement.toString());
-                            }
-                            if (volleyError.getMessage() != null)
-                                System.out.println("ERROR: " + volleyError.getMessage());
-                            NetworkResponse networkResponse = volleyError.networkResponse;
-                            if (networkResponse != null && networkResponse.data != null) {
-                                String jsonError = new String(networkResponse.data);
-                                System.out.println("ERROR: " + jsonError);
-                            }
-                            viewError();
+                    @Override
+                    public void error(VolleyError volleyError) {
+                        System.out.println("VolleyError");
+                        for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
+                            System.out.println(stackTraceElement.toString());
                         }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    viewError();
-                }
-                alertDialog.dismiss();
+                        if (volleyError.getMessage() != null)
+                            System.out.println("ERROR: " + volleyError.getMessage());
+                        NetworkResponse networkResponse = volleyError.networkResponse;
+                        if (networkResponse != null && networkResponse.data != null) {
+                            String jsonError = new String(networkResponse.data);
+                            System.out.println("ERROR: " + jsonError);
+                        }
+                        viewError();
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+                viewError();
             }
+            alertDialog.dismiss();
         });
 
         alertDialog = builder.create(); // Assign the alertDialog to the member variable

@@ -13,14 +13,13 @@ import com.example.ihm_cabum.R;
 import com.example.ihm_cabum.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
-    private FragmentProfileBinding binding;
 
     public ProfileFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        com.example.ihm_cabum.databinding.FragmentProfileBinding binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         getChildFragmentManager()

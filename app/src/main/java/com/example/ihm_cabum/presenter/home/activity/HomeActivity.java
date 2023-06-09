@@ -25,8 +25,6 @@ import com.example.ihm_cabum.presenter.notification.FireBaseNotificationManager;
 
 import org.osmdroid.config.Configuration;
 
-import java.util.List;
-
 public class HomeActivity extends AppCompatActivity implements LocationListener {
 
     private MapPresenter mapPresenter;
@@ -67,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements LocationListener 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, (float) 1000, (LocationListener) this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, (float) 1000, this);
         }
     }
 

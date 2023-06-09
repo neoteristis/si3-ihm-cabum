@@ -5,8 +5,6 @@ import android.content.Context;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.ihm_cabum.R;
 
@@ -23,11 +21,12 @@ import java.util.Map;
 
 public abstract class FirebaseObject {
     private String id;
-    private String endpoint;
+    private final String endpoint;
 
     protected Context context;
 
-    private Map<String, Method> introMapGetter, introMapSetter;
+    private final Map<String, Method> introMapGetter;
+    private final Map<String, Method> introMapSetter;
 
     public FirebaseObject(Context context, String endpoint) throws IllegalAccessException {
         this.endpoint = endpoint;
@@ -84,41 +83,26 @@ public abstract class FirebaseObject {
     public void getAll(FirebaseResponse firebaseResponse){
         RequestQueue requestQueue = VolleyManagement.getInstance(this.context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, this.context.getResources().getString(R.string.url_webservice) + "/" + this.endpoint,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        ArrayList<FirebaseObject> resp = new ArrayList<>();
-                        try {
-                            JSONObject jObject = new JSONObject(response);
-                            JSONArray arrays = jObject.getJSONArray("arrays");
-                            for(int i=0;i<arrays.length();i++){
-                                JSONObject object = arrays.getJSONObject(i);
-                                FirebaseObject newFirebaseObject = FirebaseObject.this.getClass().getDeclaredConstructor(Context.class).newInstance(FirebaseObject.this.context);
-                                for(String key : introMapSetter.keySet()) {
-                                    introMapSetter.get(key).invoke(newFirebaseObject, object.get(key));
-                                    newFirebaseObject.id = object.getString("id");
-                                }
-                                resp.add(newFirebaseObject);
+                response -> {
+                    ArrayList<FirebaseObject> resp = new ArrayList<>();
+                    try {
+                        JSONObject jObject = new JSONObject(response);
+                        JSONArray arrays = jObject.getJSONArray("arrays");
+                        for (int i = 0; i < arrays.length(); i++) {
+                            JSONObject object = arrays.getJSONObject(i);
+                            FirebaseObject newFirebaseObject = FirebaseObject.this.getClass().getDeclaredConstructor(Context.class).newInstance(FirebaseObject.this.context);
+                            for (String key : introMapSetter.keySet()) {
+                                introMapSetter.get(key).invoke(newFirebaseObject, object.get(key));
+                                newFirebaseObject.id = object.getString("id");
                             }
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        } catch (InvocationTargetException e) {
-                            throw new RuntimeException(e);
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
-                        } catch (InstantiationException e) {
-                            throw new RuntimeException(e);
-                        } catch (NoSuchMethodException e) {
-                            throw new RuntimeException(e);
+                            resp.add(newFirebaseObject);
                         }
-                        firebaseResponse.notify(resp);
+                    } catch (JSONException | NoSuchMethodException | InstantiationException |
+                             IllegalAccessException | InvocationTargetException e) {
+                        throw new RuntimeException(e);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                firebaseResponse.error(error);
-            }
-        });
+                    firebaseResponse.notify(resp);
+                }, error -> firebaseResponse.error(error));
 
         requestQueue.add(stringRequest);
     }
@@ -126,30 +110,19 @@ public abstract class FirebaseObject {
     public void get(FirebaseResponse firebaseResponse, String id){
         RequestQueue requestQueue = VolleyManagement.getInstance(this.context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, this.context.getResources().getString(R.string.url_webservice) + "/" + this.endpoint + "/" + (this.id == null ? id : this.id),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jObject = new JSONObject(response);
-                            FirebaseObject.this.id = jObject.getString("id");
-                            for(String key : introMapSetter.keySet()) {
-                                introMapSetter.get(key).invoke(FirebaseObject.this, jObject.get(key));
-                            }
-                            firebaseResponse.notify(FirebaseObject.this);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        } catch (InvocationTargetException e) {
-                            throw new RuntimeException(e);
-                        } catch (IllegalAccessException e) {
-                            throw new RuntimeException(e);
+                response -> {
+                    try {
+                        JSONObject jObject = new JSONObject(response);
+                        FirebaseObject.this.id = jObject.getString("id");
+                        for (String key : introMapSetter.keySet()) {
+                            introMapSetter.get(key).invoke(FirebaseObject.this, jObject.get(key));
                         }
+                        firebaseResponse.notify(FirebaseObject.this);
+                    } catch (JSONException | IllegalAccessException |
+                             InvocationTargetException e) {
+                        throw new RuntimeException(e);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                firebaseResponse.error(error);
-            }
-        });
+                }, error -> firebaseResponse.error(error));
 
         requestQueue.add(stringRequest);
     }
@@ -171,23 +144,15 @@ public abstract class FirebaseObject {
         }
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, this.context.getResources().getString(R.string.url_webservice) + "/" + this.endpoint,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jObject = new JSONObject(response);
-                            FirebaseObject.this.id = jObject.getString("id");
-                            firebaseResponse.notify(FirebaseObject.this);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
+                response -> {
+                    try {
+                        JSONObject jObject = new JSONObject(response);
+                        FirebaseObject.this.id = jObject.getString("id");
+                        firebaseResponse.notify(FirebaseObject.this);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                firebaseResponse.error(error);
-            }
-        }){
+                }, error -> firebaseResponse.error(error)){
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
@@ -209,17 +174,7 @@ public abstract class FirebaseObject {
         }
 
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, this.context.getResources().getString(R.string.url_webservice) + "/" + this.endpoint + "/" + this.id,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        firebaseResponse.notify(FirebaseObject.this);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                firebaseResponse.error(error);
-            }
-        }){
+                response -> firebaseResponse.notify(FirebaseObject.this), error -> firebaseResponse.error(error)){
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
@@ -236,18 +191,10 @@ public abstract class FirebaseObject {
     public void delete(FirebaseResponse firebaseResponse) throws JSONException {
         RequestQueue requestQueue = VolleyManagement.getInstance(this.context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, this.context.getResources().getString(R.string.url_webservice) + "/" + this.endpoint +"/" + this.id,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        FirebaseObject.this.id=null;
-                        firebaseResponse.notify(FirebaseObject.this);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                firebaseResponse.error(error);
-            }
-        });
+                response -> {
+                    FirebaseObject.this.id = null;
+                    firebaseResponse.notify(FirebaseObject.this);
+                }, error -> firebaseResponse.error(error));
 
         requestQueue.add(stringRequest);
     }

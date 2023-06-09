@@ -25,14 +25,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MarkersPresenter {
-    private List<Marker> markers = new ArrayList<>();
-    private List<IObservable> observers = new ArrayList<>();
+    private final List<Marker> markers = new ArrayList<>();
+    private final List<IObservable> observers = new ArrayList<>();
 
     private final Context context;
     private final MapView mapView;
     private final FragmentActivity activity;
-
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     //TODO add position
     public MarkersPresenter(Context context, MapView mapView, FragmentActivity activity) {
@@ -40,6 +38,7 @@ public class MarkersPresenter {
         this.mapView = mapView;
         this.activity = activity;
 
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
             // Fetch data from database
             // Update the data in the class
@@ -93,18 +92,15 @@ public class MarkersPresenter {
         marker.setImage(new BitmapDrawable(context.getResources(), accident.getBitmapImage()));
         marker.setPanToView(true);  //the map will be centered on the marker position.
         marker.setDraggable(true);
-        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
-                AccidentInfoFragment fragment = new AccidentInfoFragment(accident);
-                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.accident_info, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                activity.findViewById(R.id.accident_info).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.accident_info_shadow).setVisibility(View.VISIBLE);
-                return false;
-            }
+        marker.setOnMarkerClickListener((marker1, mapView) -> {
+            AccidentInfoFragment fragment = new AccidentInfoFragment(accident);
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.accident_info, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+            activity.findViewById(R.id.accident_info).setVisibility(View.VISIBLE);
+            activity.findViewById(R.id.accident_info_shadow).setVisibility(View.VISIBLE);
+            return false;
         });
         return marker;
     }

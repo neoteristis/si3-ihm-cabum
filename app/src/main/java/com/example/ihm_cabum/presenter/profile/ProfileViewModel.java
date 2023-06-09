@@ -11,15 +11,15 @@ import java.util.Set;
 
 public class ProfileViewModel extends ViewModel {
 
-    private SharedPreferences mPreferences;
-    private MutableLiveData<String> mFirstName;
-    private MutableLiveData<String> mLastName;
-    private MutableLiveData<String> mEmail;
-    private MutableLiveData<String> mCity;
-    private MutableLiveData<Set<String>> mTransports;
-    private MutableLiveData<String> mLanguage;
-    private MutableLiveData<String> mUnitOfMeasure;
-    private MutableLiveData<Boolean> mNotification;
+    private final SharedPreferences mPreferences;
+    private final MutableLiveData<String> mFirstName;
+    private final MutableLiveData<String> mLastName;
+    private final MutableLiveData<String> mEmail;
+    private final MutableLiveData<String> mCity;
+    private final MutableLiveData<Set<String>> mTransports;
+    private final MutableLiveData<String> mLanguage;
+    private final MutableLiveData<String> mUnitOfMeasure;
+    private final MutableLiveData<Boolean> mNotification;
 
     public ProfileViewModel(Application application) {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(application.getApplicationContext());

@@ -39,7 +39,7 @@ public class ArchiveActivity extends AppCompatActivity {
 
                 eventList = tmpEventList;
 
-                ListView listView = (ListView) findViewById(R.id.lisOfAccidents);
+                ListView listView = findViewById(R.id.lisOfAccidents);
                 EventListAdapter eventListAdapter = new EventListAdapter(ArchiveActivity.this.getApplicationContext(), eventList,ArchiveActivity.this);
                 listView.setAdapter(eventListAdapter);
             }
