@@ -60,7 +60,6 @@ public enum EventType {
     public int getIconResource() {
         switch (this) {
             case ROUGH_ROAD:
-                return R.drawable.baseline_debris_road;
             case ROAD_DEBRIS:
                 return R.drawable.baseline_debris_road;
             case BLOCKED_ROAD:

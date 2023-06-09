@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import com.example.ihm_cabum.R;
@@ -86,6 +87,9 @@ public class NotificationApp extends Application {
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.notify(++notificationId, builder.build());
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() -> notificationManager.cancel(notificationId), delay);
     }
     public static void sendAccidentNotification(Context context , Accident accident) {
 
@@ -118,12 +122,7 @@ public class NotificationApp extends Application {
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.notify(notificationId, builder.build());
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notificationManager.cancel(notificationId);
-            }
-        }, delay);
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() -> notificationManager.cancel(notificationId), delay);
     }
 }

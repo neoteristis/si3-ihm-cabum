@@ -48,10 +48,6 @@
             android:label="@string/title_add_accident"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".presenter.archieve.EventList"
-            android:exported="false"
-            android:label="@string/title_archive" />
-        <activity
             android:name=".presenter.home.activity.HomeActivity"
             android:exported="true"
             android:label="@string/title_home"/>

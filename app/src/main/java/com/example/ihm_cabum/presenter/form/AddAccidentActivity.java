@@ -359,71 +359,65 @@ public class AddAccidentActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener onSavePressed() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        return v -> {
 
-                try {
-                    String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
-                    String textDescription = descriptionField.getText().toString();
-                    String[] valueAddress = addressField.getText().toString().split(",");
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
-                    String textTimeDay = dateField.getText().toString();
-                    String textTimeHour = timeField.getText().toString();
-                    Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
-                    byte[] imageInByte = ImageUtils.convertToByteArray(bitmap);
-                    Event event = new Factory().build(AddAccidentActivity.this,
-                            EventType.getFromLabel(textAccidentType),
-                            textDescription,
-                            imageInByte,
-                            geoPoint,
-                            dateFormat.parse(textTimeDay + " " + textTimeHour));
+            try {
+                String textAccidentType = spinnerAccidentType.getSelectedItem().toString();
+                String textDescription = descriptionField.getText().toString();
+                String[] valueAddress = addressField.getText().toString().split(",");
+                GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
+                String textTimeDay = dateField.getText().toString();
+                String textTimeHour = timeField.getText().toString();
+                Bitmap bitmap = ((BitmapDrawable) uploadedImage.getDrawable()).getBitmap();
+                byte[] imageInByte = ImageUtils.convertToByteArray(bitmap);
+                Event event = new Factory().build(AddAccidentActivity.this,
+                        EventType.getFromLabel(textAccidentType),
+                        textDescription,
+                        imageInByte,
+                        geoPoint,
+                        dateFormat.parse(textTimeDay + " " + textTimeHour));
 
-                    if (eventForUpdate != null && typeOfEventForUpdate != null){
-                        event.setId(eventForUpdate.getId());
-                    }
-                    event.save(new FirebaseResponse() {
-                        @Override
-                        public void notify(FirebaseObject result) {
-                            Event event1 = (Event) result;
-                            System.out.println("CREATD :" + event1.getId());
-                            viewSuccess();
-                            finish();
-                        }
-
-                        @Override
-                        public void notify(List<FirebaseObject> result) {
-
-                        }
-
-                        @Override
-                        public void error(VolleyError volleyError) {
-                            System.out.println("VolleyError");
-                            for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
-                                System.out.println(stackTraceElement.toString());
-                            }
-                            if (volleyError.getMessage() != null)
-                                System.out.println("ERROR: " + volleyError.getMessage());
-                            NetworkResponse networkResponse = volleyError.networkResponse;
-                            if (networkResponse != null && networkResponse.data != null) {
-                                String jsonError = new String(networkResponse.data);
-                                System.out.println("ERROR: " + jsonError);
-                            }
-                            viewError();
-                        }
-                    });
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    viewError();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    viewError();
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    viewError();
+                if (eventForUpdate != null && typeOfEventForUpdate != null){
+                    event.setId(eventForUpdate.getId());
                 }
+                event.save(new FirebaseResponse() {
+                    @Override
+                    public void notify(FirebaseObject result) {
+                        Event event1 = (Event) result;
+                        System.out.println("CREATD :" + event1.getId());
+                        viewSuccess();
+                        finish();
+                    }
 
+                    @Override
+                    public void notify(List<FirebaseObject> result) {
+
+                    }
+
+                    @Override
+                    public void error(VolleyError volleyError) {
+                        System.out.println("VolleyError");
+                        for (StackTraceElement stackTraceElement : volleyError.getStackTrace()) {
+                            System.out.println(stackTraceElement.toString());
+                        }
+                        if (volleyError.getMessage() != null)
+                            System.out.println("ERROR: " + volleyError.getMessage());
+                        NetworkResponse networkResponse = volleyError.networkResponse;
+                        if (networkResponse != null && networkResponse.data != null) {
+                            String jsonError = new String(networkResponse.data);
+                            System.out.println("ERROR: " + jsonError);
+                        }
+                        viewError();
+                    }
+                });
+            } catch (ParseException e) {
+                e.printStackTrace();
+                viewError();
+            } catch (Throwable e) {
+                e.printStackTrace();
+                viewError();
             }
+
         };
     }
 

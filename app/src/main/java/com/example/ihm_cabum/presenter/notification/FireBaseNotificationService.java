@@ -6,8 +6,6 @@ import com.example.ihm_cabum.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Map;
-
 public class FireBaseNotificationService extends FirebaseMessagingService {
 
     @Override

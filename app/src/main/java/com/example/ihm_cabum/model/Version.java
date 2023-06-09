@@ -6,6 +6,7 @@ import com.example.ihm_cabum.model.volley.FieldFirebase;
 import com.example.ihm_cabum.model.volley.FirebaseObject;
 import com.example.ihm_cabum.model.volley.GetterFirebase;
 import com.example.ihm_cabum.model.volley.SetterFirebase;
+import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
@@ -72,6 +73,7 @@ public class Version extends FirebaseObject {
         return Objects.hash(version, name, last);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Version{" +
