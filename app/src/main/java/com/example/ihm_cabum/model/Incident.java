@@ -1,6 +1,11 @@
 package com.example.ihm_cabum.model;
 
 import android.content.Context;
+
+import com.example.ihm_cabum.model.volley.FieldFirebase;
+import com.example.ihm_cabum.model.volley.GetterFirebase;
+import com.example.ihm_cabum.model.volley.SetterFirebase;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
