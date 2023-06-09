@@ -11,4 +11,17 @@
         <item>Meters</item>
         <item>Miles</item>
     </string-array>
+
+    <string-array name="languages">
+        <item>French</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="cities">
+        <item>Nice</item>
+        <item>Antibes</item>
+        <item>Valbonne</item>
+        <item>Toulon</item>
+    </string-array>
+
 </resources>
