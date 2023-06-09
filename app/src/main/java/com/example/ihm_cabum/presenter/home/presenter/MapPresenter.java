@@ -2,7 +2,7 @@ package com.example.ihm_cabum.presenter.home.presenter;
 
 import android.content.Context;
 import androidx.fragment.app.FragmentActivity;
-import com.example.ihm_cabum.presenter.patterns.observer.IObservable;
+import com.example.ihm_cabum.model.patterns.observer.IObservable;
 
 
 import org.osmdroid.api.IMapController;

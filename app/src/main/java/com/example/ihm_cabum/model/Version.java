@@ -4,10 +4,10 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.example.ihm_cabum.volley.FieldFirebase;
-import com.example.ihm_cabum.volley.FirebaseObject;
-import com.example.ihm_cabum.volley.GetterFirebase;
-import com.example.ihm_cabum.volley.SetterFirebase;
+import com.example.ihm_cabum.model.volley.FieldFirebase;
+import com.example.ihm_cabum.model.volley.FirebaseObject;
+import com.example.ihm_cabum.model.volley.GetterFirebase;
+import com.example.ihm_cabum.model.volley.SetterFirebase;
 
 import java.util.Objects;
 

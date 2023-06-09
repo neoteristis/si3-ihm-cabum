@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:name="com.example.ihm_cabum.presenter.navbar.NavbarFragment"
+        android:name="com.example.ihm_cabum.presenter.reusable.NavbarFragment"
         tools:layout="@layout/fragment_navbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.ihm_cabum.presenter.patterns.factory;
+package com.example.ihm_cabum.model.patterns.factory;
 
 import android.content.Context;
 
